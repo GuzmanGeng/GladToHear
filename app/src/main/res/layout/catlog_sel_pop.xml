@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="@dimen/ten_dip"
+    android:background="@color/color_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="长按试试哈~~"
+        android:padding="@dimen/five_dip"
+        android:textColor="@color/text_half_red"
+        android:gravity="right"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_margin="@dimen/five_dip"
+        android:background="@color/text_half_red"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/catlog_sel_pop_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v7.widget.RecyclerView>
+</LinearLayout>

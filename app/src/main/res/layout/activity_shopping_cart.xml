@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yieryi.gladtohear.activities.ShoppingCartActivity">
+    <include
+        layout="@layout/toolbar_shop_detail"></include>
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:id="@+id/shopping_cart_ell"></ExpandableListView>
+
+</LinearLayout>

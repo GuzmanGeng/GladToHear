@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:padding="@dimen/two_dip"
+    android:background="@color/color_white"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/address_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dip"
+        android:text="大润发(长宁店)"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/sixteen_sp"
+        android:textColor="@color/color_black"
+        />
+    <TextView
+        android:id="@+id/address_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dip"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="地址："
+        />
+    <TextView
+        android:id="@+id/address_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dip"
+        android:text="营业时间："
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+</LinearLayout>

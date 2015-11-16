@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yieryi.gladtohear.activities.WelActivity">
+    <include layout="@layout/toolbar"></include>
+    <EditText
+        android:id="@+id/search_ciyt_ev"
+        android:layout_width="match_parent"
+        android:background="@drawable/cicle_back_catlog_sel"
+        android:drawableLeft="@mipmap/help_check_search"
+        android:drawablePadding="@dimen/five_dip"
+        android:hint="请输入城市名称"
+        android:padding="@dimen/ten_dip"
+        android:textSize="@dimen/fourteen_sp"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                android:drawableLeft="@mipmap/location"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:text="正在定位所在位置..."
+                android:textColor="@color/text_half_black_color" />
+
+            <LinearLayout
+                android:id="@+id/location_ll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="25dip"
+                    android:background="#B7B7B7"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="13dip"
+                    android:paddingTop="2dip"
+                    android:text="热门城市"
+                    android:textColor="#515151"
+                    android:textSize="14sp" />
+
+                <ListView
+                    android:id="@+id/hot_city_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:scrollbars="none" />
+                <ExpandableListView
+                    android:id="@+id/exlv_cities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:cacheColorHint="#00000000"
+                    android:scrollbars="none"
+                    android:visibility="visible">
+                </ExpandableListView>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/city_lv_puzzy"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
+            android:visibility="gone"
+             />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yieryi.gladtohear.activities.BuyPlanActivity">
+    <item
+        android:id="@+id/calculate_goods_detail_shopping_cart"
+        android:orderInCategory="102"
+        android:icon="@mipmap/shopping_cart"
+        app:showAsAction="always" />
+</menu>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#42A5F5</color>
+    <color name="colorAccent">#1E88E5</color>
+
+    <color name="dialog_color_sle">#2f00</color>
+    <color name="dialog_color_unsle">#2000</color>
+
+    //自定义WaitDialog
+    <color name="color_wait_dialog_txt">#FF4B4B4B</color>
+    <color name="transparent_black">#50000000</color>
+    //indicator
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">
+        @color/vpi__bright_foreground_holo_light
+    </color>
+    <color name="vpi__bright_foreground_inverse_holo_light">
+        @color/vpi__bright_foreground_holo_dark
+    </color>
+
+    //自定义颜色
+    <color name="color_main_black">#6000</color>
+    <color name="color_black">#000</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_gray">#808080</color>
+    <color name="home_title_bar_divider">#8BBE61</color>
+    <!--热粉红色 -->
+    <color name="hotpink">#FF69B4</color>
+    <!--暗灰色 -->
+    <color name="darkgray">#A9A9A9</color>
+    <!--暗灰色 -->
+    <color name="dimgray">#696969</color>
+    <!--暗灰色 -->
+    <color name="red">#FF0000</color>
+    <color name="color_brown">#A52A2A</color>
+    <color name="transparent_gray">#CFDDDDDD</color>
+    <color name="txt_hint_color">#D3D3D3</color>
+    <color name="gold">#FFD700</color>
+    <color name="text_half_black_color">#a000</color>
+    <color name="text_title_black_color">#323232</color>
+    <color name="text_little_black_color">#5000</color>
+    <color name="text_black_color">#000</color>
+    <color name="text_half_red">#aa00</color>
+    <color name="text_little_half_red">#5f00</color>
+    <color name="transparent">#2000</color>
+    <!--红色 -->
+    <color name="theme_color">#ff794c</color>
+    <color name="transparent_theme_color">#aaff794c</color>
+    <color name="teal_500">#009688</color>
+    <!--灰色 -->
+
+</resources>

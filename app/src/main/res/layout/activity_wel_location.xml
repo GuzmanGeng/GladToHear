@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar" />
+    <EditText
+        android:id="@+id/search_ciyt_ev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:paddingLeft="@dimen/ten_dip"
+        android:background="@drawable/cicle_back_catlog_sel"
+        android:drawableLeft="@mipmap/help_check_search"
+        android:drawablePadding="@dimen/ten_dip"
+        android:hint="@string/please_input_city_name"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="正在定位所在位置..."
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sixteen_sp"
+        android:padding="@dimen/five_dip"
+        android:drawablePadding="@dimen/ten_dip"
+        android:drawableLeft="@mipmap/city_location"
+        />
+    <LinearLayout
+        android:id="@+id/location_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ExpandableListView
+            android:id="@+id/exlv_cities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
+            android:cacheColorHint="#00000000"
+            android:scrollbars="none"
+            android:visibility="visible">
+        </ExpandableListView>
+        <ListView
+            android:id="@+id/lv_search"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/color_white"
+            android:cacheColorHint="#00000000"
+            android:scrollbars="none"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

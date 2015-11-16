@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/text_little_half_red"></item>
+    <item android:drawable="@color/text_half_red" android:state_checked="true"></item>
+    <item android:drawable="@color/text_half_red" android:state_activated="true"></item>
+    <item android:drawable="@color/text_half_red" android:state_focused="true"></item>
+    <item android:drawable="@color/text_half_red" android:state_pressed="true"></item>
+    <item android:drawable="@color/text_half_red" android:state_selected="true"></item>
+</selector>

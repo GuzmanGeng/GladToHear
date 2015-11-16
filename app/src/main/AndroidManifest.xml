@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mb.mmdepartment"
+    android:versionCode="154"
+    android:versionName="v1.5.4" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="22" />
+    <!-- JPush推送的权限 -->
+
+    <permission
+        android:name="com.mb.mmdepartment.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- Required 一些系统要求的权限，如访问网络等 -->
+
+    <uses-permission android:name="com.mb.mmdepartment.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+
+    <!-- JPush推送的权限 -->
+
+
+    <!-- umeng-analytics -->
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- umeng-analytics -->
+
+
+    <!-- umeng 推送 -->
+
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- umeng 推送 -->
+
+
+    <!-- 腾讯云分析 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- pgyer -->
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 读写sdcard，storage等等 -->
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- 允许程序录制音频 -->
+
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <!-- 获取logcat日志 -->
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- baidu -->
+
+
+    <!-- 这个权限用于进行网络定位 -->
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 这个权限用于访问GPS定位 -->
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <!-- baidu -->
+
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".base.TApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon_luncher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- umeng-analytics -->
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55ed1b0d67e58ea580002473" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="e8f55588b6e850e3c67ceb2e3fcd5b7b" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Wandoujia" />
+
+        <!-- umeng-analytics -->
+        <meta-data
+            android:name="TA_APPKEY"
+            android:value="Aqc1103492733" />
+        <meta-data
+            android:name="InstallChannel"
+            android:value="play" />
+
+        <!-- umeng-update -->
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" />
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- umeng-update -->
+
+
+        <!-- 友盟推送manifest必备 -->
+
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" />
+        <receiver
+            android:name="com.umeng.message.SystemReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.MessageReceiver"
+            android:exported="false"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.ElectionReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.ELECTION_RESULT_V4" />
+
+                <category android:name="umeng" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.RegistrationReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.cmbb.smartkids.intent.action.COMMAND" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengMessageBootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.umeng.message.UmengService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="com.cmbb.smartkids.intent.action.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.cmbb.smartkids.intent.action.COCKROACH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.PING_V4" />
+
+                <category android:name="umeng" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.umeng.message.UmengIntentService"
+            android:process=":push" />
+        <service
+            android:name="com.umeng.message.UmengMessageIntentReceiverService"
+            android:exported="true"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="org.android.agoo.client.MessageReceiverService" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.android.agoo.client.ElectionReceiverService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.umeng.message.UmengMessageCallbackHandlerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.umeng.messge.registercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.unregistercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.handler.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.autoupdate.handler.action" />
+            </intent-filter>
+        </service>
+
+        <!-- V1.3.0添加的service，负责下载通知的资源 -->
+
+        <service android:name="com.umeng.message.UmengDownloadResourceService" />
+
+        <!-- 友盟推送manifest必备 -->
+        <!-- ************************* 分享相关的注册 START **************************** -->
+
+
+        <!-- 分享内容编辑页 -->
+
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="cb8c245ea42f7b29c968bd2426b69d74" />
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1103492733" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activities.MainPageActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activities.CalculateSelectShopActivity"
+            android:label="@string/title_activity_market_sel" />
+        <activity
+            android:name=".activities.CatlogsSelActivity"
+            android:label="@string/title_activity_catlogs_sel" />
+        <activity
+            android:name=".activities.DetailCatlogsActivity"
+            android:label="@string/title_activity_detail_catlogs" />
+        <activity
+            android:name=".activities.ProductsListActivity"
+            android:label="@string/title_activity_products_list" />
+        <activity
+            android:name=".activities.WelcomActivity"
+            android:exported="true"
+            android:label="@string/title_activity_wel" />
+        <activity
+            android:name=".activities.UserCenterActivity"
+            android:label="@string/title_activity_user_center" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.GuideActivity"
+            android:label="@string/title_activity_giude" />
+        <activity
+            android:name=".activities.HelpYouQuerySearchActivity"
+            android:label="@string/title_activity_help_check" />
+        <activity
+            android:name=".activities.HelpYouQueryMarketActivity"
+            android:label="@string/title_activity_market_adress" />
+        <activity
+            android:name=".activities.InfomationSummaryActivity"
+            android:label="@string/title_activity_information_collection" />
+
+        <!-- Required SDK核心功能 -->
+
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.mb.mmdepartment" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required SDK核心功能 -->
+
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Required SDK 核心功能 -->
+
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+
+
+        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+
+                <category android:name="com.mb.mmdepartment" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
+
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required 显示通知栏 -->
+                <category android:name="com.mb.mmdepartment" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined. For test only 用户自定义的广播接收器 -->
+
+        <receiver
+            android:name=".receiver.MyJPushReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!-- Required 用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required 用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required 用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Required 用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.mb.mmdepartment" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required . Enable it you can get statistics data with channel -->
+
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="8cee29b24f92c38b7bb119a0" />
+
+        <!-- </>值来自开发者平台取得的AppKey -->
+
+        <activity
+            android:name=".activities.Jpush.JpushActivity"
+            android:label="@string/title_activity_jpush" />
+        <activity
+            android:name=".activities.AccumulatedShopActivity"
+            android:label="@string/title_activity_accumulated_shop" />
+        <activity
+            android:name=".activities.AccumulateShopDetailActivity"
+            android:label="@string/title_activity_accumulate_shop_detail" />
+        <activity
+            android:name=".activities.UserSpaceActivity"
+            android:label="@string/title_activity_user_space" />
+        <activity
+            android:name=".activities.BasicInformationActivity"
+            android:label="@string/title_activity_basic_information" />
+        <activity
+            android:name=".activities.WaresDetailPageActivity"
+            android:label="@string/title_activity_help_check_goods_detail" />
+        <activity
+            android:name=".activities.RegistActivity"
+            android:label="@string/title_activity_regist" />
+        <activity android:name=".activities.OrderDetailActivity" />
+        <activity android:name=".activities.InformationDetailActivity" />
+        <activity android:name=".activities.ChatListActivity" />
+        <activity android:name=".activities.CommentListActivity" />
+        <activity
+            android:name=".activities.CalculateSelectCategoryActivity"
+            android:label="@string/title_activity_commodity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.MarcketSelDetailActivity" />
+        <activity android:name=".activities.MyAccuntActivity" />
+        <activity android:name=".activities.ShowWaresInfoActivity" />
+        <activity android:name=".activities.ShopDetailListActivity" />
+        <activity
+            android:name=".activities.ExchangePrizeDetailActivity"
+            android:label="@string/title_activity_exchange_prize_detail" />
+        <activity
+            android:name=".activities.CalculateShowWaresInfoActivity"
+            android:label="@string/title_activity_buy_plan_actitiy" />
+        <activity
+            android:name=".activities.ShoppingCartPageActivity"
+            android:label="@string/title_activity_shopping_cart" />
+        <activity
+            android:name=".activities.OrderInfoPageActivity"
+            android:label="@string/title_activity_buy_list" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activities.LoginGuideActivity"
+            android:label="@string/title_activity_login_guide" />
+        <activity
+            android:name=".activities.QuickRegisterActivity"
+            android:label="@string/title_activity_quick_register" />
+        <activity
+            android:name=".activities.ShopAddressInfoPageActivity"
+            android:label="@string/title_activity_shop_address_info_page" >
+        </activity>
+        <activity
+            android:name=".activities.FastRegistActivity"
+            android:label="@string/title_activity_fast_regist" >
+        </activity>
+        <activity
+            android:name=".activities.ModifyPasswordPageActivity"
+            android:label="@string/title_activity_modify_password_page" >
+        </activity>
+        <activity
+            android:name=".activities.ForgetPasswordPageActivity"
+            android:label="@string/title_activity_forget_psw" >
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name=".activities.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".activities.LocationActivity"
+            android:label="@string/title_activity_location"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity android:name=".activities.SearchListActivity" >
+        </activity>
+        <activity
+            android:name=".activities.ProposedProjectActivity"
+            android:label="@string/title_activity_proposed_project" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yieryi.gladtohear.activities.RegistActivity">
+    <item
+        android:id="@+id/regist_login"
+        android:title="@string/login"
+        android:orderInCategory="101"
+        app:showAsAction="always" />
+</menu>

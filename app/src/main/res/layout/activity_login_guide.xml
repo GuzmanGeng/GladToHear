@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mb.mmdepartment.activities.LoginGuideActivity">
+
+    <include layout="@layout/toolbar"></include>
+
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_margin="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/theme_color"
+        android:text="登录"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:id="@+id/tologin" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_margin="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/theme_color"
+        android:text="注册"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:id="@+id/toregister" />
+
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_margin="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="快速登录/注册"
+        android:background="@color/theme_color"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:id="@+id/to_quick_register" />
+
+</LinearLayout>

@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yieryi.gladtohear.activities.BuyPlanActivity">
+
+
+    <include
+        layout="@layout/toolbar_shop_detail"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/plan_bar_ll"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cicle_back_catlog_sel"
+            android:orientation="horizontal"
+            android:id="@+id/plan_bar"
+            android:layout_marginTop="60dp"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/buy_plan_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/text_little_half_red"
+                android:gravity="center"
+                android:padding="@dimen/ten_dip"
+                android:text="按价格排序↑"
+                android:textColor="@color/color_white" />
+
+            <TextView
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/text_half_red"></TextView>
+
+            <TextView
+                android:id="@+id/buy_plan_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/ten_dip"
+                android:text="按折扣排序↑"
+                android:textColor="@color/text_half_red" />
+
+            <TextView
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/text_half_red"></TextView>
+
+            <TextView
+                android:id="@+id/buy_plan_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/ten_dip"
+                android:text="按节省比排序↑"
+                android:textColor="@color/text_half_red" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/buy_plan_content"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/plan_bar_ll">
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/theme_color"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/help_you_calculate_goods_detail_ll"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/help_you_calculate_goods_detail_shopping_cart"
+                android:src="@mipmap/shopping_cart1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/circle_point"
+                android:textColor="@color/color_white"
+                android:textSize="12sp"
+                android:id="@+id/circle"
+                android:text="0"
+                android:gravity="center"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="点击进入购物车" />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

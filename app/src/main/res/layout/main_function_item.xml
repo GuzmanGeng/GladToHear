@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="2dp"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/main_function_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/help_calculate"
+        />
+    <TextView
+        android:id="@+id/main_function_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="帮你算"
+        android:layout_marginTop="@dimen/five_dip"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_half_black_color"
+        />
+</LinearLayout>

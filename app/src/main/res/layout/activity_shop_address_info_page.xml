@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mb.mmdepartment.activities.ShopAddressInfoPageActivity">
+
+    <include layout="@layout/toolbar"></include>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="沃尔玛（田林分店）"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/detail_shop_name"
+        android:textColor="@color/color_black"
+        android:layout_marginBottom="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="超市地址：上海市徐汇区桂林路402号"
+        android:textColor="@color/color_black"
+        android:textSize="16sp"
+        android:id="@+id/detail_shop_address"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="附近公交：公交：乘坐171、72、89、120、93、131地铁：9号线"
+        android:textSize="16sp"
+        android:id="@+id/detail_shop_translate"
+        android:textColor="@color/color_black"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="超市班车：暂无"
+        android:textColor="@color/color_black"
+        android:id="@+id/detail_shop_bus"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="营业时间：7:00-23：00"
+        android:id="@+id/shop_detail_business_time"
+        android:textColor="@color/color_black"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+
+
+</LinearLayout>

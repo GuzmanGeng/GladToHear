@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <TextView
+        android:layout_toRightOf="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加载更多"
+        android:textColor="#FF0000"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
+    <com.mb.mmdepartment.view.AVLoadingIndicatorView
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        app:indicator="BallPulse"
+        ></com.mb.mmdepartment.view.AVLoadingIndicatorView>
+</LinearLayout>

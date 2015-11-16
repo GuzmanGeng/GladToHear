@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.gladtohear.view.MarketSelActivity">
+    <include layout="@layout/toolbar" android:layout_alignParentTop="true"></include>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_market"
+        android:layout_above="@+id/tv_next"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:text="@string/curten"
+        android:padding="12dp"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:background="#aaff0000"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

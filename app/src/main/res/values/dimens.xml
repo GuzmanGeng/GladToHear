@@ -1,0 +1,26 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--dp-->
+    <dimen name="two_dip">2dp</dimen>
+    <dimen name="activity_vertical_margin_half">8dp</dimen>
+    <dimen name="five_dip">5dp</dimen>
+    <dimen name="ten_dip">10dp</dimen>
+    <dimen name="fifteen_dip">15dp</dimen>
+    <dimen name="sixteen_dip">16dp</dimen>
+    <dimen name="twenty_dip">20dp</dimen>
+    <dimen name="thirty_dip">30dp</dimen>
+    <dimen name="forty_eight_dip">48dp</dimen>
+    <dimen name="sixty_dip">60dp</dimen>
+    <dimen name="eighty_dip">80dp</dimen>
+    <dimen name="hundred_eighty_dip">100dp</dimen>
+    <!--sp-->
+    <dimen name="twelve_sp">12sp</dimen>
+    <dimen name="fourteen_sp">14sp</dimen>
+    <dimen name="sixteen_sp">16sp</dimen>
+    <dimen name="eighteen_sp">18sp</dimen>
+    <dimen name="twenty_sp">20sp</dimen>
+    <dimen name="forty_eight_sp">48sp</dimen>
+    <dimen name="fab_margin">48dp</dimen>
+</resources>

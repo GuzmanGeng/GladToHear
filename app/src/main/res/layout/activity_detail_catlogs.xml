@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.gladtohear.view.DetailCatlogsActivity">
+    <include layout="@layout/toolbar"></include>
+    <com.mb.mmdepartment.view.AnimatedExpandableListView
+        android:id="@+id/detail_expandle_lv"
+        android:layout_above="@+id/detail_tv_next"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:divider="#fff"
+        android:layout_height="match_parent">
+    </com.mb.mmdepartment.view.AnimatedExpandableListView>
+    <TextView
+        android:id="@+id/detail_tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:layout_alignParentBottom="true"
+        android:background="#af00"
+        android:gravity="center"
+        android:textSize="@dimen/sixteen_sp"
+        android:textColor="#fff"
+        android:text="@string/ok"/>
+
+</RelativeLayout>

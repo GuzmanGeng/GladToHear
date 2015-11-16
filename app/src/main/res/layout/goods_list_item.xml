@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/five_dip"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/goods_sel_item_tv"
+        android:layout_width="match_parent"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cicle_back_wel_back"
+        android:padding="@dimen/five_dip"
+        android:gravity="center"
+        android:textColor="@color/text_half_black_color"
+        />
+</LinearLayout>

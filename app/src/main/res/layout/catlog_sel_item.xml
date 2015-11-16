@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/calog_sel_item_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/ten_dip"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="@color/text_half_black_color"
+        android:text="萨瓦尼卡"
+        android:textSize="@dimen/sixteen_sp"
+        android:background="@drawable/gray_to_theme_selector"
+        />
+</LinearLayout>

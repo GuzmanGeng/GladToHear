@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yieryi.gladtohear.activities.InformationCollectionActivity">
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/collect"
+        android:icon="@drawable/abc_btn_rating_star_off_mtrl_alpha"
+        android:orderInCategory="101"
+        app:showAsAction="always" />
+</menu>

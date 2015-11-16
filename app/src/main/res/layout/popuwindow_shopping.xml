@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dip"
+        android:text="加入"
+        android:gravity="center"
+        android:background="@color/transparent_gray"
+        android:textColor="@color/theme_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/theme_color"
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dip"
+        android:text="移除"
+        android:gravity="center"
+        android:background="@color/transparent_gray"
+        android:textColor="@color/theme_color"
+        />
+</LinearLayout>

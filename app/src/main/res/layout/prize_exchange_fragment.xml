@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="@dimen/ten_dip"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:text="请输入您的兑奖码："
+        android:textColor="@color/theme_color"
+        />
+    <EditText
+        android:id="@+id/prize_exchange_code_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:singleLine="true"
+        android:textSize="@dimen/fourteen_sp"
+        android:textColor="@color/color_main_black"
+        android:background="@drawable/cicle_back_catlog_sel"
+        />
+    <TextView
+        android:id="@+id/prize_exchange_commit_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:textColor="@color/color_white"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:padding="@dimen/ten_dip"
+        android:background="@drawable/user_space_btn_sel"
+        />
+</LinearLayout>

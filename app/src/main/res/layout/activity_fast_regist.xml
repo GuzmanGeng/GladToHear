@@ -1,0 +1,120 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mb.mmdepartment.activities.FastRegistActivity">
+
+    <include layout="@layout/toolbar"></include>
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:text="用  户  名："
+            android:textColor="@color/color_black"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="请输入用户名"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/color_black"
+            android:gravity="center_vertical|left"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:text="密        码："
+            android:textColor="@color/color_black"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="必须包含英文大小写及数字组成"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/color_black"
+            android:gravity="center_vertical|left"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:text="重复密码："
+            android:textColor="@color/color_black"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="必须包含英文大小写及数字组成"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/color_black"
+            android:gravity="center_vertical|left"/>
+    </LinearLayout>
+    -->
+    <EditText
+        android:id="@+id/fast_regist_username_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:hint="输入用户名"
+        android:layout_margin="@dimen/ten_dip"
+        android:background="@drawable/cicle_back_goods_list"
+        />
+    <EditText
+        android:id="@+id/fast_regist_password_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:layout_margin="@dimen/ten_dip"
+        android:background="@drawable/cicle_back_goods_list"
+        />
+    <EditText
+        android:id="@+id/fast_regist_again_password_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:hint="请重复密码"
+        android:inputType="textPassword"
+        android:layout_margin="@dimen/ten_dip"
+        android:background="@drawable/cicle_back_goods_list"
+        />
+
+    <TextView
+        android:id="@+id/fastregist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dip"
+        android:text="注册"
+        android:gravity="center"
+        android:layout_margin="@dimen/ten_dip"
+        android:textColor="@color/color_white"
+        android:layout_marginTop="@dimen/ten_dip"
+        android:background="@color/theme_color"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
