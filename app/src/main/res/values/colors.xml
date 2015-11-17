@@ -52,6 +52,7 @@
     <!--红色 -->
     <color name="theme_color">#ff794c</color>
     <color name="transparent_theme_color">#aaff794c</color>
+    <color name="little_transparent_theme_color">#55ff794c</color>
     <color name="teal_500">#009688</color>
     <!--灰色 -->
 

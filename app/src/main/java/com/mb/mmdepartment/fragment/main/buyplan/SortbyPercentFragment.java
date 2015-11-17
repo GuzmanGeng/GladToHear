@@ -99,7 +99,7 @@ public class SortbyPercentFragment extends Fragment implements RequestListener{
                 group = bundle.getInt("group");
                 int order = bundle.getInt("order");
 //                biz = new SortBiz();
-                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
             }
         }
     }
@@ -108,17 +108,17 @@ public class SortbyPercentFragment extends Fragment implements RequestListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 200 && resultCode == getActivity().RESULT_OK) {
-                if (dialog == null) {
-                    dialog = new LoadingDialog(getActivity(), R.style.dialog);
-                    Bundle bundle = getArguments();
-                    order_type = bundle.getString("order_type");
-                    String shop_id = bundle.getString("shop_id");
-                    String category = bundle.getString("records");
-                    group = bundle.getInt("group");
-                    int order = bundle.getInt("order");
+            if (dialog == null) {
+                dialog = new LoadingDialog(getActivity(), R.style.dialog);
+                Bundle bundle = getArguments();
+                order_type = bundle.getString("order_type");
+                String shop_id = bundle.getString("shop_id");
+                String category = bundle.getString("records");
+                group = bundle.getInt("group");
+                int order = bundle.getInt("order");
 //                    biz = new SortBiz();
-                    biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
-                }
+//                    biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+            }
         }
     }
 
@@ -176,7 +176,7 @@ public class SortbyPercentFragment extends Fragment implements RequestListener{
         order_type = bundle2.getString("order_type");
         int order = bundle.getInt("order");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
     }
 
     @Override
@@ -189,6 +189,6 @@ public class SortbyPercentFragment extends Fragment implements RequestListener{
         group = bundle.getInt("group");
         int order = bundle.getInt("order");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type, category, shop_id, group, 50, order, this);    }
-
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type, category, shop_id, group, 50, order, this);
+    }
 }

@@ -92,7 +92,7 @@ public class SortbyDiscountFragment extends Fragment implements RequestListener 
         group = bundle.getInt("group");
         int order = bundle.getInt("order");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SortbyDiscountFragment extends Fragment implements RequestListener 
                 group = bundle.getInt("group");
                 int order = bundle.getInt("order");
 //                biz = new SortBiz();
-                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
         }
     }
 
@@ -124,7 +124,7 @@ public class SortbyDiscountFragment extends Fragment implements RequestListener 
                 group = bundle.getInt("group");
                 int order = bundle.getInt("order");
 //                biz = new SortBiz();
-                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
             }
         }
     }
@@ -187,7 +187,7 @@ public class SortbyDiscountFragment extends Fragment implements RequestListener 
         group = bundle.getInt("group");
         int order = bundle.getInt("order");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
     }
 
 

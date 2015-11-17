@@ -8,6 +8,10 @@ import android.widget.TextView;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.biz.getsort.SortBiz;
+import com.mb.mmdepartment.tools.sp.SPCache;
+
+import cn.jpush.android.api.JPushInterface;
+
 public class ProposedProjectActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView buy_list_recycle;
     private int whichSel=0;//记录哪个按钮被选择了
@@ -16,6 +20,8 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
     private View help_you_calculate_goods_detail_ll;
     private TextView[] tv_backgrounds=new TextView[3];
     private SortBiz biz;
+    private String category_id,shop_id;
+    private int which;
     @Override
     public int getLayout() {
         return R.layout.activity_proposed_project;
@@ -23,8 +29,10 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void init(Bundle savedInstanceState) {
+        category_id = getIntent().getStringExtra("records");
+        shop_id = getIntent().getStringExtra("shop_id");
+        which = getIntent().getIntExtra("which",0);
         initView();
-        biz=new SortBiz(this,buy_list_recycle);
         setListeners();
     }
 
@@ -44,6 +52,8 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
         tv_backgrounds[2]=buy_plan_percent;
         setState(0,1,2);
         help_you_calculate_goods_detail_ll = findViewById(R.id.help_you_calculate_goods_detail_ll);
+        biz = new SortBiz(this, buy_list_recycle, which);
+        biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id","50")),1);
     }
 
     @Override
@@ -114,12 +124,12 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
     private void setState(int yes,int no1,int no2) {
 
         tv_backgrounds[yes].setTextColor(Color.WHITE);
-        tv_backgrounds[yes].setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
+        tv_backgrounds[yes].setBackgroundColor(getResources().getColor(R.color.transparent_theme_color));
 
-        tv_backgrounds[no1].setTextColor(getResources().getColor(R.color.text_little_half_red));
+        tv_backgrounds[no1].setTextColor(getResources().getColor(R.color.transparent_theme_color));
         tv_backgrounds[no1].setBackgroundColor(Color.WHITE);
 
-        tv_backgrounds[no2].setTextColor(getResources().getColor(R.color.text_little_half_red));
+        tv_backgrounds[no2].setTextColor(getResources().getColor(R.color.transparent_theme_color));
         tv_backgrounds[no2].setBackgroundColor(Color.WHITE);
     }
 }

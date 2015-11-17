@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.mb.mmdepartment.adapter.catlogs.LeftCatlogAdapter;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.tools.sp.SPCache;
 import com.readystatesoftware.viewbadger.BadgeView;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -353,7 +354,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 dialog = new LoadingDialog(this, R.style.dialog);
                 dialog.show();
                 biz = new CommodityBiz();
-                biz.getCommodityList(0,50, shop_id, TAG, this);
+                biz.getCommodityList(0, SPCache.getString("city_id","50"), shop_id, TAG, this);
             }
         } else {
             showToast("网络无连接");
@@ -378,7 +379,8 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 TApplication.luPinModels.add(luPinModel_brand);
 //                Intent intent = new Intent(CalculateSelectCategoryActivity.this,CalculateShowWaresInfoActivity.class);
                 Intent intent = new Intent(CalculateSelectCategoryActivity.this,ProposedProjectActivity.class);
-                intent.putExtra("tag","by_brand");
+//                intent.putExtra("tag","by_brand");
+                intent.putExtra("which", 1);//按品类优先
                 intent.putExtra("shop_id",shop_id);
                 String category_ids = "";
                 for(int i = 0;i<records.size();i++){
@@ -400,15 +402,20 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 luPinModel_market.setType("other");
                 luPinModel_market.setOperationtime(sdf.format(new Date()));
                 TApplication.luPinModels.add(luPinModel_market);
-                Intent intent = new Intent(CalculateSelectCategoryActivity.this,CalculateShowWaresInfoActivity.class);
-                intent.putExtra("tag","by_market");
+//                Intent intent = new Intent(CalculateSelectCategoryActivity.this,CalculateShowWaresInfoActivity.class);
+                Intent intent = new Intent(CalculateSelectCategoryActivity.this,ProposedProjectActivity.class);
+//                intent.putExtra("tag","by_market");
                 intent.putExtra("shop_id",shop_id);
+                intent.putExtra("which",2);
                 String category_ids = "";
                 for(int i = 0;i<records.size();i++){
                     category_ids = category_ids+records.get(i).getCategory_id()+",";
                 }
                 if(category_ids.endsWith(",")) {
                     category_ids = category_ids.substring(0, category_ids.length() - 1);
+
+                    Log.e("category_ids", category_ids);
+
                 }
                 intent.putExtra("records",category_ids);
                 startActivity(intent);

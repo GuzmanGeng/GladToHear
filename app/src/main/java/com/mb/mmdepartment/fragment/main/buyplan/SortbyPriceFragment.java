@@ -91,7 +91,7 @@ public class SortbyPriceFragment extends Fragment implements RequestListener {
         String shop_id = bundle2.getString("shop_id");
         String category = bundle2.getString("records");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,  category,shop_id, group, 50, order, this);
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,  category,shop_id, group, 50, order, this);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SortbyPriceFragment extends Fragment implements RequestListener {
                 String shop_id = bundle.getString("shop_id");
                 String category = bundle.getString("records");
 //                biz = new SortBiz();
-                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,  category,shop_id, group, 50, order, this);
+//                biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,  category,shop_id, group, 50, order, this);
         }
     }
 
@@ -123,7 +123,7 @@ public class SortbyPriceFragment extends Fragment implements RequestListener {
                     group = bundle.getInt("group");
                     int order = bundle.getInt("order");
 //                    biz = new SortBiz();
-                    biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
+//                    biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type,category, shop_id,  group, 50, order, this);
             }
         }
     }
@@ -198,7 +198,7 @@ public class SortbyPriceFragment extends Fragment implements RequestListener {
         group = bundle.getInt("group");
         int order = bundle.getInt("order");
 //        biz = new SortBiz();
-        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type, category, shop_id, group, 50, order, this);
+//        biz.sort(TAG, JPushInterface.getRegistrationID(getActivity()), order_type, category, shop_id, group, 50, order, this);
     }
 
 }

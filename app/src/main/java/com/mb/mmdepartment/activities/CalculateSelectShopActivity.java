@@ -165,12 +165,12 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
         tv_next=(TextView)findViewById(R.id.tv_next);
         record = new ArrayList<>();
         if (isNetworkConnected(this)) {
-            if (dialog==null) {
-                dialog = new LoadingDialog(CalculateSelectShopActivity.this, R.style.dialog);
-                dialog.show();
+//            if (dialog==null) {
+//                dialog = new LoadingDialog(CalculateSelectShopActivity.this, R.style.dialog);
+//                dialog.show();
                 biz = new MarcketSelBiz();
                 biz.getMacketList(0,50,TAG,this);
-            }
+//            }
         }else {
             showToast("网络无连接");
         }
@@ -242,6 +242,9 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
             isSel[position] = true;
         }
         adapter.notifyItemChanged(position);
+        for (String re : record) {
+            showToast(re);
+        }
     }
 
     @Override
