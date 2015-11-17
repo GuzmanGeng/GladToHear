@@ -46,33 +46,35 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.proposed_project_recycle_item_tem, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
-//        title_sel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (sel) {
-//                    for (String id:ids) {
-//                        TApplication.ids.remove(id);
-//                    }
-//                    sel_ids.clear();
-//                    Log.e("a===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
-//                    notifyDataSetChanged();
-//                    title_sel.setImageResource(R.mipmap.market_unsel);
-//                    sel=false;
-//                } else {
-//                    for (int i=0;i<lists.size();i++) {
-//                        String id=ids[i];
-//                        if (!TApplication.ids.contains(id)) {
-//                            TApplication.ids.add(id);
-//                            notifyItemChanged(i);
-//                        }
-//                    }
-//                    Log.e("b===sel_ids", "size=" + sel_ids.size()+","+TApplication.ids.size());
-//                    title_sel.setImageResource(R.mipmap.marcket_sel);
-//                    sel=true;
-//                }
-//
-//            }
-//        });
+        title_sel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count=0;
+                if (sel) {
+                    for (String id:ids) {
+                        TApplication.ids.remove(id);
+                    }
+                    sel_ids.clear();
+
+                    Log.e("a===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
+                    notifyDataSetChanged();
+                    title_sel.setImageResource(R.mipmap.market_unsel);
+                    sel=false;
+                } else {
+                    for (int i=0;i<lists.size();i++) {
+                        String id=ids[i];
+                        if (!TApplication.ids.contains(id)) {
+                            TApplication.ids.add(id);
+                            notifyItemChanged(i);
+                        }
+                    }
+                    Log.e("b===sel_ids", "size=" + sel_ids.size()+","+TApplication.ids.size());
+                    title_sel.setImageResource(R.mipmap.marcket_sel);
+                    sel=true;
+                }
+
+            }
+        });
 //    check_all.setOnClickListener(new View.OnClickListener() {
 //        @Override
 //        public void onClick(View view) {
@@ -86,8 +88,9 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        Log.e("cishu", position+"");
         final String id = lists.get(position).getId();
-        ids[position]=id;
+        ids[position] = id;
         String name = lists.get(position).getName();
         String activity = lists.get(position).getActivity();
         String standard = lists.get(position).getStandard();
@@ -144,14 +147,16 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
          */
         if (TApplication.ids.contains(id)) {
             holder.check_single.setImageResource(R.mipmap.marcket_sel);
-            sel_ids.add(id);
-            Log.e("e===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
+            ++count;
+            if (count <=lists.size()) {
+                sel_ids.add(id);
+            }
             if (sel_ids.size() == lists.size()) {
                 listener.selAll(true);
                 title_sel.setImageResource(R.mipmap.marcket_sel);
-                sel=true;
+                sel = true;
             }
-        }else {
+        } else {
             listener.selAll(false);
             holder.check_single.setImageResource(R.mipmap.market_unsel);
         }
@@ -163,20 +168,21 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                     if (sel_ids.contains(id)) {
                         sel_ids.remove(id);
                     }
-                    Log.e("c===sel_ids", "size=" + sel_ids.size()+","+TApplication.ids.size());
+                    Log.e("c===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
                     holder.check_single.setImageResource(R.mipmap.market_unsel);
                     if (sel) {
                         title_sel.setImageResource(R.mipmap.market_unsel);
-                        sel=false;
+                        sel = false;
                     }
                 } else {
                     TApplication.ids.add(id);
                     sel_ids.add(id);
-                    Log.e("d===sel_ids", "size=" + sel_ids.size()+","+TApplication.ids.size());
+                    Log.e("d===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
                     holder.check_single.setImageResource(R.mipmap.marcket_sel);
                     if (sel_ids.size() == lists.size()) {
                         title_sel.setImageResource(R.mipmap.marcket_sel);
-                        sel=true;
+                        listener.selAll(true);
+                        sel = true;
                     }
                 }
             }

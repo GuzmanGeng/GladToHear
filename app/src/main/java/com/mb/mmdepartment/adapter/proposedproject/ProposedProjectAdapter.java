@@ -36,7 +36,7 @@ public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProject
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         String name = lists.get(position).getName();
         holder.name.setText(name);
         final List<Lists> list = lists.get(position).getList();
@@ -45,28 +45,28 @@ public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProject
         MyGridLayoutManager manager = new MyGridLayoutManager(context,1);
         holder.inner_recycle.setLayoutManager(manager);
         holder.inner_recycle.setAdapter(adapter);
-        holder.image_sel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (is_sel) {
-                    for (int i = 0; i < list.size(); i++) {
-                        String id = list.get(i).getId();
-                        TApplication.ids.remove(id);
-                    }
-                    holder.image_sel.setImageResource(R.mipmap.market_unsel);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    for (int i=0;i<list.size();i++) {
-                        String id = list.get(i).getId();
-                        if (!TApplication.ids.contains(id)) {
-                            TApplication.ids.add(id);
-                            adapter.notifyItemChanged(i);
-                        }
-                    }
-                    holder.image_sel.setImageResource(R.mipmap.marcket_sel);
-                }
-            }
-        });
+//        holder.image_sel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (is_sel) {
+//                    for (int i = 0; i < list.size(); i++) {
+//                        String id = list.get(i).getId();
+//                        TApplication.ids.remove(id);
+//                    }
+//                    holder.image_sel.setImageResource(R.mipmap.market_unsel);
+//                    notifyItemChanged(position);
+//                } else {
+//                    for (int i=0;i<list.size();i++) {
+//                        String id = list.get(i).getId();
+//                        if (!TApplication.ids.contains(id)) {
+//                            TApplication.ids.add(id);
+//                        }
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                    holder.image_sel.setImageResource(R.mipmap.marcket_sel);
+//                }
+//            }
+//        });
     }
     @Override
     public int getItemCount() {
