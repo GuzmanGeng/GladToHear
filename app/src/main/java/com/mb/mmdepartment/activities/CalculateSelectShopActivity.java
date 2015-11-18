@@ -242,9 +242,6 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
             isSel[position] = true;
         }
         adapter.notifyItemChanged(position);
-        for (String re : record) {
-            showToast(re);
-        }
     }
 
     @Override

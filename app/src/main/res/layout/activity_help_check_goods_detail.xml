@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text_title_black_color"
         android:padding="@dimen/ten_dip"
-
         android:text="清风纸巾全场8折"
         android:textSize="@dimen/sixteen_sp"
         />
@@ -229,25 +228,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:orientation="vertical">
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatActionButton"
-            android:layout_gravity="right"
-            android:layout_width="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_height="40dp"
-            style="@style/FabMargin"
-            android:src="@mipmap/shop_information_icon"
-            app:backgroundTint="@color/theme_color"
-            app:borderWidth="0dp" />
-        <ImageView
-            android:id="@+id/left_shop_add_remove"
-            android:layout_gravity="center"
-            android:layout_width="40dp"
-            style="@style/FabMargin"
-            android:layout_marginTop="30dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/plus"
-             />
+            <TextView
+                android:id="@+id/floatActionButton"
+                android:layout_gravity="right"
+                android:layout_width="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_height="40dp"
+                style="@style/FabMargin"
+                android:background="@mipmap/shop_information_icon"
+                />
+            <ImageView
+                android:id="@+id/left_shop_add_remove"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                style="@style/FabMargin"
+                android:layout_marginTop="30dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/plus"
+                />
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

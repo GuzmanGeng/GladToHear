@@ -1,4 +1,5 @@
 package com.mb.mmdepartment.adapter.proposedproject;
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,15 +19,19 @@ import java.util.List;
 /**
  * Created by joyone2one on 2015/11/16.
  */
-public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProjectAdapter.MyViewHolder> implements ProposedProjectInnerAdapter.AllSel{
+public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProjectAdapter.MyViewHolder> implements ProposedProjectInnerAdapter.SizeCallBack{
     private List<DataList> lists;
     private int which;
     private Context context;
     private boolean is_sel;
-    public ProposedProjectAdapter(List<DataList> lists,int which,Context context){
+    private TextView textView;
+    private Activity activity;
+    public ProposedProjectAdapter(List<DataList> lists,int which,Context context,TextView textView,Activity activity){
         this.lists=lists;
         this.which=which;
         this.context=context;
+        this.textView=textView;
+        this.activity=activity;
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,32 +46,10 @@ public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProject
         holder.name.setText(name);
         final List<Lists> list = lists.get(position).getList();
 
-        final ProposedProjectInnerAdapter adapter = new ProposedProjectInnerAdapter(list, which,holder.image_sel,holder.check_all,this);
+        final ProposedProjectInnerAdapter adapter = new ProposedProjectInnerAdapter(list, which,holder.image_sel,holder.check_all,this,activity);
         MyGridLayoutManager manager = new MyGridLayoutManager(context,1);
         holder.inner_recycle.setLayoutManager(manager);
         holder.inner_recycle.setAdapter(adapter);
-//        holder.image_sel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (is_sel) {
-//                    for (int i = 0; i < list.size(); i++) {
-//                        String id = list.get(i).getId();
-//                        TApplication.ids.remove(id);
-//                    }
-//                    holder.image_sel.setImageResource(R.mipmap.market_unsel);
-//                    notifyItemChanged(position);
-//                } else {
-//                    for (int i=0;i<list.size();i++) {
-//                        String id = list.get(i).getId();
-//                        if (!TApplication.ids.contains(id)) {
-//                            TApplication.ids.add(id);
-//                        }
-//                    }
-//                    adapter.notifyDataSetChanged();
-//                    holder.image_sel.setImageResource(R.mipmap.marcket_sel);
-//                }
-//            }
-//        });
     }
     @Override
     public int getItemCount() {
@@ -74,9 +57,10 @@ public class ProposedProjectAdapter extends RecyclerView.Adapter<ProposedProject
     }
 
     @Override
-    public void selAll(boolean sel_all) {
-        is_sel=sel_all;
+    public void getSize() {
+        textView.setText(TApplication.ids.size()+"");
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout check_all;
         public ImageView image_sel;

@@ -50,7 +50,6 @@ public class TApplication extends Application{
     //购物车
     public static Map<String,Lists> shop_lists=new HashMap<>();//已经选中的商品此处根据id来判断是否在购物车
     public static List<String> ids=new ArrayList<>();//存放所有选择的id
-
     public static List<DataList> shop_list_to_pick=new ArrayList<>();//提供匹配的列表
 
 

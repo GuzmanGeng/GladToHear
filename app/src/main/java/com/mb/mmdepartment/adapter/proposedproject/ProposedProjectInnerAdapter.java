@@ -1,6 +1,9 @@
 package com.mb.mmdepartment.adapter.proposedproject;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.mb.mmdepartment.R;
+import com.mb.mmdepartment.activities.WaresDetailPageActivity;
 import com.mb.mmdepartment.base.TApplication;
+import com.mb.mmdepartment.bean.buyplan.byprice.DataList;
 import com.mb.mmdepartment.bean.marcketseldetail.Lists;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -31,76 +35,82 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
     private String[] ids;
     private List<String> sel_ids;
     private boolean sel;
-    private AllSel listener;
-    public ProposedProjectInnerAdapter(List<Lists> lists,int which,ImageView title_sel,LinearLayout check_all,AllSel listener){
+    private SizeCallBack callBack;
+    private List<Lists> list;
+    private DataList dataList;
+    private Activity activity;
+    public ProposedProjectInnerAdapter(List<Lists> lists,int which,ImageView title_sel,LinearLayout check_all,SizeCallBack callBack,Activity activity){
         this.lists=lists;
         this.which=which;
         this.title_sel=title_sel;
         this.check_all=check_all;
-        this.listener=listener;
+        this.callBack=callBack;
+        this.activity=activity;
         sel_ids = new ArrayList<>();
         ids = new String[lists.size()];
-        Log.e("size====", lists.size() + "");
+        TApplication.shop_list_to_pick.clear();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.proposed_project_recycle_item_tem, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        title_sel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                count=0;
-                if (sel) {
-                    for (String id:ids) {
-                        TApplication.ids.remove(id);
-                    }
-                    sel_ids.clear();
+        final MyViewHolder holder = new MyViewHolder(view);
+        if (title_sel != null) {
+            title_sel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    count=0;
+                    if (sel) {
+                        for (int i=0;i<lists.size();i++) {
+                            String id = ids[i];
+                            TApplication.ids.remove(id);
+                            TApplication.shop_lists.remove(id);
 
-                    Log.e("a===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
-                    notifyDataSetChanged();
-                    title_sel.setImageResource(R.mipmap.market_unsel);
-                    sel=false;
-                } else {
-                    for (int i=0;i<lists.size();i++) {
-                        String id=ids[i];
-                        if (!TApplication.ids.contains(id)) {
-                            TApplication.ids.add(id);
-                            notifyItemChanged(i);
+//                            TApplication.shop_list_car.remove(lists.get(i));
                         }
-                    }
-                    Log.e("b===sel_ids", "size=" + sel_ids.size()+","+TApplication.ids.size());
-                    title_sel.setImageResource(R.mipmap.marcket_sel);
-                    sel=true;
-                }
+                        sel_ids.clear();
+                        notifyDataSetChanged();
+                        title_sel.setImageResource(R.mipmap.market_unsel);
+                        sel=false;
+                    } else {
+                        for (int i=0;i<lists.size();i++) {
+                            String id=ids[i];
+                            if (!TApplication.ids.contains(id)) {
+                                TApplication.ids.add(id);
 
-            }
-        });
-//    check_all.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            for (String id : ids) {
-//                TApplication.ids.add(id);
-//            }
-//        }
-//    });
+                                TApplication.shop_lists.put(id, lists.get(i));
+
+//                                TApplication.shop_list_car.add(lists.get(i));
+
+                                notifyItemChanged(i);
+                                onBindViewHolder(holder,i);
+                            }
+                        }
+                        title_sel.setImageResource(R.mipmap.marcket_sel);
+                        sel=true;
+                    }
+                    callBack.getSize();
+                }
+            });
+        }
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.e("cishu", position+"");
         final String id = lists.get(position).getId();
         ids[position] = id;
         String name = lists.get(position).getName();
-        String activity = lists.get(position).getActivity();
+        final String activity_info = lists.get(position).getActivity();
         String standard = lists.get(position).getStandard();
         String f_price = lists.get(position).getF_price();
         String o_price = lists.get(position).getO_price();
         String once_shop = lists.get(position).getOne_shop();
         String item = lists.get(position).getItem();
+        //超市名称  此处是留给购物车里显示用的
+        String title = lists.get(position).getSelect_shop_name();
         holder.marcket_sel_detail_item_count_tv.setText(item);
         holder.marcket_sel_detail_item_title_tv.setText(name);
-        holder.marcket_sel_detail_item_from_tv.setText(activity);
+        holder.marcket_sel_detail_item_from_tv.setText(activity_info);
         if ("".equals(standard)) {
             holder.marcket_sel_detail_item_standard_tv.setText("规格待定");
         } else {
@@ -111,9 +121,55 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         holder.marcket_sel_detail_item_del_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.marcket_sel_detail_item_example_tv.setText(once_shop);
         if (which == 0) {
-            holder.marcket_sel_detail_item_marcket_tv.setVisibility(View.GONE);
-        } else {
+            holder.marcket_sel_detail_item_marcket_tv.setVisibility(View.INVISIBLE);
+            holder.check_single.setVisibility(View.GONE);
+
+            if (position == 0) {
+                holder.title.setVisibility(View.VISIBLE);
+                holder.title.setText(title);
+
+                dataList = new DataList();
+                list = new ArrayList<>();
+                dataList.setName(title);
+                list.add(lists.get(position));
+                if (lists.size() == 1) {
+                    dataList.setList(list);
+                    TApplication.shop_list_to_pick.add(dataList);
+                }
+
+            } else {
+                String shop_name=lists.get(position).getSelect_shop_name().trim();
+                String pre_shop_name=lists.get(position-1).getSelect_shop_name().trim();
+                if (pre_shop_name.equals(shop_name)) {
+                    holder.title.setVisibility(View.GONE);
+                    list.add(lists.get(position));
+                    if (position == lists.size()-1) {
+                        dataList.setList(list);
+                        TApplication.shop_list_to_pick.add(dataList);
+                    }
+
+                } else {
+                    dataList.setList(list);
+                    TApplication.shop_list_to_pick.add(dataList);
+
+                    dataList = new DataList();
+                    list = new ArrayList<>();
+
+                    list.add(lists.get(position));
+                    dataList.setName(shop_name);
+
+                    holder.title.setVisibility(View.VISIBLE);
+                    holder.title.setText(shop_name);
+                    if (position == lists.size()-1) {
+                        dataList.setList(list);
+                        TApplication.shop_list_to_pick.add(dataList);
+                    }
+                }
+            }
+        } else if (which==1){
             holder.marcket_sel_detail_item_marcket_tv.setVisibility(View.VISIBLE);
+        }else if (which == 2) {
+            holder.marcket_sel_detail_item_marcket_tv.setVisibility(View.INVISIBLE);
         }
 
         final String url = BaseConsts.BASE_IMAGE_URL + lists.get(position).getPic();
@@ -145,46 +201,63 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         /**
          * 根据id是否被添加到Tapplication里面判断是否选中
          */
-        if (TApplication.ids.contains(id)) {
-            holder.check_single.setImageResource(R.mipmap.marcket_sel);
-            ++count;
-            if (count <=lists.size()) {
-                sel_ids.add(id);
+        if (title_sel != null) {
+            if (TApplication.ids.contains(id)) {
+                holder.check_single.setImageResource(R.mipmap.marcket_sel);
+                ++count;
+                if (count <=lists.size()) {
+                    sel_ids.add(id);
+                }
+                if (sel_ids.size() == lists.size()) {
+                    title_sel.setImageResource(R.mipmap.marcket_sel);
+                    sel = true;
+                }
+            } else {
+                holder.check_single.setImageResource(R.mipmap.market_unsel);
             }
-            if (sel_ids.size() == lists.size()) {
-                listener.selAll(true);
-                title_sel.setImageResource(R.mipmap.marcket_sel);
-                sel = true;
-            }
-        } else {
-            listener.selAll(false);
-            holder.check_single.setImageResource(R.mipmap.market_unsel);
+            holder.check_single.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (TApplication.ids.contains(id)) {
+                        TApplication.ids.remove(id);
+
+                        TApplication.shop_lists.remove(id);
+//                        TApplication.shop_list_car.remove(lists.get(position));
+
+                        if (sel_ids.contains(id)) {
+                            sel_ids.remove(id);
+                        }
+                        Log.e("c===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
+                        holder.check_single.setImageResource(R.mipmap.market_unsel);
+                        if (sel) {
+                            title_sel.setImageResource(R.mipmap.market_unsel);
+                            sel = false;
+                        }
+                    } else {
+                        TApplication.ids.add(id);
+                        TApplication.shop_lists.put(id, lists.get(position));
+//                        TApplication.shop_list_car.add(lists.get(position));
+                        sel_ids.add(id);
+                        Log.e("d===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
+                        holder.check_single.setImageResource(R.mipmap.marcket_sel);
+                        if (sel_ids.size() == lists.size()) {
+                            title_sel.setImageResource(R.mipmap.marcket_sel);
+                            sel = true;
+                        }
+                    }
+                    callBack.getSize();
+                }
+            });
         }
-        holder.check_single.setOnClickListener(new View.OnClickListener() {
+        holder.marcket_sel_detail_liner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TApplication.ids.contains(id)) {
-                    TApplication.ids.remove(id);
-                    if (sel_ids.contains(id)) {
-                        sel_ids.remove(id);
-                    }
-                    Log.e("c===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
-                    holder.check_single.setImageResource(R.mipmap.market_unsel);
-                    if (sel) {
-                        title_sel.setImageResource(R.mipmap.market_unsel);
-                        sel = false;
-                    }
-                } else {
-                    TApplication.ids.add(id);
-                    sel_ids.add(id);
-                    Log.e("d===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
-                    holder.check_single.setImageResource(R.mipmap.marcket_sel);
-                    if (sel_ids.size() == lists.size()) {
-                        title_sel.setImageResource(R.mipmap.marcket_sel);
-                        listener.selAll(true);
-                        sel = true;
-                    }
-                }
+                Intent intent = new Intent(view.getContext(), WaresDetailPageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("lists", lists.get(position));
+                intent.putExtra("bundle", bundle);
+                activity.startActivityForResult(intent,300);
+
             }
         });
     }
@@ -195,6 +268,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title;
         public TextView marcket_sel_detail_item_standard_tv;
         public TextView marcket_sel_detail_item_title_tv;
         public TextView marcket_sel_detail_item_from_tv;
@@ -208,6 +282,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         public ImageView check_single;
         public MyViewHolder(View itemView) {
             super(itemView);
+            title = (TextView) itemView.findViewById(R.id.title);
             marcket_sel_detail_item_standard_tv=(TextView)itemView.findViewById(R.id.marcket_sel_detail_item_standard_tv);
             marcket_sel_detail_item_title_tv=(TextView)itemView.findViewById(R.id.marcket_sel_detail_item_title_tv);
             marcket_sel_detail_item_from_tv=(TextView)itemView.findViewById(R.id.marcket_sel_detail_item_from_tv);
@@ -221,7 +296,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
             check_single = (ImageView) itemView.findViewById(R.id.check_single);
         }
     }
-    public interface AllSel{
-        void selAll(boolean sel_all);
+    public interface SizeCallBack{
+        void getSize();
     }
 }

@@ -92,7 +92,7 @@ public class ListRecordDetailAdapter extends BaseExpandableListAdapter {
             holder = (ChildHolder) view.getTag();
         }
         holder.goods_name.setText(item.getName());
-        holder.goods_price.setText("¥"+item.getF_price()+"(折前)"+"¥"+item.getO_price()+"(折后)");
+        holder.goods_price.setText("¥"+item.getF_price()+"(折前)\n"+"¥"+item.getO_price()+"(折后)");
         holder.goods_num.setText(item.getQuantity());
         double cost = Integer.parseInt(item.getQuantity())*Double.parseDouble(item.getO_price());
         Log.i("cost",cost+"");

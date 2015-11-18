@@ -117,7 +117,7 @@ public class BuyListAdapter extends BaseExpandableListAdapter {
                 )convertView.getTag();
         holder.item_buy_list_name_tv.setText(item.getName());
         holder.item_buy_list_goods_num_tv.setText(item.getPid()+"件");
-        holder.item_buy_list_goods_price_tv.setText("¥"+item.getO_price()+"(折前)"+"¥"+item.getF_price()+"(折后)");
+        holder.item_buy_list_goods_price_tv.setText("¥"+item.getO_price()+"(折前)\n"+"¥"+item.getF_price()+"(折后)");
         double cost = Integer.parseInt(item.getPid())*Double.parseDouble(item.getF_price());
         holder.item_buy_list_goods_coast_tv.setText("¥"+cost);
         if(childPosition==0){

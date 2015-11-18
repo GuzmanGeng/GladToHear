@@ -68,8 +68,8 @@ public class OrderDetailActivity extends BaseActivity implements RequestListener
 
     private void initview() {
         expandableListView = (ExpandableListView)findViewById(R.id.list_record_detail_expandlv);
-        list_record_cost_tv = (TextView)findViewById(R.id.list_record_coast_tv);
-        list_record_save_tv = (TextView)findViewById(R.id.list_record_save_tv);
+//        list_record_cost_tv = (TextView)findViewById(R.id.list_record_coast_tv);
+//        list_record_save_tv = (TextView)findViewById(R.id.list_record_save_tv);
         list_record_time_tv = (TextView)findViewById(R.id.list_record_time_tv);
         list_record_num_tv = (TextView)findViewById(R.id.list_record_num_tv);
     }
@@ -114,7 +114,6 @@ public class OrderDetailActivity extends BaseActivity implements RequestListener
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showToast("订单详细成功");
                             getData();
                         }
                     });
@@ -130,8 +129,8 @@ public class OrderDetailActivity extends BaseActivity implements RequestListener
     private void getData(){
         list_record_num_tv.setText("编号："+onumber);
         list_record_time_tv.setText("生成时间："+o_date);
-        list_record_cost_tv.setText(t_price);;
-        list_record_save_tv.setText(s_price );
+//        list_record_cost_tv.setText(t_price);
+//        list_record_save_tv.setText(s_price );
         adapter = new ListRecordDetailAdapter(this, shops, new ExpandableAdapter.CallBack() {
             @Override
             public void getView(View view, int groupPosition, int childPosition) {
@@ -140,6 +139,9 @@ public class OrderDetailActivity extends BaseActivity implements RequestListener
         });
         expandableListView.setGroupIndicator(null);
         expandableListView.setAdapter(adapter);
+        for (int i = 0; i < shops.size(); i++) {
+            expandableListView.expandGroup(i);
+        }
     }
 
     private void initData() {

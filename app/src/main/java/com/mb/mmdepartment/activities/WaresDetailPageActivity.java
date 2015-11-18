@@ -61,7 +61,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
     private Map<String,String> map;
     private GridLayoutManager manager;
     private ShopInformationAdapter adapter;
-    private FloatingActionButton floatActionButton;
+    private TextView floatActionButton;
     private TextView detail_content_tv;
     private TextView prompt;
     private TextView detail_tv_title,detail_apply_people,detail_market_name,detail_start_end_time,detail_now_money,detail_old_money,detail_reference_money;
@@ -296,10 +296,11 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             public void run() {
                 badgeView = new CircleBadgeView(WaresDetailPageActivity.this, findViewById(R.id.goods_detail_shopping_cart));
                 v = findViewById(R.id.goods_detail_shopping_cart);
-                int size = 0;
-                for(int i = 0;i<TApplication.shop_list_to_pick.size();i++){
-                    size = size +TApplication.shop_list_to_pick.get(i).getList().size();
-                }
+                int size = TApplication.ids.size();
+//                for(int i = 0;i<TApplication.shop_list_to_pick.size();i++){
+//                    size = size +TApplication.shop_list_to_pick.get(i).getList().size();
+//                }
+
                 badgeView.setText(size + "");
                 badgeView.setBackgroundColor(Color.RED);//设置背景颜色
                 badgeView.setGravity(Gravity.CENTER);
@@ -321,7 +322,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             biz = new DetailAddressBiz();
             biz.getDetailAddress(lists.getShop_id(), this);
         }
-        floatActionButton = (FloatingActionButton) findViewById(R.id.floatActionButton);
+        floatActionButton = (TextView) findViewById(R.id.floatActionButton);
         floatActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

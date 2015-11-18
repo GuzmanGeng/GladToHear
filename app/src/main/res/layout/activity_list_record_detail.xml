@@ -12,29 +12,29 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="编号：."
+            android:layout_weight="1"
+            android:text="编号:"
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/list_record_num_tv"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:textColor="@color/color_gray"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="生成时间："
+            android:text="时间："
             android:layout_gravity="center"
             android:id="@+id/list_record_time_tv"
             android:textColor="@color/color_gray"
-            android:textSize="18sp"/>
+            android:textSize="12sp"/>
     </LinearLayout>
     <ExpandableListView
         android:layout_width="match_parent"
         android:id="@+id/list_record_detail_expandlv"
         android:layout_height="wrap_content"></ExpandableListView>
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -78,5 +78,5 @@
                 android:text=""
                 android:textSize="18sp"/>
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 </LinearLayout>

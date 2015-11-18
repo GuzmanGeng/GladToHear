@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class SubmitordersBiz implements IsubmitordersBiz {
     private Map<String, String> param = new HashMap<>();
-
     @Override
     public void submitorders(String list, String tag, final RequestListener listener) {
         param.put(BaseConsts.APP, CatlogConsts.Submitorders.params_app);

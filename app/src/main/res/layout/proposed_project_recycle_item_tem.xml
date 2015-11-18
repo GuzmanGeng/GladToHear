@@ -1,159 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/two_dip"
-    android:layout_marginBottom="2dp"
-    android:layout_marginTop="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
-        android:id="@+id/marcket_sel_detail_liner"
-        android:padding="@dimen/five_dip"
-        android:gravity="center_vertical"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/check_single"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/market_unsel"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
-            />
-        <FrameLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/title"
+        android:visibility="gone"
+        />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/two_dip"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/marcket_sel_detail_liner"
+            android:padding="@dimen/five_dip"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
             <ImageView
-                android:id="@+id/marcket_sel_detail_item_iv"
+                android:id="@+id/check_single"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/market_unsel"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp" />
+
+            <FrameLayout
                 android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="fitCenter"
-                />
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/marcket_sel_detail_item_iv"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="bottom"
+                    android:background="#5000"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/marcket_sel_detail_item_standard_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_white"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_gravity="bottom"
-                android:background="#5000"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/five_dip"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/marcket_sel_detail_item_standard_tv"
+                    android:id="@+id/marcket_sel_detail_item_title_tv"
+                    android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/five_dip" />
+
+                <TextView
+                    android:id="@+id/marcket_sel_detail_item_from_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_white"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    />
-            </LinearLayout>
-        </FrameLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:padding="@dimen/five_dip"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/marcket_sel_detail_item_title_tv"
-                android:layout_width="match_parent"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/five_dip"
-                />
-            <TextView
-                android:id="@+id/marcket_sel_detail_item_from_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/five_dip"
-                android:ellipsize="end"
-                android:textSize="@dimen/twelve_sp"
-                android:singleLine="true"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/five_dip"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:id="@+id/marcket_sel_detail_item_new_price_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textSize="@dimen/sixteen_sp"
-                        />
-                    <TextView
-                        android:id="@+id/marcket_sel_detail_item_del_price_tv"
-                        android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:layout_height="wrap_content"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:paddingLeft="@dimen/five_dip"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/twelve_sp"
+                    android:singleLine="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
                     android:layout_marginLeft="@dimen/five_dip"
-                    android:paddingRight="@dimen/five_dip"
-                    android:layout_gravity="center_vertical"
-                    android:background="@mipmap/once_shop_back"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/once_shop"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:textSize="12sp"
-                            android:layout_height="wrap_content"
-                            android:text=" 参考价"
-                            />
-                    </LinearLayout>
-                    <TextView
-                        android:id="@+id/marcket_sel_detail_item_example_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        />
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/marcket_sel_detail_item_new_price_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:textSize="@dimen/sixteen_sp" />
+
+                        <TextView
+                            android:id="@+id/marcket_sel_detail_item_del_price_tv"
+                            android:layout_width="match_parent"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/five_dip"
+                        android:layout_marginLeft="@dimen/five_dip"
+                        android:paddingRight="@dimen/five_dip"
+                        android:layout_gravity="center_vertical"
+                        android:background="@mipmap/once_shop_back"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/once_shop" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textSize="12sp"
+                                android:layout_height="wrap_content"
+                                android:text=" 参考价" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/marcket_sel_detail_item_example_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/marcket_sel_detail_item_marcket_tv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="华联超市"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:padding="8dp"
+                        android:background="@mipmap/once_shop_back"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/five_dip" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/marcket_sel_detail_item_marcket_tv"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="华联超市"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:padding="8dp"
-                    android:background="@mipmap/once_shop_back"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/five_dip"
-                    />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/marcket_sel_detail_item_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/five_dip" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/marcket_sel_detail_item_count_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginTop="@dimen/five_dip"
-            />
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

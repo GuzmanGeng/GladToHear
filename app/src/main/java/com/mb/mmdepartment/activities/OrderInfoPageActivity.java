@@ -36,7 +36,6 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 
 public class OrderInfoPageActivity extends BaseActivity implements View.OnClickListener,RequestListener{
-
     private static final String TAG = OrderInfoPageActivity.class.getSimpleName();
     private TextView buy_list_save_tv;
     private TextView buy_list_cost_tv;
@@ -75,19 +74,29 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
         list_record_login = (TextView) findViewById(R.id.list_record_login);
         listview = (ExpandableListView)findViewById(R.id.buy_list_lv);
         listview.setGroupIndicator(null);
+        listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                return true;
+            }
+        });
     }
 
     private void initdata(){
-        Intent intent = getIntent();
-        lists = (List<DataList>)intent.getSerializableExtra("lists");
+//        Intent intent = getIntent();
+//        lists = (List<DataList>)intent.getSerializableExtra("lists");
+        lists=TApplication.shop_list_to_pick;
+
+        android.util.Log.e("order", lists.size()+"");
+
         for(int i = 0;i<lists.size();i++){
             for (int j = 0;j<lists.get(i).getList().size();j++){
                 cost_price = cost_price+(Integer.parseInt(lists.get(i).getList().get(j).getPid())*Double.parseDouble(lists.get(i).getList().get(j).getF_price()));
                 save_price = save_price+(Integer.parseInt(lists.get(i).getList().get(j).getPid())*Double.parseDouble(lists.get(i).getList().get(j).getSave()));
             }
         }
-        buy_list_cost_tv.setText("¥"+cost_price);
-        buy_list_save_tv.setText("¥" + save_price);
+        buy_list_cost_tv.setText("¥"+Math.floor(cost_price*10d)/10);
+        buy_list_save_tv.setText("¥" + Math.floor(save_price*10d)/10);
         adapter = new BuyListAdapter(OrderInfoPageActivity.this,lists);
         listview.setAdapter(adapter);
         for(int i = 0;i<lists.size();i++){
@@ -118,7 +127,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.save_list:
-                Log.i("save", "保存");
+
                 LuPinModel save = new LuPinModel();
                 save.setName("orderSaveButton");
                 save.setType("other");
@@ -199,7 +208,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
                             showToast(" 保存成功");
                         }
                     });
-                    startActivity(OrderInfoPageActivity.this, MainPageActivity.class);
+                    startActivity(OrderInfoPageActivity.this, MainActivity.class);
                 }else{
                     runOnUiThread(new Runnable() {
                         @Override

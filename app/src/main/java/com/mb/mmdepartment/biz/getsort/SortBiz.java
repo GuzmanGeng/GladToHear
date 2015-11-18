@@ -1,5 +1,6 @@
 package com.mb.mmdepartment.biz.getsort;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.activities.ProposedProjectActivity;
@@ -37,6 +39,8 @@ public class SortBiz{
     private LinearLayoutManager manager;
     private int which;
     private ProposedProjectAdapter adapter;
+    private TextView textView;
+    private Activity activity;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -44,7 +48,7 @@ public class SortBiz{
             switch (msg.what) {
                 case 0:
                     Log.e("adapter", "有数据传递");
-                    adapter = new ProposedProjectAdapter(list, which, context);
+                    adapter = new ProposedProjectAdapter(list, which, context,textView,activity);
                     manager = new LinearLayoutManager(context);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(adapter);
@@ -58,10 +62,12 @@ public class SortBiz{
             }
         }
     };
-    public SortBiz(Context context,RecyclerView recyclerView,int which){
+    public SortBiz(Context context,RecyclerView recyclerView,int which,TextView textView,Activity activity){
         this.context=context;
         this.recyclerView=recyclerView;
         this.which=which;
+        this.activity=activity;
+        this.textView=textView;
     }
     public void sort(String tag, String device_no, String order_type, String category_id, String shop_id, int group, int city, int order) {
         params.put(BaseConsts.APP, CatlogConsts.SortPlan.params_app);

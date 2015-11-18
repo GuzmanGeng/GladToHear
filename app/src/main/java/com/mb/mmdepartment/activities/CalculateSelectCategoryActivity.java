@@ -354,6 +354,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 dialog = new LoadingDialog(this, R.style.dialog);
                 dialog.show();
                 biz = new CommodityBiz();
+                Log.e("calculate",SPCache.getString("city_id","50"));
                 biz.getCommodityList(0, SPCache.getString("city_id","50"), shop_id, TAG, this);
             }
         } else {

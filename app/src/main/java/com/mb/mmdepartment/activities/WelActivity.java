@@ -162,6 +162,7 @@ public class WelActivity extends BaseActivity implements OnLocalListener{
                 String city_id=groups.get(groupPosition).get(childPosition).getCity_id();
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
+                Log.e("welcom", city_id);
                 setResult(RESULT_OK);
                 startActivity(WelActivity.this, MainActivity.class, new String[]{"provience","city_id"}, new String[]{provience,city_id});
                 finish();
@@ -176,6 +177,7 @@ public class WelActivity extends BaseActivity implements OnLocalListener{
                 String city_id = serachcity.get(position).getCity_id();
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
+                Log.e("welcom", city_id);
                 setResult(RESULT_OK);
                 startActivity(WelActivity.this, MainActivity.class, new String[]{"provience","city_id"}, new String[]{provience,city_id});
                 finish();

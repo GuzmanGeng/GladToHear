@@ -22,7 +22,7 @@
             android:textColor="@color/color_white"
             android:gravity="center"
             android:padding="@dimen/ten_dip"
-            android:text="按价格排序↑"
+            android:text="按价格排序↓"
             />
 
         <TextView
@@ -38,7 +38,7 @@
             android:background="@color/color_white"
             android:gravity="center"
             android:padding="@dimen/ten_dip"
-            android:text="按折扣排序↑"
+            android:text="按折扣排序↓"
             android:textColor="@color/text_half_red"/>
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="@dimen/ten_dip"
-            android:text="按节省比排序↑"
+            android:text="按节省比排序↓"
             android:textColor="@color/text_half_red" />
     </LinearLayout>
     <android.support.v7.widget.RecyclerView

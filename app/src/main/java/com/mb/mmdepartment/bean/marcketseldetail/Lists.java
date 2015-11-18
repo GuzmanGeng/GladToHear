@@ -31,7 +31,6 @@ public class Lists implements Serializable{
     private String shop_id;
 
     private String info;
-
     private String activity;
 
     private String item;
@@ -67,6 +66,9 @@ public class Lists implements Serializable{
     private String author;
 
     private String ctime;
+
+    private String select_shop_id;
+    private String select_shop_name ;
 
     private String status;
 
@@ -287,5 +289,21 @@ public class Lists implements Serializable{
     }
     public String getShop_name(){
         return this.shop_name;
+    }
+
+    public String getSelect_shop_id() {
+        return select_shop_id;
+    }
+
+    public void setSelect_shop_id(String select_shop_id) {
+        this.select_shop_id = select_shop_id;
+    }
+
+    public String getSelect_shop_name() {
+        return select_shop_name;
+    }
+
+    public void setSelect_shop_name(String select_shop_name) {
+        this.select_shop_name = select_shop_name;
     }
 }

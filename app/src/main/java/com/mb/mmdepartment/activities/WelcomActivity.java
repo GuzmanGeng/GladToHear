@@ -94,6 +94,7 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
                 setResult(RESULT_OK);
+                android.util.Log.e("welcom", city_id);
                 startActivity(WelcomActivity.this, MainActivity.class, new String[]{"provience", "city_id"}, new String[]{provience, city_id});
                 finish();
                 return false;
@@ -108,6 +109,7 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
                 setResult(RESULT_OK);
+                android.util.Log.e("welcom", city_id);
                 startActivity(WelcomActivity.this, MainActivity.class, new String[]{"provience", "city_id"}, new String[]{provience, city_id});
                 finish();
             }
@@ -340,6 +342,7 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 SPCache.putString("provience", provience);
+                SPCache.putString("city_id", "50");
                 startActivity(WelcomActivity.this, MainActivity.class, "provience", provience);
                 finish();
             }

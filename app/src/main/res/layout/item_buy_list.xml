@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -16,7 +16,11 @@
             android:layout_gravity="center"
             android:layout_weight="3"
             android:gravity="center"
+            android:lineSpacingExtra="3dp"
             android:text="213"
+            android:maxLength="6"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/color_gray"
             android:textSize="14sp" />
 
@@ -28,6 +32,9 @@
             android:layout_weight="3"
             android:gravity="center"
             android:text="321"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:lineSpacingExtra="3dp"
             android:textColor="@color/color_gray"
             android:textSize="14sp" />
 
@@ -56,8 +63,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:layout_height="0.3dp"
+        android:background="#20939393" />
 
     <LinearLayout
         android:id="@+id/item_buy_list_allpay_ll"
@@ -73,11 +80,12 @@
             android:gravity="center_vertical|right"
             android:paddingRight="16dp"
             android:text="总价"
+            android:padding="10dp"
             android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
     </LinearLayout>
 </LinearLayout>

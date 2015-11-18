@@ -39,6 +39,8 @@
            android:id="@+id/tv_market_left"
            android:text="a"
            android:layout_weight="1"
+           android:lines="1"
+           android:ellipsize="end"
            android:textColor="#000"
            android:layout_marginLeft="@dimen/five_dip"
            android:padding="10dp"

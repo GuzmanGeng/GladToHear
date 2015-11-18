@@ -4,70 +4,76 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/item_goods_detail_goods_name_tv"
-        android:text="213"
-        android:textSize="14sp"
-        android:textColor="@color/color_gray"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/item_goods_detail_goods_price_tv"
-        android:text="321"
-        android:textSize="14sp"
-        android:textColor="@color/color_gray"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/item_goods_detail_goods_num_tv"
-        android:text="1"
-        android:textSize="14sp"
-        android:textColor="@color/color_gray"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/item_goods_detail_goods_coast_tv"
-        android:text="21"
-        android:textSize="14sp"
-        android:textColor="@color/color_gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/item_goods_detail_goods_name_tv"
+            android:text="213"
+            android:maxLines="2"
+            android:maxLength="6"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="@color/color_gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:lineSpacingExtra="3dp"
+            android:gravity="center"
+            android:id="@+id/item_goods_detail_goods_price_tv"
+            android:text="321"
+            android:textSize="14sp"
+            android:textColor="@color/color_gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/item_goods_detail_goods_num_tv"
+            android:text="1"
+            android:textSize="14sp"
+            android:textColor="@color/color_gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/item_goods_detail_goods_coast_tv"
+            android:text="21"
+            android:textSize="14sp"
+            android:textColor="@color/color_gray"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="#20939393"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
         android:id="@+id/item_goods_detail_goods_allpay_ll">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="总价"
-        android:textSize="16sp"
-        android:gravity="center_vertical|right"
-        android:paddingRight="16dp"
-        android:id="@+id/item_goods_detail_goods_allpay_tv"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="总价"
+            android:textSize="16sp"
+            android:gravity="center_vertical|right"
+            android:padding="10dp"
+            android:id="@+id/item_goods_detail_goods_allpay_tv"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#939393"/>
     </LinearLayout>
 </LinearLayout>
