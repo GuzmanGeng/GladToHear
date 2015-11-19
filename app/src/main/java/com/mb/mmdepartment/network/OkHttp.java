@@ -210,41 +210,15 @@ public class OkHttp {
         enqueue(request, callback);
     }
 
-    // post with file
+    //	 post with file
     public static void asyncPost(String url, Map<String, String> body, File file, Callback callback) {
-
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.type(MultipartBuilder.FORM);
-
         for (String key : body.keySet()) {
             multipartBuilder.addFormDataPart(key, body.get(key));
         }
-        //        Date date = new Date();
         if (file != null && file.exists()) {
-            ////            //图片处理
-            //        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-            //        bitmapOptions.inSampleSize = 3;
-            //        bitmapOptions.inPreferredConfig= Bitmap.Config.RGB_565;
-            //
-            ////            //Bitmap cameraBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bitmapOptions);
-            //        Bitmap cameraBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bitmapOptions);
-            //
-            //        /**
-            //         * 把图片旋转为正的方向
-            //         */
-            //        Bitmap bitmap = ImageTools.rotaingImageView(ImageTools.readPictureDegree(file.getAbsolutePath()), cameraBitmap);
-            //        date1 = new Date();
-            ////          byte[] bytes = Bitmap2Bytes(bitmap);
-            //
-            //        FileTools.createDirs("萌宝派");
-            //        File sendFile = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), File.separator + "萌宝派" + File.separator + file.getName());
-            //        boolean b = ImageTools.saveBitmap(bitmap, sendFile.getAbsolutePath());
-            //        //图片处理
-            //        if (b) {
-            //            multipartBuilder.addFormDataPart("image", "image", RequestBody.create(MEDIA_TYPE_PNG, sendFile));
-            //            Log.i(TAG, "add picture addres = " + sendFile.getAbsolutePath());
-            //        }
-            multipartBuilder.addFormDataPart("headpic", "image", RequestBody.create(MEDIA_TYPE_PNG, getSmallBitmap(file.getAbsolutePath())));
+            multipartBuilder.addFormDataPart("headpic","image", RequestBody.create(MEDIA_TYPE_PNG, getSmallBitmap(file.getAbsolutePath())));
         }
         RequestBody formBody = multipartBuilder.build();
         Request request = new Request.Builder()
@@ -253,31 +227,6 @@ public class OkHttp {
                 .build();
         enqueue(request, callback);
     }
-
-//    // post with files
-//    public static void asyncPost(String url, Map<String, String> body, ArrayList<PhotoAdd> files, Callback callback) {
-//        MultipartBuilder multipartBuilder = new MultipartBuilder();
-//        multipartBuilder.type(MultipartBuilder.MIXED);
-//        for (String key : body.keySet()) {
-//            multipartBuilder.addFormDataPart(key, body.get(key));
-//        }
-//
-//        if (files != null && files.size() > 0) {
-//            for (int i = 0; i < files.size(); i++) {
-//                multipartBuilder.addFormDataPart("image" + i, "image" + i, RequestBody.create(MEDIA_TYPE_PNG, getSmallBitmap(files.get(i).getPhotoUrl())));
-//                Log.i(TAG, "add picture addres = " + files.get(i) + "image" + (i + 1));
-//            }
-//        }
-//
-//        RequestBody formBody = multipartBuilder.build();
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .post(formBody)
-//                .build();
-//        enqueue(request, callback);
-//    }
-
-    // 根据路径获得图片并压缩，返回bitmap用于显示
     public static byte[] getSmallBitmap(String filePath) {
         ByteArrayOutputStream baos = null;
         Bitmap bitmap = null;
@@ -287,19 +236,20 @@ public class OkHttp {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(filePath, options);
-            options.inSampleSize = calculateInSampleSize(options, 320, 540);
+//            options.inSampleSize = calculateInSampleSize(options, 320, 540);
+            options.inSampleSize = calculateInSampleSize(options, 150, 250);
             options.inJustDecodeBounds = false;
             bitmapCache = BitmapFactory.decodeFile(filePath, options);
-
+            if (bitmapCache == null) {
+                return null;
+            }
             bitmap = ImageUtils.rotaingImageView(ImageUtils.readPictureDegree(filePath), bitmapCache);
-
             baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
             bytes = baos.toByteArray();
-        }catch (Exception e){
+        } catch (Exception e) {
 
-        }finally {
+        } finally {
             if (baos != null) try {
                 baos.flush();
             } catch (Exception e) {
@@ -314,9 +264,6 @@ public class OkHttp {
         return bytes;
     }
 
-
-
-    //计算图片的缩放值
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -328,6 +275,4 @@ public class OkHttp {
         }
         return inSampleSize;
     }
-
-
 }

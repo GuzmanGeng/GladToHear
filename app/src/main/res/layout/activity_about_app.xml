@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mb.mmdepartment.activities.AboutAppActivity">
+    <include layout="@layout/toolbar" />
+    <TextView
+        android:text="喜闻乐评创立于2014年，其主旨是为为企业与消费者之间搭建一个交互式的沟通平台。
+
+平台融合了讯息展示、问卷调研、游戏互动及积分兑换的相关模块内容让消费者在充分享受趣味品牌体验的过程中与品牌形成紧密的结合。
+
+我们专注于当今线上及线下的热点及促销信息和活动以最迅速最及时的方式带给热衷品牌的消费群体。
+
+我们关注消费者的热点与诉求，通过消费者意见反馈来协助品牌更好的提升促销的影响。"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

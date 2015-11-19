@@ -15,39 +15,61 @@
         android:src="@mipmap/test"
         app:border_width="@dimen/two_dip"
         android:id="@+id/userpic"
-        android:layout_marginTop="@dimen/ten_dip"
+        android:layout_marginTop="@dimen/twenty_dip"
         app:border_color="@color/theme_color"
         />
     <TextView
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/ten_dip"
-        android:text="测试账号"
+        android:lines="1"
+        android:ellipsize="end"
         android:gravity="center"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/ten_dip"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:background="@color/theme_color"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/cicle_back_wel_back"
         android:id="@+id/user_info"
-        android:padding="@dimen/ten_dip"
-        android:layout_margin="@dimen/ten_dip"
+        android:padding="@dimen/fifteen_dip"
+        android:drawableLeft="@mipmap/ic_login_username"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:drawablePadding="10dp"
         android:text="个人信息"
         />
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/theme_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/ten_dip"
-        android:background="@drawable/cicle_back_wel_back"
+        android:padding="@dimen/fifteen_dip"
+        android:drawableLeft="@mipmap/ic_login_password"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
         android:id="@+id/change_psw"
-        android:layout_margin="@dimen/ten_dip"
+        android:layout_marginLeft="5dp"
         android:text="密码修改"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/theme_color"
         />
     <TextView
         android:id="@+id/tv_check_out_login"
@@ -57,7 +79,9 @@
         android:text="退出登陆"
         android:gravity="center"
         android:textColor="@color/color_white"
-        android:background="@color/theme_color"
-        android:layout_margin="@dimen/ten_dip"
+        android:background="@drawable/cicle_back_login_tv"
+        android:layout_marginTop="@dimen/twenty_dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 </LinearLayout>

@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#20939393"
+    tools:context="com.mb.mmdepartment.activities.MySettingActivity">
+
+    <include layout="@layout/toolbar" />
+    <TextView
+        android:id="@+id/feed_back_tv"
+        android:text="反馈意见"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#a0009300"
+        ></TextView>
+    <TextView
+        android:text="关于软件"
+        android:id="@+id/about_app_tv"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#a0009300"
+        ></TextView>
+    <TextView
+        android:text="联系我们"
+        android:id="@+id/chat_with_us_tv"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#a0009300"
+        ></TextView>
+    <TextView
+        android:text="帮助"
+        android:id="@+id/help_center_tv"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#a0009300"
+        ></TextView>
+</LinearLayout>

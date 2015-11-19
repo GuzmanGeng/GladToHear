@@ -1,4 +1,21 @@
 <resources>
+
+    <style name="mypopwindow_anim_style" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowEnterAnimation">@anim/shared_popshow_anim</item>
+        <!-- 指定显示的动画xml -->
+
+        <item name="android:windowExitAnimation">@anim/shared_pophidden_anim</item>
+        <!-- 指定消失的动画xml -->
+    </style>
+
+
+
+
+    <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item> <!-- 设置自定义布局的背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 设置window背景透明，也就是去边框 -->
+    </style>
+
     <style name="sline">
         <item name="android:singleLine">true</item>
     </style>
@@ -16,8 +33,22 @@
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:layout_marginBottom">0dp</item>
     </style>
+
+
+    <!--<style name="AppTheme" parent="@android:style/Theme.Holo.Light">-->
+        <!--<item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>-->
+    <!--</style>-->
+
+    <style name="MenuTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="AppTheme.Base"></style>
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+    </style>
     <!-- Customize your theme here. -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Actionbar color -->

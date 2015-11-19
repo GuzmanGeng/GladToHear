@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +51,8 @@ import com.mb.mmdepartment.view.CircleBadgeView;
 import com.tencent.stat.StatService;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,6 +106,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             }
         }
     };
+    private String id_goods;
 
     @Override
     public int getLayout() {
@@ -134,6 +139,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
     public void init(Bundle savedInstanceState) {
         Bundle bundle = getIntent().getBundleExtra("bundle");
         lists = (Lists) bundle.getSerializable("lists");
+        id_goods=lists.getId();
         initView();
         goods_detail_shopping_cart= (Menu) findViewById(R.id.goods_detail_shopping_cart);
         setData();
@@ -150,7 +156,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                 ball = new ImageView(WaresDetailPageActivity.this);// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
                 ball.setImageResource(R.mipmap.sign);// 设置buyImg的图片
 //                ball.set;
-                String shop_name = TApplication.market.get(lists.getShop_id());
                 if (add_romove == 0) {
                     LuPinModel add_shopping_car = new LuPinModel();
                     add_shopping_car.setName(lists.getId());
@@ -160,9 +165,19 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                     TApplication.luPinModels.add(add_shopping_car);
                     left_shop_add_remove.setImageResource(R.mipmap.minus);
                     setAnim(ball, startLocation, "plus");// 开始执行动画
-                    TApplication.shop_lists.put(lists.getId(), lists);
-                    WaresDetailPageActivity.add_goods(lists);
+
+//                    TApplication.shop_lists.put(lists.getId(), lists);
+//                    WaresDetailPageActivity.add_goods(lists);
+                    //向购物车中追加数据
+
+                    String shop_name = lists.getSelect_shop_name();
+                    if (TextUtils.isEmpty(shop_name)) {
+                        shop_name = lists.getShop_name();
+                    }
+                    add_cars_index(id_goods, shop_name, lists);
                     badgeView.setText(String.valueOf(TApplication.shop_lists.size()));
+
+
                     add_romove = 1;
                 } else {
                     LuPinModel remove_shopping_car = new LuPinModel();
@@ -173,9 +188,12 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                     TApplication.luPinModels.add(remove_shopping_car);
                     startLocation[1] = 120;
                     setAnim(ball, startLocation, "minus");// 开始执行动画
-                    TApplication.shop_lists.remove(lists.getId());
+
+
+//                    TApplication.shop_lists.remove(lists.getId());
+//                    WaresDetailPageActivity.remove_goods(lists);
+                    remove_cars_index(id_goods);
                     left_shop_add_remove.setImageResource(R.mipmap.plus);
-                    WaresDetailPageActivity.remove_goods(lists);
                     badgeView.setText(String.valueOf(TApplication.shop_lists.size()));
                     add_romove = 0;
                 }
@@ -186,20 +204,29 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
 
 
     private void setData() {
-        for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
-            Log.i("tag","tag"+i);
-            for(int j = 0;j <TApplication.shop_list_to_pick.get(i).getList().size();j++){
-                if(TApplication.shop_list_to_pick.get(i).getList().get(j).getId().equals(lists.getId())){
-                    left_shop_add_remove.setImageResource(R.mipmap.minus);
-                    add_romove = 1;
-                }
-            }
+//        for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
+//            Log.i("tag","tag"+i);
+//            for(int j = 0;j <TApplication.shop_list_to_pick.get(i).getList().size();j++){
+//                if(TApplication.shop_list_to_pick.get(i).getList().get(j).getId().equals(lists.getId())){
+//                    left_shop_add_remove.setImageResource(R.mipmap.minus);
+//                    add_romove = 1;
+//                }
+//            }
+//        }
+
+        if (TApplication.ids.contains(id_goods)) {
+            left_shop_add_remove.setImageResource(R.mipmap.minus);
+            add_romove = 1;
+        } else {
+            left_shop_add_remove.setImageResource(R.mipmap.plus);
+            Log.e("remove", "加号");
+            add_romove = 0;
         }
         detail_tv_title.setText(lists.getName());
         detail_market_name.setText(lists.getShop_name());
         detail_apply_people.setText(lists.getCrowd());
         String startTime = lists.getStart_time();
-        String endTime=lists.getEnd_time();
+        String endTime = lists.getEnd_time();
         startTime = startTime.substring(0, 10);
         endTime = endTime.substring(0, 10);
         detail_start_end_time.setText(startTime + "~" + endTime);
@@ -229,7 +256,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
 
             }
         });
-        String shop_name=lists.getShop_name();
+        String shop_name = lists.getShop_name();
         /***
          * 此处加入超市名称的判断
          */
@@ -238,23 +265,115 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
 //        }
 
     }
+    private boolean is_success_remove;
+    /**
+     * 移除购物车数据
+     * @param id
+     */
+    public void remove_cars_index(String id) {
+        if (TApplication.ids.contains(id)) {
+            TApplication.ids.remove(id);
+        } else {
+            showToast("商品不存在");
+        }
+        if (TApplication.shop_lists.containsKey(id)) {
+            TApplication.shop_lists.remove(id);
+            is_success_remove = true;
+        } else {
+            showToast("商品不存在");
+            is_success_remove=false;
+        }
+        for (int i=0;i<TApplication.shop_list_to_pick.size();i++) {
+            DataList list = TApplication.shop_list_to_pick.get(i);
+            for (int j = 0; j < list.getList().size();j++) {
+                Lists lists=list.getList().get(j);
+                String id_get=lists.getId().trim();
+                try {
+                    id_get=URLEncoder.encode(id_get, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if (id.equals(id_get)) {
+                    list.getList().remove(lists);
+                    if (list.getList().size() == 0) {
+                        TApplication.shop_list_to_pick.remove(list);
+                    }
+                    if (is_success_remove) {
+                        showToast("购物车移除成功");
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * 向购物车中追加数据
+     * @param id
+     * @param shop_name
+     * @param list
+     */
+    public void add_cars_index(String id,String shop_name,Lists list){
+        if (TApplication.ids.size()==0||!TApplication.ids.contains(id)) {
+            TApplication.ids.add(id);
+        } else {
+            showToast("商品已存在");
+        }
+        if (TApplication.shop_lists.size()==0||TApplication.shop_lists.get(id) == null) {
+            TApplication.shop_lists.put(id, list);
+        } else {
+            showToast("商品已存在");
+        }
+        Log.e("waressize", TApplication.shop_list_to_pick.size()+"现在的size");
+        if (TApplication.shop_list_to_pick.size() == 0) {
+            Log.e("waressize", "执行到这边了");
+            DataList datalist = new DataList();
+            List<Lists> new_list = new ArrayList<>();
+            datalist.setName(shop_name);
+            new_list.add(list);
+            datalist.setList(new_list);
+            TApplication.shop_list_to_pick.add(datalist);
+            return;
+        }
+        Log.e("waressize", TApplication.ids.size()+"=====");
+        for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
+            DataList data = TApplication.shop_list_to_pick.get(i);
+            Log.e("waresszie", String.valueOf(data)+"=====");
+            String get_shop_name = data.getName().trim();
+            try {
+                get_shop_name=URLEncoder.encode(get_shop_name, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (shop_name.equals(get_shop_name)) {
+                data.getList().add(list);
+                return;
+            }
+        }
+        DataList datalist = new DataList();
+        List<Lists> new_list = new ArrayList<>();
+        datalist.setName(shop_name);
+        new_list.add(list);
+        datalist.setList(new_list);
+        TApplication.shop_list_to_pick.add(datalist);
+    }
 
     public static void remove_goods(Lists lists){
         String shop_name = TApplication.market.get(lists.getShop_id());
         for(int i = 0;i<TApplication.shop_list_to_pick.size();i++) {
-                        if (shop_name.equals(TApplication.shop_list_to_pick.get(i).getName())) {
-                            for(int j = 0;j<TApplication.shop_list_to_pick.get(i).getList().size();j++){
-                                if(TApplication.shop_list_to_pick.get(i).getList().get(j).getId().
-                                        equals(lists.getId())) {
-                                    TApplication.shop_list_to_pick.get(i).getList().remove(TApplication.
-                                            shop_list_to_pick.get(i).getList().get(j));
-                                }
-                            }
-                        }
-                        if(TApplication.shop_list_to_pick.get(i).getList().size()== 0){
-                            TApplication.shop_list_to_pick.remove(TApplication.shop_list_to_pick.get(i));
-                        }
+            if (shop_name.equals(TApplication.shop_list_to_pick.get(i).getName())) {
+                for(int j = 0;j<TApplication.shop_list_to_pick.get(i).getList().size();j++){
+                    if(TApplication.shop_list_to_pick.get(i).getList().get(j).getId().
+                            equals(lists.getId())) {
+                        TApplication.shop_list_to_pick.get(i).getList().remove(TApplication.
+                                shop_list_to_pick.get(i).getList().get(j));
                     }
+                }
+            }
+            if(TApplication.shop_list_to_pick.get(i).getList().size()== 0){
+                TApplication.shop_list_to_pick.remove(TApplication.shop_list_to_pick.get(i));
+            }
+        }
     }
 
     public static void add_goods(Lists lists){
@@ -263,20 +382,20 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
         for(int i = 0;i<TApplication.shop_list_to_pick.size();i++) {
             if (shop_name.equals(TApplication.shop_list_to_pick.get(i).getName())) {
                 if (!TApplication.shop_list_to_pick.get(i).getList().contains(lists))
-                    {
+                {
                     TApplication.shop_list_to_pick.get(i).getList().add(lists);
-                    }
-                            a++;
-                        }
-                    }
-                    if(a == 0){
-                        DataList dataList = new DataList();
-                        dataList.setName(shop_name);
-                        List<Lists> listses = new ArrayList<Lists>();
-                        listses.add(lists);
-                        dataList.setList(listses);
-                        TApplication.shop_list_to_pick.add(dataList);
-                    }
+                }
+                a++;
+            }
+        }
+        if(a == 0){
+            DataList dataList = new DataList();
+            dataList.setName(shop_name);
+            List<Lists> listses = new ArrayList<Lists>();
+            listses.add(lists);
+            dataList.setList(listses);
+            TApplication.shop_list_to_pick.add(dataList);
+        }
     }
 
     private void initView() {
@@ -290,7 +409,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
         detail_iv_content = (ImageView) findViewById(R.id.detail_iv_content);
         detail_market_pic = (ImageView) findViewById(R.id.detail_market_pic);
         left_shop_add_remove = (ImageView) findViewById(R.id.left_shop_add_remove);
-        left_shop_add_remove.setImageResource(R.mipmap.plus);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -308,12 +426,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                 badgeView.show();
             }
         }, 500);
-        if (TApplication.user_id != null) {
-            if (TApplication.shop_lists.size()!=0) {
-            }else {
-
-            }
-        }
         reference_tv = (TextView) findViewById(R.id.reference_tv);
         prompt = (TextView) findViewById(R.id.prompt);
         detail_content_tv = (TextView) findViewById(R.id.detail_content_tv);
@@ -439,7 +551,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         adapter.notifyDataSetChanged();
-        badgeView.setText(TApplication.shop_lists.size()+"");
+        badgeView.setText(TApplication.shop_lists.size() + "");
     }
 
     /**

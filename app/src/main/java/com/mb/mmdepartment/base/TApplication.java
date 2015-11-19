@@ -60,10 +60,13 @@ public class TApplication extends Application{
     public static String city_id;
     public static String city_name;
     public static String user_id;
+    public static String user_avatar;
     //昵称
     public static User user;
     //用户名
     public static String user_name;
+    //积分数目
+    public static String integral;
     public static String token="";
     private PushAgent mPushAgent;
     // device_no

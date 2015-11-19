@@ -60,12 +60,12 @@
                 android:gravity="right|center_vertical"
                 android:lines="1"
                 android:ellipsize="end"
-                android:textSize="@dimen/sixteen_sp"
+                android:textSize="@dimen/eighteen_sp"
                 android:textColor="@color/color_white"
                 />
             <TextView
                 android:layout_width="1dp"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
                 android:background="@color/color_white"
                 android:layout_margin="5dp"
                 />
@@ -81,7 +81,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:ellipsize="end"
-                android:textSize="@dimen/sixteen_sp"
+                android:textSize="@dimen/eighteen_sp"
                 android:textColor="@color/color_white"
                 />
 
@@ -103,10 +103,11 @@
                 android:text="我 的 积 分"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/color_white"
-                android:padding="15dp"
-                android:textSize="16sp"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
                 android:drawablePadding="@dimen/ten_dip"
-                android:drawableLeft="@mipmap/icon_jifen"
+                android:drawableLeft="@mipmap/icon_my_jifen"
                 />
         </LinearLayout>
         <TextView
@@ -124,12 +125,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我 的 评 论"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/color_white"
-                android:padding="15dp"
+                android:padding="10dp"
+                android:gravity="center_vertical"
                 android:drawablePadding="@dimen/ten_dip"
-                android:drawableLeft="@mipmap/icon_jifen"
+                android:drawableLeft="@mipmap/icon_mychat"
                 />
         </LinearLayout>
         <TextView
@@ -147,12 +149,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我 的 账 号"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/color_white"
-                android:padding="15dp"
+                android:padding="10dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="center_horizontal"
                 android:drawablePadding="@dimen/ten_dip"
-                android:drawableLeft="@mipmap/icon_jifen"
+                android:drawableLeft="@mipmap/icon_my_account"
                 />
         </LinearLayout>
         <TextView
@@ -171,11 +174,12 @@
                 android:layout_height="wrap_content"
                 android:text="设 置 中 心"
                 android:textColor="@color/color_white"
-                android:padding="15dp"
+                android:padding="10dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="center_horizontal"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:drawablePadding="@dimen/ten_dip"
-                android:drawableLeft="@mipmap/icon_jifen"
+                android:drawableLeft="@mipmap/icon_my_setting"
                 />
         </LinearLayout>
         <TextView
@@ -187,7 +191,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="v1.5.4"
+        android:text="v1.5.5"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         android:layout_gravity="bottom|right"

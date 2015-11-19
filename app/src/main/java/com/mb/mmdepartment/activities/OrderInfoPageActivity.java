@@ -56,17 +56,17 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void init(Bundle savedInstanceState) {
-        initview();
-        initdata();
-        setlistener();
+        initView();
+        initData();
+        initListener();
     }
 
-    public void setlistener(){
+    public void initListener(){
         save.setOnClickListener(this);
         list_record_login.setOnClickListener(this);
     }
 
-    public void initview(){
+    public void initView(){
         save = (TextView)findViewById(R.id.save_list);
         buy_list_save_tv = (TextView)findViewById(R.id.buy_list_save_tv);
         buy_list_cost_tv = (TextView)findViewById(R.id.buy_list_cost_tv);
@@ -82,7 +82,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-    private void initdata(){
+    private void initData(){
 //        Intent intent = getIntent();
 //        lists = (List<DataList>)intent.getSerializableExtra("lists");
         lists=TApplication.shop_list_to_pick;
@@ -178,8 +178,9 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
                     }catch (Exception e){
 
                     }
-                    TApplication.shop_list_to_pick.clear();
+                    TApplication.ids.clear();
                     TApplication.shop_lists.clear();
+                    TApplication.shop_list_to_pick.clear();
                     biz.submitorders(list_sub,TAG,this);
                 }
                 break;

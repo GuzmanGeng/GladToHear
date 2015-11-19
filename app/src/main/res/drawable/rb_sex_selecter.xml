@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 选择-聚焦-按下-可用-正常 -->
+    <item android:drawable="@mipmap/sex_check" android:state_checked="true"/>
+    <item android:drawable="@mipmap/sex_nocheck"/>
+
+</selector>

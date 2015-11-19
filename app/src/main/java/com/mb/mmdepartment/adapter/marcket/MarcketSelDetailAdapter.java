@@ -48,12 +48,12 @@ public class MarcketSelDetailAdapter extends RecyclerView.Adapter<MarcketSelDeta
 
         String once_shop = listses.get(position).getOne_shop();
         if (which==0) {
-            String marcket = listses.get(position).getShop_name();
+            String marcket = listses.get(position).getSelect_shop_name();
             holder.marcket_sel_detail_item_marcket_tv.setText(marcket);
             String item=listses.get(position).getItem();
             holder.marcket_sel_detail_item_count_tv.setText(item);
         }else if (which == 1) {
-            String marcket = listses.get(position).getShop_name();
+            String marcket = listses.get(position).getSelect_shop_name();
             holder.marcket_sel_detail_item_marcket_tv.setText(marcket);
         }
         final String url= BaseConsts.BASE_IMAGE_URL+listses.get(position).getPic();
@@ -133,10 +133,13 @@ public class MarcketSelDetailAdapter extends RecyclerView.Adapter<MarcketSelDeta
             marcket_sel_detail_liner = (LinearLayout) itemView.findViewById(R.id.marcket_sel_detail_liner);
             marcket_sel_detail_item_marcket_tv = (TextView) itemView.findViewById(R.id.marcket_sel_detail_item_marcket_tv);
             if (which==2) {
-                marcket_sel_detail_item_marcket_tv.setVisibility(View.INVISIBLE);
-                marcket_sel_detail_item_count_tv.setVisibility(View.GONE);
+                marcket_sel_detail_item_marcket_tv.setVisibility(View.VISIBLE);
             }else if (which == 1) {
                 marcket_sel_detail_item_count_tv.setVisibility(View.GONE);
+                marcket_sel_detail_item_marcket_tv.setVisibility(View.VISIBLE);
+            } else {
+                marcket_sel_detail_item_count_tv.setVisibility(View.GONE);
+                marcket_sel_detail_item_marcket_tv.setVisibility(View.INVISIBLE);
             }
         }
     }

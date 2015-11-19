@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.buyplan.byprice.DataList;
 import com.mb.mmdepartment.bean.marcketseldetail.Lists;
 import com.mb.mmdepartment.constans.BaseConsts;
+import com.mb.mmdepartment.tools.shop_car.ShopCarAtoR;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -58,14 +60,14 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
             title_sel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ShopCarAtoR shop_car = new ShopCarAtoR(activity);
                     count=0;
                     if (sel) {
                         for (int i=0;i<lists.size();i++) {
                             String id = ids[i];
-                            TApplication.ids.remove(id);
-                            TApplication.shop_lists.remove(id);
-
-//                            TApplication.shop_list_car.remove(lists.get(i));
+//                            TApplication.ids.remove(id);
+//                            TApplication.shop_lists.remove(id);
+                            shop_car.remove_cars_index(id);
                         }
                         sel_ids.clear();
                         notifyDataSetChanged();
@@ -75,14 +77,10 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id=ids[i];
                             if (!TApplication.ids.contains(id)) {
-                                TApplication.ids.add(id);
-
-                                TApplication.shop_lists.put(id, lists.get(i));
-
-//                                TApplication.shop_list_car.add(lists.get(i));
-
+//                                TApplication.ids.add(id);
+//                                TApplication.shop_lists.put(id, lists.get(i));
+                                shop_car.add_cars_index(id,lists.get(i).getSelect_shop_name(),lists.get(i));
                                 notifyItemChanged(i);
-                                onBindViewHolder(holder,i);
                             }
                         }
                         title_sel.setImageResource(R.mipmap.marcket_sel);
@@ -108,7 +106,10 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         String item = lists.get(position).getItem();
         //超市名称  此处是留给购物车里显示用的
         String title = lists.get(position).getSelect_shop_name();
-        holder.marcket_sel_detail_item_count_tv.setText(item);
+        if (TextUtils.isEmpty(title)) {
+            title = lists.get(position).getShop_name();
+        }
+        holder.marcket_sel_detail_item_count_tv.setText(item+"件");
         holder.marcket_sel_detail_item_title_tv.setText(name);
         holder.marcket_sel_detail_item_from_tv.setText(activity_info);
         if ("".equals(standard)) {
@@ -120,6 +121,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         holder.marcket_sel_detail_item_del_price_tv.setText(o_price);
         holder.marcket_sel_detail_item_del_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.marcket_sel_detail_item_example_tv.setText(once_shop);
+        holder.marcket_sel_detail_item_marcket_tv.setText(title);
         if (which == 0) {
             holder.marcket_sel_detail_item_marcket_tv.setVisibility(View.INVISIBLE);
             holder.check_single.setVisibility(View.GONE);
@@ -138,8 +140,14 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                 }
 
             } else {
-                String shop_name=lists.get(position).getSelect_shop_name().trim();
-                String pre_shop_name=lists.get(position-1).getSelect_shop_name().trim();
+                String shop_name=lists.get(position).getSelect_shop_name();
+                if (TextUtils.isEmpty(shop_name)) {
+                    shop_name = lists.get(position).getShop_name().trim();
+                }
+                String pre_shop_name=lists.get(position-1).getSelect_shop_name();
+                if (TextUtils.isEmpty(pre_shop_name)) {
+                    pre_shop_name=lists.get(position-1).getShop_name();
+                }
                 if (pre_shop_name.equals(shop_name)) {
                     holder.title.setVisibility(View.GONE);
                     list.add(lists.get(position));
@@ -218,27 +226,29 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
             holder.check_single.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ShopCarAtoR shop = new ShopCarAtoR(activity);
                     if (TApplication.ids.contains(id)) {
-                        TApplication.ids.remove(id);
+//                        TApplication.ids.remove(id);
+//                        TApplication.shop_lists.remove(id);
 
-                        TApplication.shop_lists.remove(id);
-//                        TApplication.shop_list_car.remove(lists.get(position));
+                        shop.remove_cars_index(id);
+
 
                         if (sel_ids.contains(id)) {
                             sel_ids.remove(id);
                         }
-                        Log.e("c===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
                         holder.check_single.setImageResource(R.mipmap.market_unsel);
                         if (sel) {
                             title_sel.setImageResource(R.mipmap.market_unsel);
                             sel = false;
                         }
                     } else {
-                        TApplication.ids.add(id);
-                        TApplication.shop_lists.put(id, lists.get(position));
-//                        TApplication.shop_list_car.add(lists.get(position));
+
+//                        TApplication.ids.add(id);
+//                        TApplication.shop_lists.put(id, lists.get(position));
+                        shop.add_cars_index(id,lists.get(position).getSelect_shop_name(),lists.get(position));
+
                         sel_ids.add(id);
-                        Log.e("d===sel_ids", "size=" + sel_ids.size() + "," + TApplication.ids.size());
                         holder.check_single.setImageResource(R.mipmap.marcket_sel);
                         if (sel_ids.size() == lists.size()) {
                             title_sel.setImageResource(R.mipmap.marcket_sel);
@@ -256,7 +266,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("lists", lists.get(position));
                 intent.putExtra("bundle", bundle);
-                activity.startActivityForResult(intent,300);
+                activity.startActivity(intent);
 
             }
         });

@@ -30,7 +30,6 @@ public class User implements Serializable {
     private String income_range;
     /** 性别 */
     private String gender;
-
     private String ctime;
     private String last_login_time;
     private String last_login_ip;

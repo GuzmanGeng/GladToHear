@@ -123,7 +123,6 @@ public class BrandSelFragment extends Fragment implements RequestListener,GoodsL
                         for (Type type : root.getData().getTypes()) {
                                 types.add(type);
                             }
-                        Log.i("infosssss", lists.size() + "");
                         titles = new ArrayList<>();
                         for (int i = 0; i < types.size(); i++) {
                             titles.add(types.get(i).getSmall_category());

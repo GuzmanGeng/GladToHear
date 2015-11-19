@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.adapter.buyplan.ShoppingCartAdapter;
 import com.mb.mmdepartment.adapter.proposedproject.ProposedProjectInnerAdapter;
@@ -32,6 +35,7 @@ public class ShoppingCartPageActivity extends BaseActivity{
     private List<Lists> shopping_car_order;//排序的购物车
     private RecyclerView shop_car_recycle;
     private ProposedProjectInnerAdapter inner_adapter;
+    private TextView back_to_main;
 
     @Override
     public int getLayout() {
@@ -74,38 +78,21 @@ public class ShoppingCartPageActivity extends BaseActivity{
     }
 
     private void initView() {
-//        Intent intent = getIntent();
-//        shopping_cart_ell = (ExpandableListView)findViewById(R.id.shopping_cart_ell);
-//        shopping_cart_ell.setGroupIndicator(null);
-//        SwipeMenuCreator creator = new SwipeMenuCreator() {
-//            @Override
-//            public void create(SwipeMenu menu) {
-//                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-//                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-//                        0x3F, 0x25)));
-//                deleteItem.setWidth(shopping_cart_ell.dp2px(90));
-//                deleteItem.setTitle("删除");
-//                deleteItem.setTitleSize(18);
-//                deleteItem.setTitleColor(Color.WHITE);
-//                menu.addMenuItem(deleteItem);
-//            }
-//        };
-//        shopping_cart_ell.setMenuCreator(creator);
         shop_car_recycle = (RecyclerView) findViewById(R.id.shop_car_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         shop_car_recycle.setLayoutManager(manager);
+        inner_adapter = new ProposedProjectInnerAdapter(shopping_car_order, 0, null, null, null,this);
         shop_car_recycle.setAdapter(inner_adapter);
+        back_to_main = (TextView) findViewById(R.id.back_to_main);
+
+        if (shopping_car_order.size() == 0) {
+            shop_car_recycle.setVisibility(View.GONE);
+        } else {
+            shop_car_recycle.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initData() {
-//        adapter = new ShoppingCartAdapter(ShoppingCartPageActivity.this,TApplication.shop_list_to_pick);
-////        SwipeMenuAdapter swipeMenuAdapter = new SwipeMenuAdapter(ShoppingCartPageActivity.this,adapter);
-////        shopping_cart_ell.setAdapter(swipeMenuAdapter);
-//        shopping_cart_ell.setAdapter(adapter);
-//        for(int i = 0;i<groups.size();i++){
-//            if(!shopping_cart_ell.expandGroup(i))
-//            shopping_cart_ell.expandGroup(i);
-//        }
         shopping_car = new ArrayList<>();
         shopping_car_order = new ArrayList<>();
         for (String key:TApplication.shop_lists.keySet()) {
@@ -114,17 +101,36 @@ public class ShoppingCartPageActivity extends BaseActivity{
         for (int i=0;i<TApplication.ids.size();i++) {
             if (shopping_car.size() > 0) {
                 String name = shopping_car.get(0).getSelect_shop_name();
+                if (TextUtils.isEmpty(name)) {
+                    name=shopping_car.get(0).getShop_name();
+                }
                 Lists remove_first = shopping_car.remove(0);
                 shopping_car_order.add(remove_first);
                 for (int j = 0; j < shopping_car.size(); j++) {
-                    if (name.equals(shopping_car.get(j).getSelect_shop_name())) {
+                    String shop_name=shopping_car.get(j).getSelect_shop_name();
+                    if (TextUtils.isEmpty(shop_name)) {
+                        shop_name = shopping_car.get(j).getShop_name();
+                    }
+                    if (name.equals(shop_name)) {
                         Lists remove = shopping_car.remove(j);
                         shopping_car_order.add(remove);
                     }
                 }
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initData();
         inner_adapter = new ProposedProjectInnerAdapter(shopping_car_order, 0, null, null, null,this);
+        shop_car_recycle.setAdapter(inner_adapter);
+        if (shopping_car_order.size() == 0) {
+            shop_car_recycle.setVisibility(View.GONE);
+        } else {
+            shop_car_recycle.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -144,19 +150,18 @@ public class ShoppingCartPageActivity extends BaseActivity{
                 Intent intent = new Intent(ShoppingCartPageActivity.this,OrderInfoPageActivity.class);
                 intent.putExtra("tag",ShoppingCartPageActivity.class.getSimpleName());
 //                intent.putExtra("lists",(ArrayList)groups);
-                startActivityForResult(intent,0);
+                startActivity(intent);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
     private void setListener(){
-
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        back_to_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ShoppingCartPageActivity.this, MainActivity.class);
+            }
+        });
     }
 }

@@ -181,4 +181,52 @@ public class CatlogConsts {
         public static final String params_class = "addsearchkeyword";
         public static final String params_sign = "022d5b89cd554dffcc0d27b56f7f8f4a";
     }
+    /**
+     * 获取我的评论信息
+     */
+    public class MainMyChat{
+        public static final String params_app = "comment";
+        public static final String params_class = "getcommentforme";
+        public static final String params_sign = "b23bede7439cb433491e83a719e75d70";
+    }
+    /**
+     * 获取我的回复
+     */
+    public class MainMyReplay{
+        public static final String params_app = "comment";
+        public static final String params_class = "getcommentaboutme";
+        public static final String params_sign = "1d278fddb34b12663e4b91690eef04dc";
+    }
+    /**
+     * 意见反馈
+     */
+    public class FeedBack{
+        public static final String params_app = "feedback";
+        public static final String params_class = "addfeedback";
+        public static final String params_sign = "3d63d9dcf90e8a89e350ef9a0cecd8cd";
+    }
+    /**
+     * 头像上传
+     */
+    public class ReloadPhoto{
+        public static final String params_app = "cas";
+        public static final String params_class = "updateuserheadpic";
+        public static final String params_sign = "92a6cb45afef88007742be1d2ea82804";
+    }
+    /**
+     * 积分查询
+     */
+    public class ScoreSearch{
+        public static final String params_app = "cas";
+        public static final String params_class = "integral";
+        public static final String params_sign = "e9ee44230247679934b96016cbe81acc";
+    }
+    /**
+     * 版本更新
+     */
+    public class RefereshUpdate{
+        public static final String params_app = "system";
+        public static final String params_class = "getversion";
+        public static final String params_sign = "090ed9f4dafa9cac13eace31574c3d90";
+    }
 }

@@ -134,8 +134,6 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
      * 初始化view
      */
     private void initView() {
-        mc = new MyCount(60000,1000);
-        mc.start();
         ed_username = (EditText) findViewById(R.id.regist_username_ed);
         ed_password = (EditText) findViewById(R.id.regist_password_ed);
         ed_password_again = (EditText) findViewById(R.id.regist_again_password_ed);
@@ -246,11 +244,23 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
                     SPCache.putString(BaseConsts.SharePreference.USER_TOKEN,roots.getData().getPassword());
                     SPCache.putString(BaseConsts.SharePreference.USER_ID, roots.getData().getUserid());
                     SPCache.putString(BaseConsts.SharePreference.USER_NAME, roots.getData().getUsername());
+                    SPCache.putString(BaseConsts.SharePreference.USER_PASS, password);
                     TApplication.user_id =roots.getData().getUserid();
                     TApplication.user_name=roots.getData().getUsername();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast("注册成功");
+                        }
+                    });
                     finish();
                 }else{
-                    showToast("注册失败，服务器在维护，请稍后尝试。");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast("用户名或手机号码已被注册.");
+                        }
+                    });
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -260,7 +270,12 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
 
     @Override
     public void onFailueRequess(Request request, IOException e) {
-        showToast("网络链接异常");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast("网络链接异常");
+            }
+        });
     }
 
     /**
@@ -283,9 +298,20 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
                 String json=response.body().string();
                 Root root = gson.fromJson(json, Root.class);
                 if (root.getStatus()!= OkHttp.NET_STATE){
-                    showToast("验证码获取失败");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast("验证码获取失败");
+                        }
+                    });
+
                 }else {
-                    showToast("验证码已发送,请注意查收");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast("验证码已发送,请注意查收");
+                        }
+                    });
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -306,6 +332,8 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
                 if (!checkPhone(phone_number)) return;
                 GetCodeBiz biz=new GetCodeBiz();
                 biz.getCode(phone_number,RegistActivity.this);
+                mc = new MyCount(60000,1000);
+                mc.start();
                 break;
             case R.id.regist_regist_tv:
                 username=ed_username.getText().toString().trim();
@@ -313,10 +341,12 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
                 final String again_pass=ed_password_again.getText().toString().trim();
                 final String tel_num=ed_phone_number.getText().toString().trim();
                 final String code=ed_code.getText().toString().trim();
-                if (checkUserState(username,password,again_pass,tel_num,code)){
-                    dialog.show();
-                    RegistBiz registBiz=new RegistBiz();
-                    registBiz.regist(username,password,again_pass,tel_num,code,this);
+                if (checkUserState(username,password,again_pass,tel_num,code)) {
+                    if (dialog != null) {
+                        dialog.show();
+                    }
+                    RegistBiz registBiz = new RegistBiz();
+                    registBiz.regist(username, password, again_pass, tel_num, code, this);
                 }
                 break;
         }
@@ -366,7 +396,6 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
 
         public MyCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
-            System.out.println("你好");
         }
         @Override
         public void onTick(long millisUntilFinished) {
@@ -386,6 +415,8 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mc.cancel();
+        if (mc != null) {
+            mc.cancel();
+        }
     }
 }

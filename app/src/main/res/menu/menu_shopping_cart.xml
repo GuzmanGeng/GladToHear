@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.yieryi.gladtohear.activities.ShoppingCartActivity">
-    <item android:id="@+id/goods_shopping_cart" android:title="生成清单"
-
+    <item android:id="@+id/goods_shopping_cart"
+        android:icon="@mipmap/catlog_sel_buy"
         android:orderInCategory="103" app:showAsAction="always" />
 </menu>

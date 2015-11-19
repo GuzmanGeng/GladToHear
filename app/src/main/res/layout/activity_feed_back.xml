@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EBEBEB"
+    tools:context="com.mb.mmdepartment.activities.FeedBackActivity">
+    <include layout="@layout/toolbar" />
+    <EditText
+        android:id="@+id/ed_feed_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="8"
+        android:layout_margin="10dp"
+        android:maxLines="8"
+        android:background="@color/color_white"
+        android:hint="请输入您宝贵的意见"
+        android:gravity="top"
+        android:padding="10dp"
+        android:lineSpacingExtra="4dp"
+        />
+    <TextView
+        android:id="@+id/tv_feed_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/color_white"
+        android:text="提交"
+        android:layout_margin="10dp"
+        android:background="@drawable/cicle_back_login_tv"
+        />
+</LinearLayout>

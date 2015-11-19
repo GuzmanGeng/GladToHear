@@ -130,5 +130,24 @@
     <string name="history_search">历史搜索</string>
     <string name="please_input_city_name">请输入城市名称</string>
     <string name="title_activity_proposed_project">ProposedProjectActivity</string>
+    <string name="title_activity_my_chat">MyChatActivity</string>
+    <string name="title_activity_my_score">MyScoreActivity</string>
+    <string name="title_activity_my_setting">MySettingActivity</string>
+    <string name="title_activity_feed_back">FeedBackActivity</string>
+    <string name="title_activity_contact_us">ContactUsActivity</string>
+    <string name="my_detil">个人信息</string>
+    <string name="edit_password">密码修改</string>
+    <string name="bond_account">退出登录</string>
+    <string name="title_activity_about_app">AboutAppActivity</string>
+    <string name="title_activity_help_center">HelpCenterActivity</string>
+    <string name="title_activity_my_account_detail">MyAccountDetailActivity</string>
+    <string name="input_nickname">请输入昵称</string>
+    <string name="unbind">解除绑定</string>
+    <string name="mydetils">个人简介:</string>
+    <string name="input_summer">请输入简介</string>
+    <string name="setup">设置</string>
+    <string name="btn_photo_take">相册</string>
+    <string name="btn_photo_select">拍照</string>
+    <string name="cancle">取消</string>
 
 </resources>

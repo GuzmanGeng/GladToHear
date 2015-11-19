@@ -12,6 +12,7 @@ import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.login.getstartpic.Root;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.biz.login.LoginBiz;
 import com.mb.mmdepartment.biz.login.getpic.GetPic;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.mb.mmdepartment.listener.RequestListener;
@@ -29,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class SplashActivity extends BaseActivity {
     private final String TAG= SplashActivity.class.getSimpleName();
@@ -132,6 +135,8 @@ public class SplashActivity extends BaseActivity {
                     String provience = SPCache.getString("provience","");
                     TApplication.user_id = SPCache.getString(BaseConsts.SharePreference.USER_ID,"");
                     TApplication.user_name = SPCache.getString(BaseConsts.SharePreference.USER_NAME, "");
+                    TApplication.integral = SPCache.getString(BaseConsts.SharePreference.USER_SCORE, "");
+                    TApplication.user_avatar = SPCache.getString(BaseConsts.SharePreference.USER_LITTLE_IMAGE, "");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -140,11 +145,11 @@ public class SplashActivity extends BaseActivity {
                             }
                         }
                     });
+
                     if (provience == null || "".equals(provience)) {
                         startActivity(SplashActivity.this, WelcomActivity.class);
                         finish();
                     } else {
-                        Log.e("aaaaaaaaaaaaaa", provience);
                         startActivity(SplashActivity.this, MainActivity.class, "provience", provience);
                         finish();
                     }

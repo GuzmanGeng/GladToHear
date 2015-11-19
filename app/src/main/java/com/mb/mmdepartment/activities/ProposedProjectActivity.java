@@ -58,10 +58,10 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
         tv_backgrounds[0]=buy_plan_price;
         tv_backgrounds[1]=buy_plan_discount;
         tv_backgrounds[2]=buy_plan_percent;
-        setState(0,1,2);
+        setState(0, 1, 2);
         help_you_calculate_goods_detail_ll = findViewById(R.id.help_you_calculate_goods_detail_ll);
         biz = new SortBiz(this, buy_list_recycle, which,circle,this);
-        biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id","50")),1);
+        biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
     }
 
     @Override
@@ -71,17 +71,14 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 300) {
-                if (state[whichSel] == 0) {
-                    biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), whichSel + 1);
-                } else {
-                    biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), whichSel + 1);
-                }
-            }
+    protected void onRestart() {
+        super.onRestart();
+        if (state[whichSel] == 0) {
+            biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), whichSel + 1);
+        } else {
+            biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), whichSel + 1);
         }
+        circle.setText(TApplication.ids.size()+"");
     }
 
     @Override

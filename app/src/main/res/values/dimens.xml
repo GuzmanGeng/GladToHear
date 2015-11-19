@@ -23,4 +23,5 @@
     <dimen name="twenty_sp">20sp</dimen>
     <dimen name="forty_eight_sp">48sp</dimen>
     <dimen name="fab_margin">48dp</dimen>
+    <dimen name="shadow_width">13dp</dimen>
 </resources>

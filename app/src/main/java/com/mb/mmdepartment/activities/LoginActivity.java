@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //    private SsoHandler blogSsoHandler;
 //
 //    private AuthInfo blogAuthInfo;
-
+    private CheckBox add_to_local;
     String phone_number,password;
     private Toolbar toolbar;
     private final String TAG=LoginActivity.class.getSimpleName();
@@ -150,19 +151,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //        blogAuthInfo = new AuthInfo(this, LoginConsts.Account.SinaLogin.APP_KEY_FOR_BLOG,
 //                LoginConsts.Account.SinaLogin.REDIRECT_URL, LoginConsts.Account.SinaLogin.SCOPE);
 //        blogSsoHandler = new SsoHandler(LoginActivity.this, blogAuthInfo);
-        login_ed_phone=(EditText)findViewById(R.id.login_ed_phone);
-        login_ed_pass=(EditText)findViewById(R.id.login_ed_pass);
-        login_tv_login=(TextView)findViewById(R.id.login_tv_login);
-        login_tv_forget_pass=(TextView)findViewById(R.id.login_tv_forget_pass);
-        login_tv_regist=(TextView)findViewById(R.id.login_tv_regist);
-        login_tv_qq=(TextView)findViewById(R.id.login_tv_qq);
-        login_tv_weixin=(TextView)findViewById(R.id.login_tv_weixin);
-        login_tv_sina=(TextView)findViewById(R.id.login_tv_sina);
+        add_to_local = (CheckBox) findViewById(R.id.add_to_local);
+        login_ed_phone = (EditText) findViewById(R.id.login_ed_phone);
+        login_ed_pass = (EditText) findViewById(R.id.login_ed_pass);
+        if (!"".equals(SPCache.getString(BaseConsts.SharePreference.USER_NAME, ""))) {
+            login_ed_phone.setText(SPCache.getString(BaseConsts.SharePreference.USER_NAME, ""));
+        }
+        if (!"".equals(SPCache.getString(BaseConsts.SharePreference.USER_PASS, ""))) {
+            login_ed_pass.setText(SPCache.getString(BaseConsts.SharePreference.USER_PASS, ""));
+        }
+        login_tv_login = (TextView) findViewById(R.id.login_tv_login);
+        login_tv_forget_pass = (TextView) findViewById(R.id.login_tv_forget_pass);
+        login_tv_regist = (TextView) findViewById(R.id.login_tv_regist);
+        login_tv_qq = (TextView) findViewById(R.id.login_tv_qq);
+        login_tv_weixin = (TextView) findViewById(R.id.login_tv_weixin);
+        login_tv_sina = (TextView) findViewById(R.id.login_tv_sina);
         login_tv_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
         login_tv_regist.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mTencent = Tencent.createInstance(LoginConsts.Account.QQLogin.QQ_APP_KEY, this);
         regToWx();
-        listener=new MyIUListener();
+        listener = new MyIUListener();
+
+        String isSel = SPCache.getString("joy_one2one_user_issel", "false");
+        if ("true".equals(isSel)) {
+            String user_name = SPCache.getString("joy_one2one_user_name", "wwww11110e");
+            String pass_word = SPCache.getString("joy_one2one_user_pass", "123456");
+            login_ed_phone.setText(user_name);
+            login_ed_pass.setText(pass_word);
+            add_to_local.setSelected(true);
+        } else {
+            add_to_local.setSelected(false);
+        }
     }
 
     @Override
@@ -194,6 +213,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 switch (foxMessage()){
                     case 0:
+                        if (add_to_local.isSelected()) {
+                            SPCache.putString("joy_one2one_user_name", phone_number);
+                            SPCache.putString("joy_one2one_user_pass", password);
+                            SPCache.putString("joy_one2one_user_issel", "true");
+                        } else {
+                            SPCache.putString("joy_one2one_user_name", "");
+                            SPCache.putString("joy_one2one_user_pass", "");
+                            SPCache.putString("joy_one2one_user_issel", "false");
+                        }
                         LoginBiz biz=new LoginBiz();
                         biz.login(phone_number,password,JPushInterface.getRegistrationID(this),this);
                         break;
@@ -309,17 +337,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                  if (root.getStatus()==OkHttp.NET_STATE) {
                      SPCache.putString(BaseConsts.SharePreference.USER_ID, root.getData().getUserid());
                      SPCache.putString(BaseConsts.SharePreference.USER_NAME, root.getData().getUsername());
+                     SPCache.putString(BaseConsts.SharePreference.USER_PASS,password);
+                     SPCache.putString(BaseConsts.SharePreference.USER_SCORE, root.getData().getIntegral());
+                     SPCache.putString(BaseConsts.SharePreference.USER_LITTLE_IMAGE, root.getData().getAvatar());
                      TApplication.user_id =root.getData().getUserid();
                      TApplication.user_name=root.getData().getUsername();
+                     TApplication.integral = root.getData().getIntegral();
+                     TApplication.user_avatar = root.getData().getAvatar();
                      TApplication.device_no=root.getData().getDevice_no();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (login) {
+                            if (!login) {
                                 setResult(RESULT_OK);
                                 finish();
                             }else {
-                                startActivity(LoginActivity.this, MainPageActivity.class);
+                                startActivity(LoginActivity.this, MainActivity.class);
                                 finish();
                             }
                         }
@@ -378,12 +411,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 public void onComplete(Object o) {
                     try {
                         username = new JSONObject(o.toString()).getString("nickname");
-                        Log.i("login", new JSONObject(o.toString()).toString());
                         Message msg = new Message();
                         msg.what = 0;
                         msg.obj = type;
                         handlerInstance.sendMessage(msg);
-                        Toast.makeText(LoginActivity.this,"username"+username,Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -463,7 +494,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      * @param token
      * @param userName
      */
-    private void handleLogin(final String token, String userName) {
+    private void handleLogin(final String token, final String userName) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("username", userName);
@@ -493,18 +524,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 Root root = gson.fromJson(json,Root.class);
                                 if(root.getStatus()==0){
                                     User user = new User();
-                                    user.setNickname(root.getData().getUsername());
+                                    user.setUsername(root.getData().getUsername());
                                     user.setUserid(root.getData().getUserid());
+                                    user.setIntegral(root.getData().getIntegral());
                                     TApplication.user = user;
                                     TApplication.user_id = user.getUserid();
-                                    TApplication.user_name = user.getNickname();
+                                    TApplication.user_name = user.getUsername();
+                                    TApplication.integral=user.getIntegral();
                                     TApplication.device_no = root.getData().getDevice_no();
                                  }
                             }catch (Exception e){
 
                             }
                             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(LoginActivity.this,MainPageActivity.class);
+                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();
                         }

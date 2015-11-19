@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.mb.mmdepartment.activities.HelpCenterActivity">
+    <include layout="@layout/toolbar" />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:text="1. 尊重网上道德,遵守《互联网电子公告服务管理规定》、《互联网信息服务管理办法》、《信息网络传播权保护条例》及中华人民共和国其他各项有关法律法规。\n
+
+2. 通过注册，成为喜闻乐评的会员,完善个人信息后，可获取更大的权限和功能。 \n
+
+3. 会员的个人隐私受到论坛保护,除非重大原因事故,论坛不接受任何个人或单位 查询他人的个人隐私,政府部门因法律需要除外。 \n
+
+4. 会员发表的文章或图片仅代表作者本人观点,与论坛立场无关。作者文责自负。 \n
+
+5. 喜闻乐评有权将会员在本论坛发表的文章或图片用于其他用途,包括网站、电子杂志等,文章有附带版权声明者除。\n
+
+6. 喜闻乐评网络信息服务平台作为一项免费提供的网络信息服务,站方并未对论坛内的交易行为(包括但不限于自发团购、异地汇款、代购、合买等)进行审核,相应的交易风险由买卖双方各自承担。\n
+
+7. 用户承诺上传、发布的文字、图片等相关内容不侵犯第三方的权益,包括但不限于隐私权、肖像权、名誉权、知识产权等。 \n
+
+8. 平台管理员所制定的一切规则均不得与总则相抵触,喜闻乐评保留所有规则解释、修改的权利。"
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

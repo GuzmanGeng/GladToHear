@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.bean.setting.UserPassChangeRoot;
 import com.mb.mmdepartment.biz.password.ChangePswBiz;
 import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.tools.log.Log;
@@ -87,16 +89,25 @@ public class ModifyPasswordPageActivity extends BaseActivity {
                             public void onResponse(Response response) {
                                 if(response.isSuccessful()){
                                     try {
+                                        Gson gson = new Gson();
                                         String json = response.body().string();
-                                        Log.i("json",json);
-//                                        if(json)
+                                        UserPassChangeRoot root = gson.fromJson(json, UserPassChangeRoot.class);
+                                        if (root.getStatus()==0) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    showToast("修改成功");
+                                                    ModifyPasswordPageActivity.this.finish();
+                                                }
+                                            });
+                                        }
                                     }catch (Exception e){}
                                 }
                             }
 
                             @Override
                             public void onFailue(Request request, IOException e) {
-                                e.printStackTrace();
+
                             }
                         });
             }

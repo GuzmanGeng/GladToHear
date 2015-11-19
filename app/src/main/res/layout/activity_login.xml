@@ -22,6 +22,7 @@
             android:background="@drawable/cicle_back_login"
             android:hint="请输入手机号"
             android:padding="10dp"
+            android:textSize="14sp"
             android:singleLine="true"
             android:textColor="@color/text_half_black_color"
             android:textColorHint="@color/text_little_black_color" />
@@ -31,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:textSize="14sp"
             android:layout_marginTop="10dp"
             android:background="@drawable/cicle_back_login"
             android:hint="请输入密码"
@@ -49,8 +51,16 @@
             android:background="@drawable/cicle_back_login_tv"
             android:gravity="center"
             android:padding="10dp"
+            android:textColor="@color/color_white"
             android:text="登录" />
-
+        <CheckBox
+            android:id="@+id/add_to_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="记住密码"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/theme_color"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,14 +74,14 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="忘记密码 ?"
-                android:textColor="@color/text_black_color"
+                android:textColor="@color/theme_color"
                 android:textSize="@dimen/sixteen_dip" />
 
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/text_half_black_color" />
+                android:background="@color/theme_color" />
 
             <TextView
                 android:id="@+id/login_tv_regist"
@@ -79,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="注册账户"
-                android:textColor="@color/text_black_color"
+                android:textColor="@android:color/holo_green_light"
                 android:textSize="@dimen/sixteen_dip" />
         </LinearLayout>
 
@@ -98,7 +108,7 @@
                 android:drawableTop="@mipmap/qq"
                 android:gravity="center"
                 android:text="QQ"
-                android:textColor="@color/text_black_color" />
+                android:textColor="@color/color_gray" />
 
             <TextView
                 android:id="@+id/login_tv_weixin"
@@ -111,7 +121,7 @@
                 android:drawableTop="@mipmap/weixin"
                 android:gravity="center"
                 android:text="微信"
-                android:textColor="@color/text_black_color" />
+                android:textColor="@color/color_gray" />
 
             <TextView
                 android:id="@+id/login_tv_sina"
@@ -122,7 +132,7 @@
                 android:drawableTop="@mipmap/sina"
                 android:gravity="center"
                 android:text="新浪"
-                android:textColor="@color/text_black_color" />
+                android:textColor="@color/color_gray" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

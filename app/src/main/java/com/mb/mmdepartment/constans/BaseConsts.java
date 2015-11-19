@@ -50,7 +50,8 @@ public class BaseConsts {
         public static final String IS_FIRST_INTO = "is_first_into";
         public static final String USER_TOKEN = "user_token";
         public static final String USER_ID = "user_id";
-        public static final String USER_NAME = "user_name";
+        public static final String USER_NAME = "joy_one2one_user_name";
+        public static final String USER_PASS = "joy_one2one_user_pass";
         public static final String USER_SCORE = "user_score";
         public static final String USER_LITTLE_IMAGE = "user_little_image";
         public static final String NICK_NAME = "nick_name";
