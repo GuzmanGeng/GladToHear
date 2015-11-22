@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mb.mmdepartment"
     android:versionCode="154"
-    android:versionName="v1.5.4" >
+    android:versionName="v1.5.4">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -243,9 +243,12 @@
             android:theme="@style/Theme.UMDialog"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
+        <!--<meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="cb8c245ea42f7b29c968bd2426b69d74" />-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="cb8c245ea42f7b29c968bd2426b69d74" />
+            android:value="20d3f0c201dae504ebdd203bde111b00" />
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"

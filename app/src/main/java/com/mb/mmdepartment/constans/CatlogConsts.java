@@ -144,6 +144,14 @@ public class CatlogConsts {
         public static final String params_sign = "e9d1ce83c2c6b1ecc74f0b0212145f96";
     }
     /**
+     * 添加评论
+     */
+    public class AddComment{
+        public static final String params_app = "comment";
+        public static final String params_class = "addcomment";
+        public static final String params_sign = "87bc68824af863d478e34d5845dfeb05";
+    }
+    /**
      * 购买方案
      */
     public class SortPlan{
@@ -228,5 +236,21 @@ public class CatlogConsts {
         public static final String params_app = "system";
         public static final String params_class = "getversion";
         public static final String params_sign = "090ed9f4dafa9cac13eace31574c3d90";
+    }
+    /**
+     * 城市区域
+     */
+    public class Areas{
+        public static final String params_app = "shop";
+        public static final String params_class = "getcityarea";
+        public static final String params_sign = "989a67e9fefc710f849a5b418eb6da7f";
+    }
+    /**
+     * 附近超市
+     */
+    public class AreasList{
+        public static final String params_app = "shop";
+        public static final String params_class = "getnearbyshop";
+        public static final String params_sign = "49613c70b2114e25e2c850b77d5e8a85";
     }
 }

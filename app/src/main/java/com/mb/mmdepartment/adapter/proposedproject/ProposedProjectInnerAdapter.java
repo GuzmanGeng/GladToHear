@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +64,6 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                     if (sel) {
                         for (int i=0;i<lists.size();i++) {
                             String id = ids[i];
-//                            TApplication.ids.remove(id);
-//                            TApplication.shop_lists.remove(id);
                             shop_car.remove_cars_index(id);
                         }
                         sel_ids.clear();
@@ -77,8 +74,6 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id=ids[i];
                             if (!TApplication.ids.contains(id)) {
-//                                TApplication.ids.add(id);
-//                                TApplication.shop_lists.put(id, lists.get(i));
                                 shop_car.add_cars_index(id,lists.get(i).getSelect_shop_name(),lists.get(i));
                                 notifyItemChanged(i);
                             }

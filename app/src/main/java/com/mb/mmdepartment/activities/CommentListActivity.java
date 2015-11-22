@@ -75,10 +75,10 @@ public class CommentListActivity extends BaseActivity implements MakeCommentList
             }
             if (!TextUtils.isEmpty(TApplication.user_id)) {
                 dialog.show();
-                commentListBiz.getCommentList("4368",TApplication.user_id,1,TAG,this);
+                commentListBiz.getCommentList(content_id,TApplication.user_id,0,TAG,this);
             }else {
                 dialog.show();
-                commentListBiz.getCommentList("4368","0",1,TAG,this);
+                commentListBiz.getCommentList(content_id,"0",0,TAG,this);
             }
         }else {
             showToast("网络无连接");

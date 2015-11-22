@@ -55,7 +55,9 @@ public class BaseConsts {
         public static final String USER_SCORE = "user_score";
         public static final String USER_LITTLE_IMAGE = "user_little_image";
         public static final String NICK_NAME = "nick_name";
-        public static final String USER_USERSTATUS = "user_userstatus";
+        //定位信息
+        public static final String MAP_LOCATION = "map_location";
+        public static final String MAP_ADDRESS = "map_address";
 
     }
 

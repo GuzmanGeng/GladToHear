@@ -29,6 +29,7 @@ import com.mb.mmdepartment.bean.referesh.RefereshRoot;
 import com.mb.mmdepartment.biz.referesh.RefereshBiz;
 import com.mb.mmdepartment.fragment.main.MainFragment;
 import com.mb.mmdepartment.listener.RequestListener;
+import com.mb.mmdepartment.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -51,7 +52,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private SlidingMenu slidingMenu;
     private TextView tv_userName;
     private TextView tv_score;
-    private ImageView iv_hearder_default;
+    private CircleImageView iv_hearder_default;
     private String net_verson_code;
     private Handler handler=new Handler(){
         @Override
@@ -124,7 +125,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initSlideMenuView(view);
         tv_userName= (TextView)view.findViewById(R.id.user_center_login_username);
         tv_score=(TextView)view.findViewById(R.id.user_center_regist_score);
-        iv_hearder_default = (ImageView) view.findViewById(R.id.headImageView);
+        iv_hearder_default = (CircleImageView) view.findViewById(R.id.headImageView);
         if (!TextUtils.isEmpty(TApplication.user_id)) {
             tv_score.setClickable(false);
             String score = TApplication.integral;

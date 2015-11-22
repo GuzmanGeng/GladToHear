@@ -25,10 +25,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.bean.comment.CommentBackRoot;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.biz.comment.CommentBiz;
 import com.mb.mmdepartment.biz.maininformation.IInfomationRecordBiz.InformationRecordBiz;
 import com.mb.mmdepartment.constans.BaseConsts;
+import com.mb.mmdepartment.constans.CatlogConsts;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.Tools;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -143,10 +146,10 @@ public class InformationDetailActivity extends BaseActivity implements RequestLi
 
                     if (TApplication.user_id == null||TextUtils.isEmpty(TApplication.user_id)) {
                         informationDetailBiz.getDetailInformation(content_id, "0", JPushInterface.getRegistrationID(this), TAG, this);
-                        commentListBiz.getCommentList(content_id, "0", 1, TAG, this);
+                        commentListBiz.getCommentList(content_id, "0", 0, TAG, this);
                     }else {
                         informationDetailBiz.getDetailInformation(content_id,TApplication.user_id, JPushInterface.getRegistrationID(this),TAG,this);
-                        commentListBiz.getCommentList(content_id, TApplication.user_id, 1, TAG, this);
+                        commentListBiz.getCommentList(content_id, TApplication.user_id, 0, TAG, this);
                     }
 
                 }
@@ -217,31 +220,37 @@ public class InformationDetailActivity extends BaseActivity implements RequestLi
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TApplication.user != null || TApplication.user_id != null){
+                if (TApplication.user != null || TApplication.user_id != null) {
                     String comment_et_text = comment_et.getText().toString();
-                    if(comment_et_text==null){
-                        AlertDialog dialog = new AlertDialog.Builder(InformationDetailActivity.this).create();
+                    if (TextUtils.isEmpty(comment_et_text)) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(InformationDetailActivity.this);
                         dialog.setTitle("提示");
                         dialog.setMessage("请输入评论内容");
                         dialog.show();
                         return;
-                    }else {
+                    } else {
                         commentBiz = new CommentBiz();
-                        commentBiz.sendcomment(content_id,comment_et_text,TAG,new RequestListener(){
+                        commentBiz.sendcomment(content_id, comment_et_text, TAG, new RequestListener() {
                             @Override
                             public void onResponse(Response response) {
-                                Log.i("i", "评论成功");
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     Gson gson = new Gson();
                                     try {
                                         String json = response.body().string();
-//                                        Root
-                                    }catch (Exception e){
+                                        CommentBackRoot root = gson.fromJson(json, CommentBackRoot.class);
+                                        if (root.getStatus()==0) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    CustomToast.show(InformationDetailActivity.this, "提示", "评论成功");
+                                                }
+                                            });
+                                        }
+                                    } catch (Exception e) {
 
                                     }
 
                                 }
-                                commentListBiz.getCommentList(content_id,TApplication.user_id,1,TAG,InformationDetailActivity.this);
                             }
 
                             @Override
@@ -250,6 +259,8 @@ public class InformationDetailActivity extends BaseActivity implements RequestLi
                             }
                         });
                     }
+                }else {
+                    startActivity(InformationDetailActivity.this, LoginActivity.class);
                 }
             }
         });

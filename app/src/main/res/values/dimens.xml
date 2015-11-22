@@ -24,4 +24,12 @@
     <dimen name="forty_eight_sp">48sp</dimen>
     <dimen name="fab_margin">48dp</dimen>
     <dimen name="shadow_width">13dp</dimen>
+
+    <dimen name="toast_l_r">45px</dimen>
+    <dimen name="text_size_40">40px</dimen>
+    <dimen name="margin_top_32">32px</dimen>
+    <dimen name="text_size_22">22px</dimen>
+    <dimen name="margin_top_25">25px</dimen>
+    <dimen name="toast_w">490px</dimen>
+
 </resources>

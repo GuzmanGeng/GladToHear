@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/toast_w"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:alpha="204"
+    android:background="@drawable/toast_bg" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/toast_l_r"
+        android:layout_marginRight="@dimen/toast_l_r"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/text_style_big_40"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_top_32"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/tip_title"
+            android:textColor="@android:color/holo_green_light" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/text_style_small_22"
+            android:layout_below="@+id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_top_25"
+            android:layout_marginTop="@dimen/margin_top_25"
+            android:gravity="center"
+            android:text="请输入提示的内容"
+            android:textColor="@color/color_white" />
+    </RelativeLayout>
+
+</LinearLayout>

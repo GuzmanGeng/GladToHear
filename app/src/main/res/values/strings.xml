@@ -149,5 +149,6 @@
     <string name="btn_photo_take">相册</string>
     <string name="btn_photo_select">拍照</string>
     <string name="cancle">取消</string>
+    <string name="tip_title">提示</string>
 
 </resources>

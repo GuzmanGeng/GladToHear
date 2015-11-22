@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-50dip" >
 
-            <ImageView
+            <com.mb.mmdepartment.view.CircleImageView
                 android:id="@+id/headImageView"
                 android:layout_width="100dip"
                 android:layout_height="100dip"

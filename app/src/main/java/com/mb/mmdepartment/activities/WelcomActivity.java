@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.constans.BaseConsts;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -329,6 +330,8 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
     @Override
     public void onSuccess(AMapLocation aMapLocation) {
         provience = aMapLocation.getProvince();
+        SPCache.putString(BaseConsts.SharePreference.MAP_LOCATION, aMapLocation.getLongitude() + "," + aMapLocation.getLatitude());
+        SPCache.putString(BaseConsts.SharePreference.MAP_ADDRESS,aMapLocation.getAddress());
         if (provience == null || "".equals(provience)) {
             stopLocation();
             provience = "定位失败";

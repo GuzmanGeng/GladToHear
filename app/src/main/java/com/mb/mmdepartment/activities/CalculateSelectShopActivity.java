@@ -15,7 +15,6 @@ import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
-import com.mb.mmdepartment.adapter.MarketSelAdapter;
 import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.bean.market_address.Description;
 import com.mb.mmdepartment.bean.market_address.Root;
@@ -207,7 +206,7 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
                         isSel[i]=false;
                         TApplication.market.put(list.get(i).getShop_id(),list.get(i).getShop_name());
                     }
-                    adapter = new MarketSelAdapter(list,this,isSel);
+                    adapter = new com.mb.mmdepartment.adapter.helpcalculate.MarketSelAdapter(list,this,isSel);
                     handler.sendEmptyMessage(0);
                 } else {
                     handler.sendEmptyMessage(1);

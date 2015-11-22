@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toast_l_r">15dp</dimen>
+    <dimen name="toast_w">143dp</dimen>
+</resources>

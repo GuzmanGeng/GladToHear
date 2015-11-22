@@ -22,7 +22,7 @@ public class CommentBiz implements ICommentBiz {
         param.put(BaseConsts.APP, CatlogConsts.SendComment.params_app);
         param.put(BaseConsts.CLASS,CatlogConsts.SendComment.params_class);
         param.put(BaseConsts.SIGN,CatlogConsts.SendComment.params_sign);
-        param.put(BaseConsts.SharePreference.USER_ID, TApplication.user_id);
+        param.put("userid", TApplication.user_id);
         param.put("content_id",content_id);
         param.put("body",body);
         OkHttp.asyncPost(BaseConsts.BASE_URL, param, tag, new Callback() {
