@@ -46,6 +46,7 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 import org.w3c.dom.Text;
 
@@ -57,6 +58,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycItemClickListener,View.OnClickListener,TextWatcher{
     private MacketSelFragment macketSelFragment;
@@ -92,27 +95,10 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
         initView();
         setListeners();
     }
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("helpYouQuerySearch");
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("help_Search","page","end",new Date());
     }
 
     private void setListeners() {
@@ -125,16 +111,19 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String keyword = list.get(i).getKeyword();
                 if (tagSel == 3) {
+                    LuPing(keyword,"searchShop","next",new Date());
                     String shopName = list.get(i).getShop_name();
                     startActivity(HelpYouQuerySearchActivity.this, MarcketSelDetailActivity.class, new String[]{"keyword", "shop_name"}, new String[]{keyword, shopName});
                 }else if (tagSel == 2) {
                     String title = list.get(i).getSearch_name();
+                    LuPing(title,"searchCategory","next",new Date());
                     Intent intent = new Intent(HelpYouQuerySearchActivity.this, ShowWaresInfoActivity.class);
                     intent.putExtra("keyword", keyword);
                     intent.putExtra("catlog", true);
                     intent.putExtra("searchName", title);
                     startActivity(intent);
                 } else {
+                    LuPing(keyword,"searchBrand","next",new Date());
                     Intent intent = new Intent(HelpYouQuerySearchActivity.this, ShowWaresInfoActivity.class);
                     intent.putExtra("keyword",keyword);
                     intent.putExtra("catlog", false);
@@ -273,6 +262,7 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if (!TextUtils.isEmpty(charSequence)) {
             lv_puzzy.setVisibility(View.VISIBLE);
+            LuPing(charSequence.toString(),"searchShop","input",new Date());
             String keyword = charSequence.toString();
             getPuzzyData(keyword,String.valueOf(tagSel));
         } else {
@@ -285,7 +275,6 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
 
     }
     private void initData() {
-        Log.e("执行", "执行了");
         if (paramas == null) {
             paramas = new HashMap<>();
             paramas.put(BaseConsts.APP, CatlogConsts.MarketPuzzy.params_app);
