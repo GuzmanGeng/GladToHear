@@ -16,6 +16,7 @@ import com.mb.mmdepartment.biz.login.LoginBiz;
 import com.mb.mmdepartment.biz.login.getpic.GetPic;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.mb.mmdepartment.listener.RequestListener;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.log.Log;
 import com.mb.mmdepartment.tools.sp.SPCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,6 +24,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.IUmengRegisterCallback;
 
 import java.io.IOException;
@@ -34,41 +36,19 @@ import java.util.TimerTask;
 import cn.jpush.android.api.JPushInterface;
 
 public class SplashActivity extends BaseActivity {
-    private final String TAG= SplashActivity.class.getSimpleName();
     private String path;
     private ImageView start_pic;
-    private LuPinModel luPinModel;
     @Override
     public int getLayout() {
         return R.layout.activity_splash;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("appStart");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setState("start");
-        luPinModel.setType("app");
-//        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
-
     @Override
     public void init(Bundle savedInstanceState) {
         mPushAgent.enable(mRegist);
         StatConfig.setDebugEnable(true);
+
         StatService.trackCustomBeginEvent(this, "onCreate", "");
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         start_pic = (ImageView)findViewById(R.id.start_pic);
         getStartPic();
@@ -141,7 +121,7 @@ public class SplashActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (!TextUtils.isEmpty(TApplication.user_id)){
-                                showToast("登陆成功");
+                                CustomToast.show(SplashActivity.this, "提示", "登录成功");
                             }
                         }
                     });

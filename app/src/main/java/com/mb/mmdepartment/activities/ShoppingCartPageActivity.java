@@ -1,9 +1,11 @@
 package com.mb.mmdepartment.activities;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +21,8 @@ import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.bean.marcketseldetail.Lists;
+import com.mb.mmdepartment.tools.CustomToast;
+import com.mb.mmdepartment.tools.shop_car.ShopCarAtoR;
 import com.tencent.stat.StatService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +40,8 @@ public class ShoppingCartPageActivity extends BaseActivity{
     private RecyclerView shop_car_recycle;
     private ProposedProjectInnerAdapter inner_adapter;
     private TextView back_to_main;
+    private ShopCarAtoR shopCarAtoR;
+    private int index;
 
     @Override
     public int getLayout() {
@@ -44,6 +50,7 @@ public class ShoppingCartPageActivity extends BaseActivity{
 
     @Override
     public void init(Bundle savedInstanceState) {
+        shopCarAtoR = new ShopCarAtoR(ShoppingCartPageActivity.this);
         initData();
         initView();
         setListener();
@@ -79,6 +86,7 @@ public class ShoppingCartPageActivity extends BaseActivity{
 
     private void initView() {
         shop_car_recycle = (RecyclerView) findViewById(R.id.shop_car_recycle);
+        shop_car_recycle.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         shop_car_recycle.setLayoutManager(manager);
         inner_adapter = new ProposedProjectInnerAdapter(shopping_car_order, 0, null, null, null,this);
@@ -147,10 +155,14 @@ public class ShoppingCartPageActivity extends BaseActivity{
                 luPinModel_list.setOperationtime(sdf.format(new Date()));
                 luPinModel_list.setName("productionOrderButton");
                 TApplication.luPinModels.add(luPinModel_list);
-                Intent intent = new Intent(ShoppingCartPageActivity.this,OrderInfoPageActivity.class);
-                intent.putExtra("tag",ShoppingCartPageActivity.class.getSimpleName());
+                if (TApplication.ids.size() == 0) {
+                    CustomToast.show(ShoppingCartPageActivity.this,"提示","购物车空了,先去添加吧!");
+                } else {
+                    Intent intent = new Intent(ShoppingCartPageActivity.this,OrderInfoPageActivity.class);
+                    intent.putExtra("tag",ShoppingCartPageActivity.class.getSimpleName());
 //                intent.putExtra("lists",(ArrayList)groups);
-                startActivity(intent);
+                    startActivity(intent);
+                }
                 return false;
             }
         });
@@ -163,5 +175,36 @@ public class ShoppingCartPageActivity extends BaseActivity{
                 startActivity(ShoppingCartPageActivity.this, MainActivity.class);
             }
         });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.LEFT){
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                shopping_car_order.remove(position);
+                inner_adapter.notifyItemRemoved(position);
+                index=position;
+                inner_adapter = null;
+                inner_adapter = new ProposedProjectInnerAdapter(shopping_car_order, 0, null, null, null,ShoppingCartPageActivity.this);
+                shop_car_recycle.setAdapter(inner_adapter);
+                shop_car_recycle.scrollToPosition(index);
+                shopCarAtoR.remove_cars_index(TApplication.ids.get(position));
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    //左右滑动时改变Item的透明度
+                    final float alpha = 1 - Math.abs(dX) / (float)viewHolder.itemView.getWidth();
+                    viewHolder.itemView.setAlpha(alpha);
+                    viewHolder.itemView.setTranslationX(dX);
+                }
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(shop_car_recycle);
     }
 }

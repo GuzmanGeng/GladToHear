@@ -32,7 +32,6 @@
            android:layout_marginLeft="@dimen/five_dip"
            android:layout_marginBottom="@dimen/two_dip"
            android:layout_marginTop="@dimen/two_dip"
-           android:src="@mipmap/jialefu_chao"
            />
        <TextView
            android:layout_width="match_parent"
@@ -48,6 +47,7 @@
            android:gravity="center_vertical"
            android:layout_height="wrap_content" />
        <TextView
+           android:id="@+id/line"
            android:layout_width="1dp"
            android:background="#f00"
            android:layout_marginBottom="@dimen/activity_vertical_margin_half"

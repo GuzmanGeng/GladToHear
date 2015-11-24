@@ -253,4 +253,12 @@ public class CatlogConsts {
         public static final String params_class = "getnearbyshop";
         public static final String params_sign = "49613c70b2114e25e2c850b77d5e8a85";
     }
+    /**
+     * 模糊搜索
+     */
+    public class MarketPuzzy{
+        public static final String params_app = "shop";
+        public static final String params_class = "search";
+        public static final String params_sign = "7e1687443d1cb867ddc7435dddfbc73e";
+    }
 }

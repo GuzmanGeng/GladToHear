@@ -64,10 +64,19 @@
         android:drawablePadding="@dimen/five_dip"
         android:textSize="@dimen/fourteen_sp"
         />
-    <FrameLayout
-        android:id="@+id/help_check_content"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/help_check_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+        <ListView
+            android:visibility="gone"
+            android:id="@+id/lv_puzzy"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </RelativeLayout>
 </LinearLayout>

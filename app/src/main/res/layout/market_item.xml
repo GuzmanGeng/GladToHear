@@ -12,6 +12,7 @@
        />
 
    <LinearLayout
+       android:id="@+id/content"
        android:orientation="horizontal"
        android:layout_width="match_parent"
        android:paddingLeft="5dp"
@@ -33,7 +34,6 @@
            android:layout_marginBottom="@dimen/two_dip"
            android:layout_marginLeft="@dimen/five_dip"
            android:scaleType="centerInside"
-           android:src="@mipmap/jialefu_chao"
            />
        <TextView
            android:layout_width="match_parent"

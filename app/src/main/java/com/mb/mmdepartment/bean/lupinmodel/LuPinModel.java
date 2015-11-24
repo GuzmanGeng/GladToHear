@@ -14,6 +14,24 @@ public class LuPinModel {
     private String operationtime;
 
     private String end_time;
+    private String select_shop_id;
+    private String source;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getSelect_shop_id() {
+        return select_shop_id;
+    }
+
+    public void setSelect_shop_id(String select_shop_id) {
+        this.select_shop_id = select_shop_id;
+    }
 
     public String getName() {
         return name;

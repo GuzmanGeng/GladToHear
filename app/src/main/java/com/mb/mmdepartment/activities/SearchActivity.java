@@ -24,7 +24,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
     private TextView search_cancle;
     private RecyclerView[] recyclerViews = new RecyclerView[3];
     private MainAddSearchKeyword add_biz;
-    private ImageView back_to_main;
+//    private ImageView back_to_main;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
         hot_brand_recycle = (RecyclerView) findViewById(R.id.hot_brand_recycle);
         hot_channels_recycle = (RecyclerView) findViewById(R.id.hot_channels_recycle);
         history_recycle = (RecyclerView) findViewById(R.id.history_recycle);
-        back_to_main = (ImageView) findViewById(R.id.back_to_main);
+//        back_to_main = (ImageView) findViewById(R.id.back_to_main);
         recyclerViews[0]=hot_brand_recycle;
         recyclerViews[1]=hot_channels_recycle;
         recyclerViews[2]=history_recycle;
@@ -74,13 +74,13 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
                 }
             }
         });
-        back_to_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        back_to_main.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
     /**
      * 一开始检测用户是否有输入

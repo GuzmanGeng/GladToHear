@@ -14,11 +14,16 @@ import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ import com.mb.mmdepartment.biz.lupinmodel.LupinModelBiz;
 import com.mb.mmdepartment.listener.RequestListener;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.tencent.stat.StatService;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.mb.mmdepartment.R;
@@ -43,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -59,26 +66,29 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
     private static long lastToastTime=0;
     private boolean _isVisible=false;
     public static Map<String,String> paremas=new HashMap<>();
+    private View progress;
+    private LayoutInflater inflater;
+    private LinearLayout progress_container;
+    private View loadView;
+    private String start_time;
+    private String resum_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inflater = LayoutInflater.from(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayout());
         initParameters();
         initExit();
         init(savedInstanceState);
         initToolBar();
-        LuPinModel app = new LuPinModel();
-        if(!isAppOnForeground()){
-            app.setName("appEnterBackground");
-            app.setType("app");
-            app.setState("background");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            app.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(app);
-            TApplication.isAlive = false;
-        }
+//        if(!isAppOnForeground()){
+//            LuPing("appEnterBackground", "app", "background",new Date(),null);
+//            TApplication.isAlive = false;
+//        }
     }
+
     /**
      * 检查网络链接状态
      * @param context
@@ -184,37 +194,116 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        LupinModelBiz lupinModelBiz = new LupinModelBiz();
-        String json = lupinModelBiz.getlist(JPushInterface.getRegistrationID(this));
-        lupinModelBiz.sendLuPinModel(json, TAG, new RequestListener() {
-            @Override
-            public void onResponse(Response response) {
-                if (response.isSuccessful()) {
-                    Gson gson = new Gson();
-                    try {
-                        String json = response.body().string();
-                        com.mb.mmdepartment.bean.lupinmodel.Root root =
-                                gson.fromJson(json, com.mb.mmdepartment.bean.lupinmodel.Root.class);
-                        if (root.getStatus() == 0) {
-                            android.util.Log.i("Tag", "success");
-                        } else {
-                            android.util.Log.i("Tag", root.getError());
-                        }
-                    } catch (Exception e) {
-                    }
-
-                    android.util.Log.i("tag", "succeed");
-                }
-            }
-
-            @Override
-            public void onFailue(Request request, IOException e) {
-                TApplication.luPinModels = TApplication.luPinModelList;
-                TApplication.luPinModelList.clear();
-            }
-        });
+//        LupinModelBiz lupinModelBiz = new LupinModelBiz();
+//        String json = lupinModelBiz.getlist(JPushInterface.getRegistrationID(this));
+//        lupinModelBiz.sendLuPinModel(json, TAG, new RequestListener() {
+//            @Override
+//            public void onResponse(Response response) {
+//                if (response.isSuccessful()) {
+//                    Gson gson = new Gson();
+//                    try {
+//                        String json = response.body().string();
+//                        com.mb.mmdepartment.bean.lupinmodel.Root root =
+//                                gson.fromJson(json, com.mb.mmdepartment.bean.lupinmodel.Root.class);
+//                        if (root.getStatus() == 0) {
+//                        } else {
+//                        }
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailue(Request request, IOException e) {
+//                TApplication.luPinModels = TApplication.luPinModelList;
+//                TApplication.luPinModelList.clear();
+//            }
+//        });
     }
 
+    /**
+     * 后台
+     * @param name
+     * @param type
+     * @param state
+     * @param operation_time
+     */
+    public void LuPing(String name,String type,String state,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
+
+    /**
+     * 带有source的
+     * @param name
+     * @param type
+     * @param state
+     * @param operation_time
+     */
+    public void LuPingWithSource(String name,String type,String state,String source,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        save.setSource(source);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
+    /**
+     * 带有source的
+     * @param name
+     * @param type
+     * @param state
+     * @param operation_time
+     */
+    public void LuPingWithSelectId(String name,String type,String state,String source,String sel_id,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        save.setSource(source);
+        save.setSelect_shop_id(sel_id);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
+
+    /**
+     * 页面离开时候的录屏
+     * @param name
+     * @param type
+     * @param state
+     * @param end_time
+     */
+    public void LuPingDestory(String name,String type,String state,Date end_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        save.setEndtime(sdf.format(end_time));
+        if (!TextUtils.isEmpty(resum_time)) {
+            save.setOperationtime(resum_time);
+        }
+        TApplication.luPinModels.add(save);
+    }
+
+    /**
+     * 初始化开始时间 必须在Luping之前调用
+     * @param operation_time
+     */
+    public void startResumTime(Date operation_time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        resum_time=sdf.format(operation_time);
+    }
     /**
      * 带有bundle的跳转
      * @param activity
@@ -224,7 +313,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
      */
     public void startActivity(Activity activity,Bundle bundle,String key,Class clas){
         Intent intent=new Intent(activity,clas);
-        intent.putExtra(key,bundle);
+        intent.putExtra(key, bundle);
         startActivity(intent);
     }
 
@@ -255,7 +344,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
                 setToolBar(actionBar,true);
             }
         } catch (NullPointerException e) {
-            Log.i("Toolbar", "toolbar = null");
         }
     }
     protected abstract void setToolBar(ActionBar action,boolean isTrue);
@@ -358,31 +446,64 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
     protected void onResume() {
         _isVisible = true;
         super.onResume();
+        startResumTime(new Date());
         MobclickAgent.onResume(this);
         JPushInterface.onResume(this);
-        if(!TApplication.isAlive){
-            TApplication.isAlive = true;
-            LuPinModel app = new LuPinModel();
-            app.setName("appEnterForeground");
-            app.setType("app");
-            app.setState("foreground");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            app.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(app);
-        }
+        StatService.onResume(this);
     }
-
     @Override
     protected void onPause() {
         _isVisible=false;
         super.onPause();
         MobclickAgent.onPause(this);
         JPushInterface.onPause(this);
+        StatService.onPause(this);
     }
 
     @Override
     protected void onDestroy() {
         unregisterReceiver(exitBroadCast);
         super.onDestroy();
+    }
+
+    /**
+     * 开始动画
+     * @param view
+     */
+    public void setProgress(View view) {
+        if (progress != null) {
+            return;
+        }
+        loadView = view;
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        ViewParent parent = view.getParent();
+        FrameLayout container = new FrameLayout(TApplication.getContext());
+        ViewGroup group = (ViewGroup) parent;
+        int index = group.indexOfChild(view);
+        group.removeView(view);
+        group.addView(container, index, lp);
+        container.addView(view);
+        if (inflater != null) {
+            progress = inflater.inflate(R.layout.loading_dialog, null);
+            progress_container = (LinearLayout) progress
+                    .findViewById(R.id.progress_container);
+            container.addView(progress);
+            progress_container.setTag(view);
+            view.setVisibility(View.GONE);
+        }
+        group.invalidate();
+    }
+
+    /**
+     * 结束动画
+     */
+    public void endProgress() {
+        if (progress_container != null) {
+            //这个与progress_container为Tag关系的是ListView对象，即progress_container.getTag()为ListView对象
+            ((View) progress_container.getTag()).setVisibility(View.VISIBLE);
+
+            progress_container.setVisibility(View.GONE);
+            progress.setVisibility(View.GONE);
+        }
     }
 }

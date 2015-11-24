@@ -111,11 +111,9 @@ public class TApplication extends Application{
         if ("com.mb.mmdepartment".equals(TDevide.getCurProcessName(this))){
             instance=this;
             mContext=getApplicationContext();
-
 //            //极光推送
             JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
             JPushInterface.init(this);     		// 初始化 JPush
-
             File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "imageloader/Cache"); //缓存文件的存放地址
             ImageLoaderConfiguration config = new ImageLoaderConfiguration
                     .Builder(getApplicationContext())
@@ -134,12 +132,8 @@ public class TApplication extends Application{
                     .imageDownloader(new BaseImageDownloader(getApplicationContext(), 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)
                     .writeDebugLogs() // Remove for release app
                     .build();
-
-
-//            ImageLoaderConfiguration configuration= ImageLoaderConfiguration.createDefault(this);
             ImageLoader.getInstance().init(config);
             initSharePreference();
-            android.util.Log.e("infolog","ahhhhhhhhhhhhaa");
             initLog();
             initStetho();
             initPushAgent();
@@ -226,7 +220,6 @@ public class TApplication extends Application{
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
     }
-
     /**
      * 初始化友盟统计
      */

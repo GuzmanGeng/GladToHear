@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -83,20 +85,16 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initData(){
-//        Intent intent = getIntent();
-//        lists = (List<DataList>)intent.getSerializableExtra("lists");
         lists=TApplication.shop_list_to_pick;
-
-        android.util.Log.e("order", lists.size()+"");
-
         for(int i = 0;i<lists.size();i++){
             for (int j = 0;j<lists.get(i).getList().size();j++){
-                cost_price = cost_price+(Integer.parseInt(lists.get(i).getList().get(j).getPid())*Double.parseDouble(lists.get(i).getList().get(j).getF_price()));
-                save_price = save_price+(Integer.parseInt(lists.get(i).getList().get(j).getPid())*Double.parseDouble(lists.get(i).getList().get(j).getSave()));
+                cost_price+=Double.parseDouble(lists.get(i).getList().get(j).getF_price());
+                save_price+=Double.parseDouble(lists.get(i).getList().get(j).getSave());
             }
         }
         buy_list_cost_tv.setText("¥"+Math.floor(cost_price*10d)/10);
         buy_list_save_tv.setText("¥" + Math.floor(save_price*10d)/10);
+
         adapter = new BuyListAdapter(OrderInfoPageActivity.this,lists);
         listview.setAdapter(adapter);
         for(int i = 0;i<lists.size();i++){
@@ -118,7 +116,6 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
             if (!TextUtils.isEmpty(TApplication.user_id)) {
                 not_login.setVisibility(View.INVISIBLE);
                 listview.setVisibility(View.VISIBLE);
-
             }
         }
     }
@@ -135,6 +132,9 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 save.setOperationtime(sdf.format(new Date()));
                 TApplication.luPinModels.add(save);
+
+
+
                 if (TextUtils.isEmpty(TApplication.user_id)||null==TApplication.user_id) {
                     not_login.setVisibility(View.VISIBLE);
                     listview.setVisibility(View.GONE);
@@ -196,17 +196,14 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     public void onResponse(Response response) {
         if (response.isSuccessful()) {
             try {
-                Log.i("save","保存2");
                 Gson gson = new Gson();
                 String json = response.body().string();
                 Root root = gson.fromJson(json,Root.class);
-                Log.i("save","保存:"+root.getStatus());
                 if(root.getStatus() == 0) {
-                    Log.i("save","保存3");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showToast(" 保存成功");
+                            CustomToast.show(OrderInfoPageActivity.this,"提示","保存成功");
                         }
                     });
                     startActivity(OrderInfoPageActivity.this, MainActivity.class);
@@ -214,7 +211,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showToast(" 保存失败");
+                            CustomToast.show(OrderInfoPageActivity.this, "提示", "保存失败");
                         }
                     });
                 }
@@ -222,6 +219,16 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
 
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

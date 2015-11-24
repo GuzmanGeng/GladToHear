@@ -324,9 +324,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
         } else {
             showToast("商品已存在");
         }
-        Log.e("waressize", TApplication.shop_list_to_pick.size()+"现在的size");
         if (TApplication.shop_list_to_pick.size() == 0) {
-            Log.e("waressize", "执行到这边了");
             DataList datalist = new DataList();
             List<Lists> new_list = new ArrayList<>();
             datalist.setName(shop_name);
@@ -335,10 +333,8 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             TApplication.shop_list_to_pick.add(datalist);
             return;
         }
-        Log.e("waressize", TApplication.ids.size()+"=====");
         for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
             DataList data = TApplication.shop_list_to_pick.get(i);
-            Log.e("waresszie", String.valueOf(data)+"=====");
             String get_shop_name = data.getName().trim();
             try {
                 get_shop_name=URLEncoder.encode(get_shop_name, "utf-8");

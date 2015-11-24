@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.activities.WaresDetailPageActivity;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.buyplan.byprice.DataList;
 import com.mb.mmdepartment.bean.marcketseldetail.Lists;
@@ -23,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 /**
  * Created by joyone2one on 2015/11/17.
@@ -37,8 +39,6 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
     private List<String> sel_ids;
     private boolean sel;
     private SizeCallBack callBack;
-    private List<Lists> list;
-    private DataList dataList;
     private Activity activity;
     public ProposedProjectInnerAdapter(List<Lists> lists,int which,ImageView title_sel,LinearLayout check_all,SizeCallBack callBack,Activity activity){
         this.lists=lists;
@@ -49,7 +49,6 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         this.activity=activity;
         sel_ids = new ArrayList<>();
         ids = new String[lists.size()];
-        TApplication.shop_list_to_pick.clear();
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,6 +64,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id = ids[i];
                             shop_car.remove_cars_index(id);
+                            ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","unSelected","help_Accu_Commodity_List",lists.get(i).getShop_id(),new Date());
                         }
                         sel_ids.clear();
                         notifyDataSetChanged();
@@ -74,6 +74,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id=ids[i];
                             if (!TApplication.ids.contains(id)) {
+                                ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","selected","help_Accu_Commodity_List",lists.get(i).getShop_id(),new Date());
                                 shop_car.add_cars_index(id,lists.get(i).getSelect_shop_name(),lists.get(i));
                                 notifyItemChanged(i);
                             }
@@ -124,16 +125,6 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
             if (position == 0) {
                 holder.title.setVisibility(View.VISIBLE);
                 holder.title.setText(title);
-
-                dataList = new DataList();
-                list = new ArrayList<>();
-                dataList.setName(title);
-                list.add(lists.get(position));
-                if (lists.size() == 1) {
-                    dataList.setList(list);
-                    TApplication.shop_list_to_pick.add(dataList);
-                }
-
             } else {
                 String shop_name=lists.get(position).getSelect_shop_name();
                 if (TextUtils.isEmpty(shop_name)) {
@@ -145,28 +136,9 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                 }
                 if (pre_shop_name.equals(shop_name)) {
                     holder.title.setVisibility(View.GONE);
-                    list.add(lists.get(position));
-                    if (position == lists.size()-1) {
-                        dataList.setList(list);
-                        TApplication.shop_list_to_pick.add(dataList);
-                    }
-
                 } else {
-                    dataList.setList(list);
-                    TApplication.shop_list_to_pick.add(dataList);
-
-                    dataList = new DataList();
-                    list = new ArrayList<>();
-
-                    list.add(lists.get(position));
-                    dataList.setName(shop_name);
-
                     holder.title.setVisibility(View.VISIBLE);
                     holder.title.setText(shop_name);
-                    if (position == lists.size()-1) {
-                        dataList.setList(list);
-                        TApplication.shop_list_to_pick.add(dataList);
-                    }
                 }
             }
         } else if (which==1){
@@ -223,12 +195,8 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                 public void onClick(View view) {
                     ShopCarAtoR shop = new ShopCarAtoR(activity);
                     if (TApplication.ids.contains(id)) {
-//                        TApplication.ids.remove(id);
-//                        TApplication.shop_lists.remove(id);
-
                         shop.remove_cars_index(id);
-
-
+                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "unSelected", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
                         if (sel_ids.contains(id)) {
                             sel_ids.remove(id);
                         }
@@ -238,11 +206,8 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                             sel = false;
                         }
                     } else {
-
-//                        TApplication.ids.add(id);
-//                        TApplication.shop_lists.put(id, lists.get(position));
                         shop.add_cars_index(id,lists.get(position).getSelect_shop_name(),lists.get(position));
-
+                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "selected", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
                         sel_ids.add(id);
                         holder.check_single.setImageResource(R.mipmap.marcket_sel);
                         if (sel_ids.size() == lists.size()) {

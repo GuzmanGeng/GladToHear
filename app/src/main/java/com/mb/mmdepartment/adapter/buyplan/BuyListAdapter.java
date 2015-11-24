@@ -116,17 +116,15 @@ public class BuyListAdapter extends BaseExpandableListAdapter {
         holder = (ChildHolder
                 )convertView.getTag();
         holder.item_buy_list_name_tv.setText(item.getName());
-        holder.item_buy_list_goods_num_tv.setText(item.getPid()+"件");
-        holder.item_buy_list_goods_price_tv.setText("¥"+item.getO_price()+"(折前)\n"+"¥"+item.getF_price()+"(折后)");
-        double cost = Integer.parseInt(item.getPid())*Double.parseDouble(item.getF_price());
-        holder.item_buy_list_goods_coast_tv.setText("¥"+cost);
+        holder.item_buy_list_goods_num_tv.setText(item.getItem()+"件");
+        holder.item_buy_list_goods_price_tv.setText("¥"+item.getO_price()+"(折前)\n"+"¥" +item.getF_price()+"(折后)");
+//        double cost = Integer.parseInt(item.getPid())*Double.parseDouble(item.getF_price());
+        holder.item_buy_list_goods_coast_tv.setText("¥"+item.getF_price());
         if(childPosition==0){
-//            holder.item_buy_list_allpay_ll.setVisibility(View.GONE);
             alllpay = 0;
         }
-        alllpay = alllpay + cost;
+        alllpay = alllpay + Double.parseDouble(item.getF_price());
         if(isLastChild) {
-            Log.i("tag", "isLastChild");
             holder.item_buy_list_allpay_ll.setVisibility(View.VISIBLE);
             String pay = alllpay + "";
             int num = pay.indexOf(".");

@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1"
     tools:context="com.yieryi.gladtohear.activities.BuyListActivity">
 
     <include layout="@layout/toolbar_shop_detail" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_weight="1"
+        android:layout_height="0dp">
         <RelativeLayout
             android:id="@+id/not_login"
             android:layout_width="match_parent"
@@ -51,82 +50,81 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:layout_weight="1"></ExpandableListView>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent_theme_color"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true"
-            android:background="@color/transparent_theme_color"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="2"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="总计："
-                    android:textColor="@color/color_gray"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/buy_list_cost_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textColor="@color/color_white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="@color/color_gray"
-                    android:text="省 : "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/buy_list_save_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="@color/color_white"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:text="总计："
+                android:textColor="@color/color_gray"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/save_list"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:id="@+id/buy_list_cost_tv"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textColor="@color/color_white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:background="@color/theme_color"
-                android:text="保存"
+                android:textColor="@color/color_gray"
+                android:text="省 : "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/buy_list_save_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text=""
                 android:textColor="@color/color_white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <TextView
+            android:id="@+id/save_list"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/theme_color"
+            android:text="保存"
+            android:textColor="@color/color_white"
+            android:textSize="20sp" />
+    </LinearLayout>
 </LinearLayout>

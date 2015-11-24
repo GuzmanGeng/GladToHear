@@ -17,7 +17,6 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.squareup.okhttp.Request;
@@ -36,14 +35,14 @@ import com.mb.mmdepartment.tools.OnLocalListener;
 import com.mb.mmdepartment.tools.log.Log;
 import com.mb.mmdepartment.tools.sp.SPCache;
 import com.tencent.stat.StatService;
-
+import com.umeng.analytics.MobclickAgent;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import cn.jpush.android.api.JPushInterface;
 
 public class WelcomActivity extends BaseActivity implements OnLocalListener {
     private TextView tv_location;
@@ -90,8 +89,9 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
         lv_cities.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                LuPing("city_Change","selectionCityId","next",new Date());
                 provience = groups.get(groupPosition).get(childPosition).getCity_name();
-                String city_id= groups.get(groupPosition).get(childPosition).getCity_id();
+                String city_id = groups.get(groupPosition).get(childPosition).getCity_id();
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
                 setResult(RESULT_OK);
@@ -105,12 +105,12 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
         lv_serach.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LuPing("city_Change","selectionCityId","next",new Date());
                 provience = serachcity.get(position).getCity_name();
                 String city_id = serachcity.get(position).getCity_id();
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", city_id);
                 setResult(RESULT_OK);
-                android.util.Log.e("welcom", city_id);
                 startActivity(WelcomActivity.this, MainActivity.class, new String[]{"provience", "city_id"}, new String[]{provience, city_id});
                 finish();
             }
@@ -283,25 +283,28 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
         mLocationManagerProxy = null;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(LocationActivity.class.getSimpleName());
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        //记录开始时间
+//        startTime(new Date());
+//        MobclickAgent.onResume(this);
+//        JPushInterface.onResume(this);
+//        StatService.onResume(this);
+//    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+        LuPing("city_Change", "page", "end", new Date());
         stopLocation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
+        StatService.onPause(this);
     }
 
     /**
@@ -338,11 +341,13 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
             showToast("请检查网络,或者查看GPS");
             return;
         }
+        LuPing("city_Change","locationCity","other",new Date());
         tv_location.setText(provience);
         getcitiesBiz.getLocationCityId(provience);
         tv_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LuPing("city_Change","selectionCityId","next",new Date());
                 setResult(RESULT_OK);
                 SPCache.putString("provience", provience);
                 SPCache.putString("city_id", "50");

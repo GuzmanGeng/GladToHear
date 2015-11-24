@@ -80,18 +80,20 @@ public class ShopCarAtoR {
             new_list.add(list);
             datalist.setList(new_list);
             TApplication.shop_list_to_pick.add(datalist);
+            Log.e("shop_list_to_pick0", "我的size" + TApplication.shop_list_to_pick.size());
             return;
         }
-        for (int i = 0; i < TApplication.ids.size(); i++) {
+        for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
             DataList data = TApplication.shop_list_to_pick.get(i);
             String get_shop_name = data.getName().trim();
-            try {
-                get_shop_name=URLEncoder.encode(get_shop_name, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                get_shop_name=URLEncoder.encode(get_shop_name, "utf-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
             if (shop_name.equals(get_shop_name)) {
                 data.getList().add(list);
+                Log.e("shop_list_to_pick1", "我的size" + TApplication.shop_list_to_pick.size());
                 return;
             }
         }
@@ -101,5 +103,6 @@ public class ShopCarAtoR {
         new_list.add(list);
         datalist.setList(new_list);
         TApplication.shop_list_to_pick.add(datalist);
+        Log.e("shop_list_to_pick2", "我的size" + TApplication.shop_list_to_pick.size());
     }
 }

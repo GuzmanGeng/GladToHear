@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.mb.mmdepartment.R;
@@ -12,6 +13,10 @@ import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.biz.getsort.SortBiz;
 import com.mb.mmdepartment.tools.sp.SPCache;
+import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
+
+import java.util.Date;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -41,6 +46,20 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
         setListeners();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
+        StatService.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("help_Accu_Commodity_List","page","end",new Date());
+    }
+
     private void setListeners() {
         buy_plan_price.setOnClickListener(this);
         buy_plan_discount.setOnClickListener(this);
@@ -60,6 +79,7 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
         tv_backgrounds[2]=buy_plan_percent;
         setState(0, 1, 2);
         help_you_calculate_goods_detail_ll = findViewById(R.id.help_you_calculate_goods_detail_ll);
+        setProgress(buy_list_recycle);
         biz = new SortBiz(this, buy_list_recycle, which,circle,this);
         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
     }
@@ -85,6 +105,7 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.help_you_calculate_goods_detail_ll:
+                LuPingWithSource("btn_car","other","next","help_Accu_Commodity_List",new Date());
                 Intent intent = new Intent(ProposedProjectActivity.this, ShoppingCartPageActivity.class);
                 startActivityForResult(intent, 0);
                 break;
@@ -94,20 +115,25 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
                         buy_plan_price.setText("按价格排序↑");
                         state[0] = 1;
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
+                        LuPing("priceSort","sort","asc",new Date());
                     } else {
                         buy_plan_price.setText("按价格排序↓");
                         state[0] = 0;
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
+                        LuPing("priceSort", "sort", "desc", new Date());
                     }
                 } else {
                     if (state[0] == 0) {
                         buy_plan_price.setText("按价格排序↓");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
+                        LuPing("priceSort", "sort", "asc", new Date());
                     } else {
                         buy_plan_price.setText("按价格排序↑");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 1);
+                        LuPing("priceSort", "sort", "desc", new Date());
                     }
                 }
+
                 whichSel=0;
                 setState(0, 1, 2);
                 break;
@@ -118,18 +144,22 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
                         state[1] = 1;
                         buy_plan_discount.setText("按折扣排序↑");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 2);
+                        LuPing("discountSort", "sort", "asc", new Date());
                     } else {
                         buy_plan_discount.setText("按折扣排序↓");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 2);
                         state[1] = 0;
+                        LuPing("discountSort", "sort", "desc", new Date());
                     }
                 } else {
                     if (state[1] == 0) {
                         buy_plan_discount.setText("按折扣排序↓");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 2);
+                        LuPing("discountSort", "sort", "asc", new Date());
                     } else {
                         buy_plan_discount.setText("按折扣排序↑");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 2);
+                        LuPing("discountSort", "sort", "desc", new Date());
                     }
                 }
                 whichSel=1;
@@ -141,18 +171,22 @@ public class ProposedProjectActivity extends BaseActivity implements View.OnClic
                         state[2] = 1;
                         buy_plan_percent.setText("按节省比排序↑");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 3);
+                        LuPing("btn_proportionSort", "sort", "asc", new Date());
                     } else {
                         buy_plan_percent.setText("按节省比排序↓");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 3);
                         state[2] = 0;
+                        LuPing("btn_proportionSort", "desc", "asc", new Date());
                     }
                 } else {
                     if (state[2] == 0) {
                         buy_plan_percent.setText("按节省比排序↓");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "desc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 3);
+                        LuPing("btn_proportionSort", "asc", "asc", new Date());
                     } else {
                         buy_plan_percent.setText("按节省比排序↑");
                         biz.sort(null, JPushInterface.getRegistrationID(this), "asc", category_id, shop_id, which, Integer.valueOf(SPCache.getString("city_id", "50")), 3);
+                        LuPing("btn_proportionSort", "desc", "asc", new Date());
                     }
                 }
                 whichSel = 2;

@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.TApplication;
+import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.bean.referesh.RefereshRoot;
 import com.mb.mmdepartment.biz.referesh.RefereshBiz;
 import com.mb.mmdepartment.fragment.main.MainFragment;
@@ -35,6 +36,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +46,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener,RequestListener{
     private MainFragment mainFragment;
@@ -77,11 +84,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     int third_version_code = Integer.valueOf(version_code.substring(2, 3));
 
                     if (first_net_version_code > first_version_code) {
-                        dialog.show();
+                        setUpdataDialog();
                     }else if (second_net_version_code > second_version_code) {
-                        dialog.show();
+                        setUpdataDialog();
                     }else if (third_net_version_code > third_version_code) {
-                        dialog.show();
+                        setUpdataDialog();
                     }
                     break;
                 case 5:
@@ -93,6 +100,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private AlertDialog.Builder dialog;
     private String filePath;
     private File file;
+    private String start_time;
+    private String resum_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +129,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         slidingMenu.setFadeDegree(0.35f);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         //为侧滑菜单设置布局
-        final View view = LayoutInflater.from(this).inflate(R.layout.activity_user_center,null);
+        final View view = LayoutInflater.from(this).inflate(R.layout.activity_user_center, null);
         slidingMenu.setMenu(view);
         initSlideMenuView(view);
         tv_userName= (TextView)view.findViewById(R.id.user_center_login_username);
@@ -161,21 +170,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
             });
         }
-//        slidingMenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
-//            @Override
-//            public void onOpen() {
-//                if (TApplication.user_id != null || !TextUtils.isEmpty(TApplication.user_id)) {
-//                    tv_score.setClickable(false);
-//                    String score = TApplication.integral;
-//                    if (TextUtils.isEmpty(score)) {
-//                        tv_score.setText("0积分");
-//                    } else {
-//                        tv_score.setText(score+"积分");
-//                    }
-//                    tv_userName.setText(TApplication.user_name);
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -191,6 +185,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     tv_score.setText(score + "积分");
                 }
                 tv_userName.setText(TApplication.user_name);
+                ImageLoader.getInstance().displayImage(TApplication.user_avatar, iv_hearder_default, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        ((ImageView) view).setImageResource(R.mipmap.iv_hearder_default);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        if (TextUtils.isEmpty(TApplication.user_avatar)) {
+                            ((ImageView) view).setImageResource(R.mipmap.iv_hearder_default);
+                        } else {
+                            ((ImageView) view).setImageBitmap(bitmap);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+
+                    }
+                });
             }else {
                 tv_userName.setText("登陆");
                 tv_score.setClickable(true);
@@ -202,7 +221,77 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        startResumTime(new Date());
+        MobclickAgent.onResume(this);
+        JPushInterface.onResume(this);
+        StatService.onResume(this);
         getVersionCode();
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
+        StatService.onPause(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("main", "page", "end", new Date());
+    }
+
+    /**
+     * 后台
+     * @param name
+     * @param type
+     * @param state
+     * @param operation_time
+     */
+    public void LuPing(String name,String type,String state,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
+
+    /**
+     * 页面离开时候的录屏
+     * @param name
+     * @param type
+     * @param state
+     * @param end_time
+     */
+    public void LuPingDestory(String name,String type,String state,Date end_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        save.setEndtime(sdf.format(end_time));
+        if (!TextUtils.isEmpty(resum_time)) {
+            save.setOperationtime(resum_time);
+        }
+        TApplication.luPinModels.add(save);
+    }
+
+    /**
+     * 初始化开始时间 必须在Luping之前调用
+     * @param operation_time
+     */
+    public void startResumTime(Date operation_time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        resum_time=sdf.format(operation_time);
+    }
+    /**
+     * 设置升级对话框
+     */
+    private void setUpdataDialog() {
         dialog = new AlertDialog.Builder(this);
         dialog.setMessage("您的App有新的版本,请升级后再使用");
         dialog.setTitle("提示");
@@ -224,6 +313,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 dialogInterface.dismiss();
             }
         });
+        dialog.show();
     }
 
     /**

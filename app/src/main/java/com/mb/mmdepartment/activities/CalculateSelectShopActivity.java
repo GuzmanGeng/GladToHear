@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.mb.mmdepartment.adapter.MarketSelAdapter;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -24,12 +26,15 @@ import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.network.OkHttp;
 import com.mb.mmdepartment.view.LoadingDialog;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 帮你算超市选择界面
@@ -101,26 +106,17 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
         action.setTitle("超市选择");
         action.setHomeButtonEnabled(isTrue);
     }
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("heipYouCountSelectingShop");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        StatService.onResume(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("help_Accu_Shop","page","end",new Date());
     }
-
 
     @Override
     protected void onPause() {
         super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
         StatService.onPause(this);
     }
 
@@ -134,9 +130,10 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
             @Override
             public void onClick(View view) {
                 if (record.isEmpty()) {
-                    showToast("请先选择超市");
+                    CustomToast.show(CalculateSelectShopActivity.this,"提示","请先选择超市");
                     return;
                 }
+                LuPing("btn_Accu_Shop_Next","shop","next",new Date());
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < record.size(); i++) {
                     builder.append(record.get(i)+",");
@@ -144,14 +141,6 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
                 shop_id=builder.toString();
                 int last=shop_id.lastIndexOf(",");
                 shop_id = shop_id.substring(0, last);
-//                luPinModel.setName(TAG);
-                luPinModelmarket.setType("next");
-                luPinModelmarket.setName("heipYouCountSelectingShopNext");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                luPinModelmarket.setOperationtime(sdf.format(new Date()));
-                luPinModelmarket.setState("selected");
-                TApplication.luPinModels.add(luPinModelmarket);
-
                 startActivity(CalculateSelectShopActivity.this, CalculateSelectCategoryActivity.class, "shop_id", shop_id);
             }
         });
@@ -164,12 +153,8 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
         tv_next=(TextView)findViewById(R.id.tv_next);
         record = new ArrayList<>();
         if (isNetworkConnected(this)) {
-//            if (dialog==null) {
-//                dialog = new LoadingDialog(CalculateSelectShopActivity.this, R.style.dialog);
-//                dialog.show();
                 biz = new MarcketSelBiz();
                 biz.getMacketList(0,50,TAG,this);
-//            }
         }else {
             showToast("网络无连接");
         }
@@ -197,7 +182,6 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
             Gson gson = new Gson();
             try {
                 String json = response.body().string();
-                Log.e("jsons=", json);
                 final Root root = gson.fromJson(json, Root.class);
                 if ("0".equals(String.valueOf(root.getStatus()))) {
                     list = root.getData().getList();
@@ -206,7 +190,7 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
                         isSel[i]=false;
                         TApplication.market.put(list.get(i).getShop_id(),list.get(i).getShop_name());
                     }
-                    adapter = new com.mb.mmdepartment.adapter.helpcalculate.MarketSelAdapter(list,this,isSel);
+                    adapter = new MarketSelAdapter(list,this,isSel);
                     handler.sendEmptyMessage(0);
                 } else {
                     handler.sendEmptyMessage(1);
@@ -220,24 +204,12 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
     @Override
     public void onItemClick(View view, int position) {
         if (isSel[position]){
+            LuPing(list.get(position).getShop_id(), "shop", "unselected", new Date());
             record.remove(list.get(position).getShop_id());
-            LuPinModel luPinModelshop = new LuPinModel();
-            luPinModelshop.setName(list.get(position).getShop_id());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            luPinModelshop.setOperationtime(sdf.format(new Date()));
-            luPinModelshop.setState("unselected");
-            luPinModelshop.setType("shop");
-            TApplication.luPinModels.add(luPinModelshop);
             isSel[position]=false;
         }else {
+            LuPing(list.get(position).getShop_id(),"shop","selected",new Date());
             record.add(list.get(position).getShop_id());
-            LuPinModel luPinModelshop = new LuPinModel();
-            luPinModelshop.setName(list.get(position).getShop_id());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            luPinModelshop.setOperationtime(sdf.format(new Date()));
-            luPinModelshop.setState("selected");
-            luPinModelshop.setType("shop");
-            TApplication.luPinModels.add(luPinModelshop);
             isSel[position] = true;
         }
         adapter.notifyItemChanged(position);

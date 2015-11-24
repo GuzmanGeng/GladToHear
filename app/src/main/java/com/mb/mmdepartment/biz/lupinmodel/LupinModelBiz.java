@@ -56,7 +56,6 @@ public class LupinModelBiz implements ILupinModelBiz{
         }
         json = "{\"userid\":\""+userid+"\",\"device_no\":"+ "\""+device_no+"\",\"data\":"
                 +json+"}";
-        Log.i("tag",json);
         return json;
     }
 }

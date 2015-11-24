@@ -33,12 +33,14 @@ import com.mb.mmdepartment.bean.main_brand.Root;
 import com.mb.mmdepartment.biz.helpcheck.marcket_sel.main_new.NewBrandBiz;
 import com.mb.mmdepartment.listener.OnRefreshListener;
 import com.mb.mmdepartment.listener.RequestListener;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.sp.SPCache;
 import com.mb.mmdepartment.view.RefreshListView;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,13 +76,13 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
                     }
                     break;
                 case 1:
-                    Toast.makeText(getActivity(), "网络数据异常", Toast.LENGTH_LONG).show();
+                    CustomToast.show(getActivity(), "提示", "网络数据异常");
                     break;
                 case 5:
-                    Toast.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_LONG).show();
+                    CustomToast.show(getActivity(), "提示", "没有更多数据了");
                     break;
                 case 10:
-                    Toast.makeText(getActivity(), "服务器正在维护,请稍后访问", Toast.LENGTH_LONG).show();
+                    CustomToast.show(getActivity(), "提示", "服务器正在维护,请稍后访问");
                     break;
             }
         }
@@ -159,25 +161,31 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.help_calculate_tv:
+                ((MainActivity) getActivity()).LuPing("btn_Accu","other","next",new Date());
                 alertDialog();
                 break;
             case R.id.help_check_tv:
+                ((MainActivity) getActivity()).LuPing("btn_Search","other","next",new Date());
                 Intent help_check_intent=new Intent(getActivity(),HelpYouQuerySearchActivity.class);
                 startActivity(help_check_intent);
                 break;
             case R.id.informationsummary_tv:
+                ((MainActivity) getActivity()).LuPing("btn_Infomation","other","next",new Date());
                 Intent information_intent=new Intent(getActivity(),InfomationSummaryActivity.class);
                 startActivity(information_intent);
                 break;
             case R.id.integralmall_tv:
+                ((MainActivity) getActivity()).LuPing("btn_IntegralMall","other","next",new Date());
                 Intent accumulate_intent=new Intent(getActivity(),AccumulatedShopActivity.class);
                 startActivity(accumulate_intent);
                 break;
             case R.id.persional_space_tv:
+                ((MainActivity) getActivity()).LuPing("btn_PersonalCenter","other","next",new Date());
                 Intent persion_center_intent=new Intent(getActivity(),UserSpaceActivity.class);
                 startActivity(persion_center_intent);
                 break;
             case R.id.woman_chat_tv:
+                ((MainActivity) getActivity()).LuPing("btn_Housewifeforum","other","next",new Date());
                 Toast.makeText(getActivity(), "此功能暂时未开放,敬请期待.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_new_brand_tv:
@@ -234,7 +242,7 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
                     biz.getMacketList("品牌大促", "ReleaseBrand", this);
                 }
             }else {
-                Toast.makeText(getActivity(), "网络无连接", Toast.LENGTH_LONG).show();
+                CustomToast.show(getActivity(), "提示", "网络无连接");
             }
             main_release_brand_tv.setTextColor(getResources().getColor(R.color.color_white));
             main_release_brand_tv.setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
@@ -257,7 +265,7 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
                     biz.getMacketList(page, 0, 50, null, "品牌新品", this);
                 }
             }else {
-                Toast.makeText(getActivity(), "网络无连接", Toast.LENGTH_LONG).show();
+                CustomToast.show(getActivity(), "提示", "网络无连接");
             }
             main_new_brand_tv.setTextColor(getResources().getColor(R.color.color_white));
             main_new_brand_tv.setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
@@ -279,7 +287,7 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
             biz=new NewBrandBiz();
             biz.getMacketList(page,0,50,null,brand, this);
         }else {
-            Toast.makeText(getActivity(), "网络无连接", Toast.LENGTH_LONG).show();
+            CustomToast.show(getActivity(), "提示", "网络无连接");
         }
     }
     /**
@@ -379,7 +387,6 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
             getMoreData(page,"品牌买赠");
         }
     }
-
     @Override
     public void onLoadingMore() {
         PULL_STATE=0;

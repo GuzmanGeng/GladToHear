@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.mb.mmdepartment.adapter.catlogs.LeftCatlogAdapter;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.sp.SPCache;
 import com.readystatesoftware.viewbadger.BadgeView;
 import com.squareup.okhttp.Request;
@@ -39,12 +40,16 @@ import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.network.OkHttp;
 import com.mb.mmdepartment.view.LoadingDialog;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
+
 public class CalculateSelectCategoryActivity extends BaseActivity implements CommodityRightItemClickListener,RequestListener,CatlogListAdapter.OnItemClickListener,CommoditySelectedListener{
     private final String TAG = CalculateSelectCategoryActivity.class.getSimpleName();
     private TextView floatButton,buy_plan_by_supermarket_tv,buy_plan_brand_tv;
@@ -53,7 +58,6 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     private LinearLayout goods_sel_liner,goods_sel_liner_parent;
     private static int selWhich;
     private BadgeView badge;
-    private LuPinModel luPinModel;
     private ListView catlog_sel_recycle;
     /**
      * 网络请求接口
@@ -70,7 +74,6 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     private CategoryList family_home_list;
     private CategoryList cosmetic_skin_list;
     private int fistVisiable;
-    private int left_position;
     private List<Type> food_drink_types,mom_baby_types,family_home_types,cosmetic_skin_types;
     private RelativeLayout relativelayout;
     /**
@@ -108,6 +111,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
      * 遮盖层
      */
     private TextView no_data_tv;
+    private LinearLayout contenner_progress;
 
     @Override
     public int getLayout() {
@@ -118,9 +122,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
      * w网络请求完毕后的数据设定
      */
     private void initData() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
+        endProgress();
         checkData(0);
         try{
             goods_sel_recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -196,50 +198,28 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                         mom_baby_list = totalList.get(i);
                         mom_baby_types=mom_baby_list.getSon();
                         mom_baby_commodityListAdapter=new CommodityListAdapter(CalculateSelectCategoryActivity.this,mom_baby_types,which,CalculateSelectCategoryActivity.this);
-
-
-
-
-//                        mom_baby_catlogListAdapter= new CatlogListAdapter(mom_baby_types,CalculateSelectCategoryActivity.this);
                         food_drink_catlogListAdapter= new LeftCatlogAdapter(this,mom_baby_types);
                         catlog_sel_recycle.setAdapter(food_drink_catlogListAdapter);
-
-
-
-
                         goods_sel_recycle.setAdapter(mom_baby_commodityListAdapter);
                     }else if (which == 2) {
                         family_home_list = totalList.get(i);
                         family_home_types=family_home_list.getSon();
                         family_home_commodityListAdapter=new CommodityListAdapter(CalculateSelectCategoryActivity.this,family_home_types,which,CalculateSelectCategoryActivity.this);
-
-//                        family_home_catlogListAdapter= new CatlogListAdapter(family_home_types,CalculateSelectCategoryActivity.this);
-//                        catlog_sel_recycle.setAdapter(family_home_catlogListAdapter);
-
                         food_drink_catlogListAdapter= new LeftCatlogAdapter(this,family_home_types);
                         catlog_sel_recycle.setAdapter(food_drink_catlogListAdapter);
-
-
                         goods_sel_recycle.setAdapter(family_home_commodityListAdapter);
                     }else if (which == 3) {
                         cosmetic_skin_list = totalList.get(i);
                         cosmetic_skin_types=cosmetic_skin_list.getSon();
                         cosmetic_skin_commodityListAdapter=new CommodityListAdapter(CalculateSelectCategoryActivity.this,cosmetic_skin_types,which,CalculateSelectCategoryActivity.this);
-
-//                        cosmetic_skin_catlogListAdapter= new CatlogListAdapter(cosmetic_skin_types,CalculateSelectCategoryActivity.this);
-//                        catlog_sel_recycle.setAdapter(cosmetic_skin_catlogListAdapter);
-
                         food_drink_catlogListAdapter= new LeftCatlogAdapter(this,cosmetic_skin_types);
                         catlog_sel_recycle.setAdapter(food_drink_catlogListAdapter);
-
-
                         goods_sel_recycle.setAdapter(cosmetic_skin_commodityListAdapter);
                     }
                     if (View.GONE == catlog_sel_recycle.GONE && View.GONE == goods_sel_recycle.GONE) {
                         catlog_sel_recycle.setVisibility(View.VISIBLE);
                         goods_sel_recycle.setVisibility(View.VISIBLE);
                     }
-                    Log.e("family_home_list", String.valueOf(family_home_list));
                     return;
                 }
             }
@@ -292,8 +272,6 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 if (floatButton.getVisibility() == View.VISIBLE) {
                     goods_sel_liner_parent.setVisibility(View.VISIBLE);
                     goods_sel_liner.setVisibility(View.VISIBLE);
-//                    FabTransformation.with(floatButton).transformTo(goods_sel_liner);
-                    Log.i("visible", floatButton.getVisibility() + "");
                 }
             }
         });
@@ -303,6 +281,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
      * 初始化view
      */
     private void initView() {
+        contenner_progress = (LinearLayout) findViewById(R.id.contenner_progress);
         no_data_tv = (TextView) findViewById(R.id.no_data_tv);
         floatButton = (TextView) findViewById(R.id.floatButton);
         goods_sel_recycle = (RecyclerView) findViewById(R.id.goods_sel_recycle);
@@ -316,7 +295,6 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 goods_sel_recycle.scrollToPosition(i);
             }
         });
-//        setLayoutManager(catlog_sel_recycle);
         goods_selected_recycle = (RecyclerView) findViewById(R.id.goods_selected_recycle);
 
         catlog_sel_food_drink_tv = (TextView) findViewById(R.id.catlog_sel_food_drink_tv);
@@ -337,13 +315,13 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
 
 
         goods_sel_liner = (LinearLayout) findViewById(R.id.goods_sel_liner);
-        goods_sel_liner_parent = (LinearLayout)findViewById(R.id.goods_sel_liner_parent);
+        goods_sel_liner_parent = (LinearLayout) findViewById(R.id.goods_sel_liner_parent);
         relativelayout = (RelativeLayout) findViewById(R.id.relativelayout);
 
         goods_sel_liner_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!goods_sel_liner.isFocused()){
+                if (!goods_sel_liner.isFocused()) {
                     goods_sel_liner_parent.setVisibility(View.GONE);
                 }
             }
@@ -351,74 +329,65 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
 
         if (isNetworkConnected(this)) {
             if (dialog == null) {
-                dialog = new LoadingDialog(this, R.style.dialog);
-                dialog.show();
+                setProgress(contenner_progress);
                 biz = new CommodityBiz();
-                Log.e("calculate",SPCache.getString("city_id","50"));
-                biz.getCommodityList(0, SPCache.getString("city_id","50"), shop_id, TAG, this);
+                biz.getCommodityList(0, SPCache.getString("city_id", "50"), shop_id, TAG, this);
             }
         } else {
             showToast("网络无连接");
         }
 
-        badge = new BadgeView(this,floatButton);
+        badge = new BadgeView(this, floatButton);
         badge.setText(records.size() + "");
         badge.setBadgePosition(BadgeView.POSITION_TOP_LEFT);
         badge.show();
 
-        buy_plan_by_supermarket_tv = (TextView)findViewById(R.id.buy_plan_by_supermarket_tv);
-        buy_plan_brand_tv = (TextView)findViewById(R.id.buy_plan_brand_tv);
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        buy_plan_by_supermarket_tv = (TextView) findViewById(R.id.buy_plan_by_supermarket_tv);
+        buy_plan_brand_tv = (TextView) findViewById(R.id.buy_plan_brand_tv);
         buy_plan_brand_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LuPinModel luPinModel_brand = new LuPinModel();
-                luPinModel_brand.setName("helpYouCountCategoryPriority");
-                luPinModel_brand.setState("next");
-                luPinModel_brand.setType("other");
-                luPinModel_brand.setOperationtime(sdf.format(new Date()));
-                TApplication.luPinModels.add(luPinModel_brand);
-//                Intent intent = new Intent(CalculateSelectCategoryActivity.this,CalculateShowWaresInfoActivity.class);
-                Intent intent = new Intent(CalculateSelectCategoryActivity.this,ProposedProjectActivity.class);
-//                intent.putExtra("tag","by_brand");
+                if (records.size() == 0) {
+                    CustomToast.show(CalculateSelectCategoryActivity.this,"提示","请先选择要查询的商品");
+                    return;
+                }
+                LuPing("btn_Accu_Category_Priority", "category", "next", new Date());
+                Intent intent = new Intent(CalculateSelectCategoryActivity.this, ProposedProjectActivity.class);
                 intent.putExtra("which", 1);//按品类优先
-                intent.putExtra("shop_id",shop_id);
+                intent.putExtra("shop_id", shop_id);
                 String category_ids = "";
-                for(int i = 0;i<records.size();i++){
-                    category_ids = category_ids+records.get(i).getCategory_id()+",";
+                for (int i = 0; i < records.size(); i++) {
+                    category_ids = category_ids + records.get(i).getCategory_id() + ",";
                 }
-                if(category_ids.endsWith(",")){
-                    category_ids = category_ids.substring(0,category_ids.length()-1);
+                if (category_ids.endsWith(",")) {
+                    category_ids = category_ids.substring(0, category_ids.length() - 1);
                 }
-                intent.putExtra("records",category_ids);
+                intent.putExtra("records", category_ids);
                 startActivity(intent);
             }
         });
         buy_plan_by_supermarket_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LuPinModel luPinModel_market = new LuPinModel();
-                luPinModel_market.setName("helpYouCountShopPriority");
-                luPinModel_market.setState("next");
-                luPinModel_market.setType("other");
-                luPinModel_market.setOperationtime(sdf.format(new Date()));
-                TApplication.luPinModels.add(luPinModel_market);
-//                Intent intent = new Intent(CalculateSelectCategoryActivity.this,CalculateShowWaresInfoActivity.class);
-                Intent intent = new Intent(CalculateSelectCategoryActivity.this,ProposedProjectActivity.class);
-//                intent.putExtra("tag","by_market");
-                intent.putExtra("shop_id",shop_id);
-                intent.putExtra("which",2);
-                String category_ids = "";
-                for(int i = 0;i<records.size();i++){
-                    category_ids = category_ids+records.get(i).getCategory_id()+",";
+                if (records.size() == 0) {
+                    CustomToast.show(CalculateSelectCategoryActivity.this,"提示","请先选择要查询的商品");
+                    return;
                 }
-                if(category_ids.endsWith(",")) {
+                LuPing("btn_Accu_Shop_Priority", "category", "next", new Date());
+                Intent intent = new Intent(CalculateSelectCategoryActivity.this, ProposedProjectActivity.class);
+                intent.putExtra("shop_id", shop_id);
+                intent.putExtra("which", 2);
+                String category_ids = "";
+                for (int i = 0; i < records.size(); i++) {
+                    category_ids = category_ids + records.get(i).getCategory_id() + ",";
+                }
+                if (category_ids.endsWith(",")) {
                     category_ids = category_ids.substring(0, category_ids.length() - 1);
 
                     Log.e("category_ids", category_ids);
 
                 }
-                intent.putExtra("records",category_ids);
+                intent.putExtra("records", category_ids);
                 startActivity(intent);
             }
         });
@@ -443,8 +412,8 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
         OkHttp.mOkHttpClient.cancel(TAG);
+        finish();
     }
 
     @Override
@@ -477,8 +446,6 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     @Override
     public void onClick(int position) {
         goods_sel_recycle.smoothScrollToPosition(position);
-
-
     }
 
     /**
@@ -490,9 +457,9 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
      * @param categoryList
      */
     public void setDataChange(String title,int category_id,String hid,int position,int index,int which,RecyclerView.Adapter adapter,CategoryList categoryList) {
-        Log.e("categoryList", String.valueOf(categoryList));
         String state = categoryList.getSon().get(index).getSon().get(position).getSelect();
         if ("0".equals(state)) {
+            LuPing(String.valueOf(category_id),"category","selected",new Date());
             categoryList.getSon().get(index).getSon().get(position).setSelect("1");
             record = new SelRecord();
             record.setTitle(title);
@@ -504,6 +471,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
             records.add(record);
             badge.setText(records.size()+"");
         } else if ("1".equals(state)) {
+            LuPing(String.valueOf(category_id),"category","unSelected",new Date());
             categoryList.getSon().get(index).getSon().get(position).setSelect("0");
             for (int i = 0; i < records.size(); i++) {
                 SelRecord rel = records.get(i);
@@ -524,13 +492,13 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
      */
     public void onCommodityRightItemClickListener(String title,int category_id, String hid, int position, int index,int which) {
         if (selWhich==0){
-            setDataChange(title,category_id,hid,position,index,which,food_drink_commodityListAdapter,food_drink_list);
+            setDataChange(title, category_id, hid, position, index, which, food_drink_commodityListAdapter, food_drink_list);
         }else if (selWhich==1){
-            setDataChange(title,category_id,hid,position,index,which,mom_baby_commodityListAdapter,mom_baby_list);
+            setDataChange(title, category_id, hid, position, index, which, mom_baby_commodityListAdapter, mom_baby_list);
         }else if (selWhich==2){
-            setDataChange(title,category_id,hid,position,index,which,family_home_commodityListAdapter,family_home_list);
+            setDataChange(title, category_id, hid, position, index, which, family_home_commodityListAdapter, family_home_list);
         }else if (selWhich==3){
-            setDataChange(title,category_id,hid,position,index,which,cosmetic_skin_commodityListAdapter,cosmetic_skin_list);
+            setDataChange(title, category_id, hid, position, index, which, cosmetic_skin_commodityListAdapter, cosmetic_skin_list);
         }
         adapter = new CommoditySelectedAdapter(records,CalculateSelectCategoryActivity.this);
         GridLayoutManager manager = new GridLayoutManager(CalculateSelectCategoryActivity.this, 4);
@@ -540,81 +508,40 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     @Override
     public void onItemLongClick(SelRecord record) {
         int which = record.getSelWhich();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Log.e("which", "" + which);
         if (which == 0) {
-            LuPinModel remove_food = new LuPinModel();
-            remove_food.setName(food_drink_types.get(record.getIndex()).getSon().get(record.getPosition()).getCategory_id());
-            remove_food.setState("unselected");
-            remove_food.setType("category");
-            remove_food.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(remove_food);
-            Log.e("mom_baby_types", "" + food_drink_types.size());
             food_drink_types.get(record.getIndex()).getSon().get(record.getPosition()).setSelect("0");
             food_drink_commodityListAdapter.notifyDataSetChanged();
         } else if (which == 1) {
-            LuPinModel remove_baby = new LuPinModel();
-            remove_baby.setName(mom_baby_types.get(record.getIndex()).getSon().get(record.getPosition()).getCategory_id());
-            remove_baby.setState("unselected");
-            remove_baby.setType("category");
-            remove_baby.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(remove_baby);
-            Log.e("mom_baby_commodityList1", "" + mom_baby_types.size());
-            Log.e("mom_baby_commodityList2", "" + record.getIndex());
-            Log.e("mom_baby_commodityList3", "" + record.getPosition());
             mom_baby_types.get(record.getIndex()).getSon().get(record.getPosition()).setSelect("0");
             mom_baby_commodityListAdapter.notifyDataSetChanged();
         } else if (which == 2) {
-            LuPinModel remove_family = new LuPinModel();
-            remove_family.setName(family_home_types.get(record.getIndex()).getSon().get(record.getPosition()).getCategory_id());
-            remove_family.setState("unselected");
-            remove_family.setType("category");
-            remove_family.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(remove_family);
-            Log.e("mom_baby_types2", "" + family_home_types.size());
             family_home_types.get(record.getIndex()).getSon().get(record.getPosition()).setSelect("0");
             family_home_commodityListAdapter.notifyDataSetChanged();
         } else if (which == 3) {
-            LuPinModel remove_skin = new LuPinModel();
-            remove_skin.setName(cosmetic_skin_types.get(record.getIndex()).getSon().get(record.getPosition()).getCategory_id());
-            remove_skin.setState("unselected");
-            remove_skin.setType("category");
-            remove_skin.setOperationtime(sdf.format(new Date()));
-            TApplication.luPinModels.add(remove_skin);
-            Log.e("mom_baby_types3", "" + cosmetic_skin_types.size());
             cosmetic_skin_types.get(record.getIndex()).getSon().get(record.getPosition()).setSelect("0");
             cosmetic_skin_commodityListAdapter.notifyDataSetChanged();
         }
-
         for (int i = 0; i < records.size(); i++) {
             SelRecord rel = records.get(i);
             if (record.getTitle().equals(rel.getTitle())) {
                 records.remove(rel);
             }
         }
-        badge.setText(records.size()+"");
+        LuPing(String.valueOf(record.getCategory_id()),"category","unSelected",new Date());
+        badge.setText(records.size() + "");
         adapter.notifyDataSetChanged();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("helpYouCountCategorySelecting");
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
     @Override
     protected void onPause() {
         super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
+        JPushInterface.onPause(this);
+        MobclickAgent.onPause(this);
         StatService.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("help_Accu_Shop","page","end",new Date());
     }
 }

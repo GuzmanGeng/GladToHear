@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.mb.mmdepartment.activities.ProposedProjectActivity;
 import com.mb.mmdepartment.adapter.proposedproject.ProposedProjectAdapter;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.bean.buyplan.Root;
 import com.mb.mmdepartment.bean.buyplan.byprice.DataList;
 import com.squareup.okhttp.Callback;
@@ -47,11 +48,11 @@ public class SortBiz{
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    Log.e("adapter", "有数据传递");
                     adapter = new ProposedProjectAdapter(list, which, context,textView,activity);
                     manager = new LinearLayoutManager(context);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(adapter);
+                    ((BaseActivity)activity).endProgress();
                     break;
                 case 1:
                     ((ProposedProjectActivity)context).showToast("服务端正在维护,请稍后再试");

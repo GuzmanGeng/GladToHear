@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.bean.user.User;
+import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.wxapi.WXEntryActivity;
 //import com.sina.weibo.sdk.auth.AuthInfo;
 //import com.sina.weibo.sdk.auth.sso.SsoHandler;
@@ -208,7 +209,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 luPinModellogin.setOperationtime(sdf.format(new Date()));
                 TApplication.luPinModels.add(luPinModellogin);
                 if (!isNetworkConnected(this)){
-                    showToast("网络无连接");
+                    CustomToast.show(LoginActivity.this,"提示","网络无连接");
                     return;
                 }
                 switch (foxMessage()){
@@ -348,7 +349,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (!login) {
+                            if (login) {
                                 setResult(RESULT_OK);
                                 finish();
                             }else {
@@ -536,7 +537,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             }catch (Exception e){
 
                             }
-                            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                            CustomToast.show(LoginActivity.this, "提示", "登录成功");
                             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();

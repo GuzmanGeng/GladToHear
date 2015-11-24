@@ -2,4 +2,5 @@
 <resources>
     <dimen name="toast_l_r">15dp</dimen>
     <dimen name="toast_w">143dp</dimen>
+    <dimen name="eighteen_sp">18sp</dimen>
 </resources>
