@@ -24,16 +24,16 @@ import com.mb.mmdepartment.bean.marcketseldetail.Lists;
 import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.shop_car.ShopCarAtoR;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
+
 public class ShoppingCartPageActivity extends BaseActivity{
-//    private ExpandableListView shopping_cart_ell;
-//    private ArrayList<Lists> lists = new ArrayList<>();
-//    private Map<String,Lists> shopping_list = TApplication.shop_lists;
-//    private ShoppingCartAdapter adapter;
-//    private List<DataList> groups = TApplication.shop_list_to_pick;
     private LuPinModel luPinModel;
     private List<Lists> shopping_car;//过度购物车
     private List<Lists> shopping_car_order;//排序的购物车
@@ -55,27 +55,18 @@ public class ShoppingCartPageActivity extends BaseActivity{
         initView();
         setListener();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("car");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        StatService.onResume(this);
-    }
-
-
     @Override
     protected void onPause() {
         super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
         StatService.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("shopping_Car", "page", "end", new Date());
     }
 
     @Override
@@ -148,19 +139,12 @@ public class ShoppingCartPageActivity extends BaseActivity{
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                LuPinModel luPinModel_list = new LuPinModel();
-                luPinModel_list.setType("other");
-                luPinModel_list.setState("next");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                luPinModel_list.setOperationtime(sdf.format(new Date()));
-                luPinModel_list.setName("productionOrderButton");
-                TApplication.luPinModels.add(luPinModel_list);
+                LuPing("productionOrderButton","other","next",new Date());
                 if (TApplication.ids.size() == 0) {
                     CustomToast.show(ShoppingCartPageActivity.this,"提示","购物车空了,先去添加吧!");
                 } else {
                     Intent intent = new Intent(ShoppingCartPageActivity.this,OrderInfoPageActivity.class);
                     intent.putExtra("tag",ShoppingCartPageActivity.class.getSimpleName());
-//                intent.putExtra("lists",(ArrayList)groups);
                     startActivity(intent);
                 }
                 return false;

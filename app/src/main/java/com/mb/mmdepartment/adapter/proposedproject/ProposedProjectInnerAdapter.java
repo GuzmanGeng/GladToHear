@@ -222,6 +222,11 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
         holder.marcket_sel_detail_liner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (title_sel != null) {
+                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getCategory_id(), "article", "helpYouCount", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
+                } else {
+                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getCategory_id(), "article", "car", "shopping_Car", lists.get(position).getShop_id(), new Date());
+                }
                 Intent intent = new Intent(view.getContext(), WaresDetailPageActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("lists", lists.get(position));

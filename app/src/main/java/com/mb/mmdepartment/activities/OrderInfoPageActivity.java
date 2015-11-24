@@ -26,6 +26,7 @@ import com.mb.mmdepartment.biz.submitorders.SubmitordersBiz;
 import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.tools.log.Log;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -124,17 +125,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.save_list:
-
-                LuPinModel save = new LuPinModel();
-                save.setName("orderSaveButton");
-                save.setType("other");
-                save.setState("saveOrder");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                save.setOperationtime(sdf.format(new Date()));
-                TApplication.luPinModels.add(save);
-
-
-
+                LuPing("orderSaveButton","other","saveOrder",new Date());
                 if (TextUtils.isEmpty(TApplication.user_id)||null==TApplication.user_id) {
                     not_login.setVisibility(View.VISIBLE);
                     listview.setVisibility(View.GONE);
@@ -230,31 +221,22 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("productionOrder");
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
     @Override
     protected void onPause() {
         super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
+        MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
         StatService.onPause(this);
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("order_Detail","page","end",new Date());
+    }
+
+    @Override
     public void onFailue(Request request, IOException e) {
-        showToast("保存失败");
+
     }
 }
