@@ -17,6 +17,7 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.squareup.okhttp.Request;
@@ -283,20 +284,12 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
         mLocationManagerProxy = null;
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        //记录开始时间
-//        startTime(new Date());
-//        MobclickAgent.onResume(this);
-//        JPushInterface.onResume(this);
-//        StatService.onResume(this);
-//    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LuPing("city_Change", "page", "end", new Date());
         stopLocation();
+        TApplication.activities.remove(this);
     }
 
     @Override

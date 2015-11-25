@@ -73,6 +73,12 @@ public class CalculateShowWaresInfoActivity extends BaseActivity implements View
         setListener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
+
     public static void setbadge(){
         int size = 0;
         for(int i = 0;i<TApplication.shop_list_to_pick.size();i++){

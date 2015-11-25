@@ -98,7 +98,8 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LuPingDestory("help_Search","page","end",new Date());
+        LuPingDestory("help_Search", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     private void setListeners() {
@@ -111,19 +112,19 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String keyword = list.get(i).getKeyword();
                 if (tagSel == 3) {
-                    LuPing(keyword,"searchShop","next",new Date());
+                    LuPing(keyword,"shop","search",new Date());
                     String shopName = list.get(i).getShop_name();
                     startActivity(HelpYouQuerySearchActivity.this, MarcketSelDetailActivity.class, new String[]{"keyword", "shop_name"}, new String[]{keyword, shopName});
                 }else if (tagSel == 2) {
                     String title = list.get(i).getSearch_name();
-                    LuPing(title,"searchCategory","next",new Date());
+                    LuPing(title,"category","search",new Date());
                     Intent intent = new Intent(HelpYouQuerySearchActivity.this, ShowWaresInfoActivity.class);
                     intent.putExtra("keyword", keyword);
                     intent.putExtra("catlog", true);
                     intent.putExtra("searchName", title);
                     startActivity(intent);
                 } else {
-                    LuPing(keyword,"searchBrand","next",new Date());
+                    LuPing(keyword,"brand","search",new Date());
                     Intent intent = new Intent(HelpYouQuerySearchActivity.this, ShowWaresInfoActivity.class);
                     intent.putExtra("keyword",keyword);
                     intent.putExtra("catlog", false);
@@ -262,7 +263,13 @@ public class HelpYouQuerySearchActivity extends BaseActivity implements OnRecycI
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if (!TextUtils.isEmpty(charSequence)) {
             lv_puzzy.setVisibility(View.VISIBLE);
-            LuPing(charSequence.toString(),"searchShop","input",new Date());
+            if (tagSel == 1) {
+                LuPing(charSequence.toString(),"searchBrand","input",new Date());
+            }else if (tagSel == 2) {
+                LuPing(charSequence.toString(),"searchCategory","input",new Date());
+            } else {
+                LuPing(charSequence.toString(),"searchShop","input",new Date());
+            }
             String keyword = charSequence.toString();
             getPuzzyData(keyword,String.valueOf(tagSel));
         } else {

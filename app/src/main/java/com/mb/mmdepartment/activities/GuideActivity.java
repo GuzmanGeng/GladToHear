@@ -7,8 +7,10 @@ import android.support.v7.app.ActionBar;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.adapter.GuideFragmentAdapter;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.fragment.main.guide.FragmentGuideOne;
 import com.mb.mmdepartment.fragment.main.guide.FragmentGuideFour;
+import com.mb.mmdepartment.fragment.main.guide.FragmentGuideThree;
 import com.mb.mmdepartment.fragment.main.guide.FragmentGuideTwo;
 import com.tencent.stat.StatService;
 
@@ -53,11 +55,17 @@ public class GuideActivity extends BaseActivity {
         guideThree=new FragmentGuideFour();
         guideOne=new FragmentGuideOne();
         guideTwo=new FragmentGuideTwo();
-        guide_four=new FragmentGuideFour();
+        guide_four=new FragmentGuideThree();
         list.add(guideOne);
         list.add(guideTwo);
         list.add(guide_four);
         list.add(guideThree);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

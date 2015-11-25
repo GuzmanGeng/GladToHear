@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.sina.weibo.sdk.api.share.Base;
 
 public class ContactUsActivity extends BaseActivity {
@@ -19,6 +20,22 @@ public class ContactUsActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

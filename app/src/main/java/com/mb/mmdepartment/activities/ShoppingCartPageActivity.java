@@ -56,17 +56,10 @@ public class ShoppingCartPageActivity extends BaseActivity{
         setListener();
     }
     @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-        JPushInterface.onPause(this);
-        StatService.onPause(this);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         LuPingDestory("shopping_Car", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     @Override
@@ -139,10 +132,10 @@ public class ShoppingCartPageActivity extends BaseActivity{
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                LuPing("productionOrderButton","other","next",new Date());
                 if (TApplication.ids.size() == 0) {
-                    CustomToast.show(ShoppingCartPageActivity.this,"提示","购物车空了,先去添加吧!");
+                    CustomToast.show(ShoppingCartPageActivity.this, "提示", "购物车空了,先去添加吧!");
                 } else {
+                    LuPing("btn_Order_List","other","next",new Date());
                     Intent intent = new Intent(ShoppingCartPageActivity.this,OrderInfoPageActivity.class);
                     intent.putExtra("tag",ShoppingCartPageActivity.class.getSimpleName());
                     startActivity(intent);
@@ -168,6 +161,7 @@ public class ShoppingCartPageActivity extends BaseActivity{
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
+                LuPingWithSelectId(shopping_car_order.get(position).getId(),"car","unSelected","shopping_car",shopping_car_order.get(position).getSelect_shop_id(),new Date());
                 shopping_car_order.remove(position);
                 inner_adapter.notifyItemRemoved(position);
                 index=position;

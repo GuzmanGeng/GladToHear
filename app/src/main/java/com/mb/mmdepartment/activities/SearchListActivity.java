@@ -6,11 +6,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.biz.main_search.MainSearchDetailList;
 import com.mb.mmdepartment.listener.NoMoreDataListener;
 import com.mb.mmdepartment.listener.OnRefreshListener;
 import com.mb.mmdepartment.tools.sp.SPCache;
 import com.mb.mmdepartment.view.RefreshListView;
+
+import java.util.Date;
 
 public class SearchListActivity extends BaseActivity implements OnRefreshListener,NoMoreDataListener{
     private RefreshListView main_search_list;
@@ -33,6 +36,13 @@ public class SearchListActivity extends BaseActivity implements OnRefreshListene
         biz = new MainSearchDetailList(this,main_search_list,this);
         initListener();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("infomation_Summary", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     /**

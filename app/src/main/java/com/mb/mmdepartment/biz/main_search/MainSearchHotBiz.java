@@ -60,9 +60,9 @@ public class MainSearchHotBiz {
         manager = new MyGridLayoutManager(context, 3);
         manager_hot_brand = new MyGridLayoutManager(context, 3);
         manager_hot_channel = new MyGridLayoutManager(context, 3);
-        adapter_tag = new HotDataAdapter(tags);
-        adapter_markets = new HotDataAdapter(markets);
-        adapter_userKey = new HotDataAdapter(userkeywords);
+        adapter_tag = new HotDataAdapter(context,tags);
+        adapter_markets = new HotDataAdapter(context,markets);
+        adapter_userKey = new HotDataAdapter(context,userkeywords);
         recycs[0].setLayoutManager(manager);
         recycs[1].setLayoutManager(manager_hot_brand);
         recycs[2].setLayoutManager(manager_hot_channel);

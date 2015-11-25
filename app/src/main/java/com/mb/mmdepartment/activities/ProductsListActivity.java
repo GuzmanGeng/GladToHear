@@ -89,4 +89,10 @@ public class    ProductsListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
 }

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -36,29 +37,6 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
     private void initView() {
 
     }
-
-    private void SearchScore() {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("UserCenter");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setState("end");
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
-
     @Override
     protected void setToolBar(ActionBar action, boolean isTrue) {
         action.setTitle("个人中心");
@@ -82,6 +60,12 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onResponse(Response response) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

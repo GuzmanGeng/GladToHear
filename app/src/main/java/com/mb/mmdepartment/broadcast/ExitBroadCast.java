@@ -3,7 +3,11 @@ package com.mb.mmdepartment.broadcast;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.base.TApplication;
@@ -26,21 +30,25 @@ public class ExitBroadCast extends BroadcastReceiver {
         this.activity = activity;
     }
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if (null!=activity){
-            LupinModelBiz lupinModelBiz = new LupinModelBiz();
-            String json = lupinModelBiz.getlist(JPushInterface.getRegistrationID(context));
-            lupinModelBiz.sendLuPinModel(json, TAG, new RequestListener() {
-                @Override
-                public void onResponse(Response response) {
+    public void onReceive(final Context context, Intent intent) {
+        LupinModelBiz lupinModelBiz = new LupinModelBiz();
+        String json = lupinModelBiz.getlist(JPushInterface.getRegistrationID(context));
+        lupinModelBiz.sendLuPinModel(json, TAG, new RequestListener() {
+            @Override
+            public void onResponse(Response response) {
 
-                }
-                @Override
-                public void onFailue(Request request, IOException e) {
+            }
 
-                }
-            });
-            activity.finish();
+            @Override
+            public void onFailue(Request request, IOException e) {
+
+            }
+        });
+        for (AppCompatActivity activity : TApplication.activities) {
+            if (activity != null) {
+                activity.finish();
+            }
         }
+        activity.finish();
     }
 }

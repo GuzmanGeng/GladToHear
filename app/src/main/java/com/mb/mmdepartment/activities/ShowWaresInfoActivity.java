@@ -82,28 +82,6 @@ public class ShowWaresInfoActivity extends BaseActivity implements RequestListen
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("shopdetailactivity");
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
-
-    @Override
     public void init(Bundle savedInstanceState) {
         keyword=getIntent().getStringExtra("keyword");
         catlog = getIntent().getBooleanExtra("catlog", false);
@@ -131,7 +109,6 @@ public class ShowWaresInfoActivity extends BaseActivity implements RequestListen
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.e("pisition", lastPosition+"");
                 lastPosition=manager.findLastVisibleItemPosition();
             }
         });
@@ -171,7 +148,6 @@ public class ShowWaresInfoActivity extends BaseActivity implements RequestListen
         if (response.isSuccessful()) {
             try {
                 String json = response.body().string();
-                Log.e("searchlist", json);
                 if (!json.contains("[")) {
                     handler.sendEmptyMessage(10);
                     return;
@@ -179,7 +155,6 @@ public class ShowWaresInfoActivity extends BaseActivity implements RequestListen
                 Gson gson = new Gson();
                 Root root = gson.fromJson(json, Root.class);
                 if (root.getData().getList().size()==0){
-                    Log.e("data","000000000000");
                     handler.sendEmptyMessage(3);
                 }else {
                     for (Lists data : root.getData().getList()) {
@@ -217,5 +192,11 @@ public class ShowWaresInfoActivity extends BaseActivity implements RequestListen
         if (lastPosition==0) {
             swipeRefreshView.setRefreshing(false);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 }

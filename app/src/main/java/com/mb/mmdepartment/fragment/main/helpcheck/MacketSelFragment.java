@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Request;
@@ -105,13 +106,7 @@ public class MacketSelFragment extends Fragment implements RequestListener,OnMar
         }
         @Override
         public void marcketSelCallBack(String keyword,String name) {
-                LuPinModel luPinModel = new LuPinModel();
-                luPinModel.setName(name);
-                luPinModel.setState("selected");
-                luPinModel.setType("shop");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                luPinModel.setOperationtime(sdf.format(new Date()));
-                TApplication.luPinModels.add(luPinModel);
+                ((BaseActivity)getActivity()).LuPingWithSource(keyword,"shop","next","help_Search",new Date());
                 ((HelpYouQuerySearchActivity) getActivity()).startActivity(getActivity(), MarcketSelDetailActivity.class, new String[]{"keyword", "shop_name"}, new String[]{keyword, name});
         }
 }

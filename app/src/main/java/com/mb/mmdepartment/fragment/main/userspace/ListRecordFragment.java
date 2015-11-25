@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -31,6 +32,7 @@ import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.network.OkHttp;
 import com.mb.mmdepartment.view.LoadingDialog;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 public class ListRecordFragment extends Fragment implements RequestListener,AccumulateShopItemClickListener{
@@ -141,6 +143,7 @@ public class ListRecordFragment extends Fragment implements RequestListener,Accu
 
     @Override
     public void onItemClick(View view, String oNumber) {
+        ((BaseActivity)getActivity()).LuPing(oNumber,"other","next",new Date());
         Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
         intent.putExtra("onumber",oNumber);
         ((UserSpaceActivity) getActivity()).startActivity(intent);

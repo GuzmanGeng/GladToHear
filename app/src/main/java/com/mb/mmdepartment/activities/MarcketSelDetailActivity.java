@@ -91,30 +91,15 @@ public class MarcketSelDetailActivity extends BaseActivity implements RequestLis
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("helpYouCountCommodityList");
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
-
-    @Override
     public int getLayout() {
         return R.layout.activity_marcket_sel_detail;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("help_Search_Result_List", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     @Override
@@ -311,6 +296,7 @@ public class MarcketSelDetailActivity extends BaseActivity implements RequestLis
 
     @Override
     public void callBack(Lists lists) {
+        LuPingWithSelectId(lists.getCategory_id(),"article","next","help_Search",lists.getSelect_shop_id(),new Date());
         Bundle bundle = new Bundle();
         bundle.putSerializable("lists",lists);
         startActivity(MarcketSelDetailActivity.this,bundle,"bundle", WaresDetailPageActivity.class);

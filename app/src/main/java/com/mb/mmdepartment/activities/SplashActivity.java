@@ -10,12 +10,15 @@ import com.google.gson.Gson;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
+import com.mb.mmdepartment.bean.login.Data;
 import com.mb.mmdepartment.bean.login.getstartpic.Root;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.bean.user.User;
 import com.mb.mmdepartment.biz.login.LoginBiz;
 import com.mb.mmdepartment.biz.login.getpic.GetPic;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.mb.mmdepartment.listener.RequestListener;
+import com.mb.mmdepartment.network.OkHttp;
 import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.tools.log.Log;
 import com.mb.mmdepartment.tools.sp.SPCache;
@@ -114,17 +117,56 @@ public class SplashActivity extends BaseActivity {
                 }else {
                     String provience = SPCache.getString("provience","");
                     TApplication.user_id = SPCache.getString(BaseConsts.SharePreference.USER_ID,"");
-                    TApplication.user_name = SPCache.getString(BaseConsts.SharePreference.USER_NAME, "");
-                    TApplication.integral = SPCache.getString(BaseConsts.SharePreference.USER_SCORE, "");
-                    TApplication.user_avatar = SPCache.getString(BaseConsts.SharePreference.USER_LITTLE_IMAGE, "");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!TextUtils.isEmpty(TApplication.user_id)){
-                                CustomToast.show(SplashActivity.this, "提示", "登录成功");
+                    if (!TextUtils.isEmpty(TApplication.user_id)){
+                        LoginBiz biz=new LoginBiz();
+                        biz.login(SPCache.getString(BaseConsts.SharePreference.USER_NAME, ""), SPCache.getString(BaseConsts.SharePreference.USER_PASS, ""), JPushInterface.getRegistrationID(SplashActivity.this), new RequestListener() {
+                            @Override
+                            public void onResponse(Response response) {
+                                Gson gson = new Gson();
+                                String json = null;
+                                try {
+                                    json = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                final com.mb.mmdepartment.bean.login.Root root = gson.fromJson(json, com.mb.mmdepartment.bean.login.Root.class);
+                                if (root.getStatus() == OkHttp.NET_STATE) {
+                                    TApplication.user_id = root.getData().getUserid();
+                                    TApplication.user_name = root.getData().getUsername();
+                                    TApplication.integral = root.getData().getIntegral();
+                                    TApplication.user_avatar = root.getData().getAvatar();
+                                    TApplication.user_nick = root.getData().getNickname();
+                                    TApplication.device_no = root.getData().getDevice_no();
+                                    Data data = root.getData();
+                                    TApplication.user.setUsername(data.getUsername());
+                                    TApplication.user.setIntegral(data.getIntegral());
+                                    TApplication.user.setNickname(data.getNickname());
+                                    TApplication.user.setGender(data.getGender());
+                                    TApplication.user.setYear(data.getYear());
+                                    TApplication.user.setMonth(data.getMonth());
+                                    TApplication.user.setDay(data.getDay());
+                                    TApplication.user.setOccupation(data.getOccupation());
+                                    TApplication.user.setArea(data.getArea());
+                                    TApplication.user.setIncome_range(data.getIncome_range());
+                                    TApplication.user.setContent(data.getContent());
+
+                                    startActivity(SplashActivity.this, MainActivity.class);
+                                } else {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showToast(root.getError());
+                                        }
+                                    });
+                                }
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onFailue(Request request, IOException e) {
+
+                            }
+                        });
+                    }
 
                     if (provience == null || "".equals(provience)) {
                         startActivity(SplashActivity.this, WelcomActivity.class);
@@ -136,5 +178,11 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         },1500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 }

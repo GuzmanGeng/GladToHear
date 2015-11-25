@@ -70,6 +70,12 @@ public class FastRegistActivity extends BaseActivity implements View.OnClickList
         setlistener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
+
     private void initview(){
         username = (EditText)findViewById(R.id.fast_regist_username_ed);
         password = (EditText)findViewById(R.id.fast_regist_password_ed);
@@ -198,6 +204,16 @@ public class FastRegistActivity extends BaseActivity implements View.OnClickList
         dialog.setTitle(msg);
         dialog.show();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

@@ -84,7 +84,6 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
-
     private void initData(){
         lists=TApplication.shop_list_to_pick;
         for(int i = 0;i<lists.size();i++){
@@ -125,7 +124,7 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.save_list:
-                LuPing("orderSaveButton","other","saveOrder",new Date());
+                LuPing("btn_OrderSave","other","saveOrder",new Date());
                 if (TextUtils.isEmpty(TApplication.user_id)||null==TApplication.user_id) {
                     not_login.setVisibility(View.VISIBLE);
                     listview.setVisibility(View.GONE);
@@ -232,7 +231,8 @@ public class OrderInfoPageActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LuPingDestory("order_Detail","page","end",new Date());
+        LuPingDestory("order_Detail", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     @Override

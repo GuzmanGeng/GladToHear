@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.facebook.stetho.Stetho;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
@@ -51,7 +52,7 @@ public class TApplication extends Application{
     public static Map<String,Lists> shop_lists=new HashMap<>();//已经选中的商品此处根据id来判断是否在购物车
     public static List<String> ids=new ArrayList<>();//存放所有选择的id
     public static List<DataList> shop_list_to_pick=new ArrayList<>();//提供匹配的列表
-
+    public static List<AppCompatActivity> activities;
 
     public static boolean isSel;
     //高德地图定位
@@ -61,10 +62,11 @@ public class TApplication extends Application{
     public static String city_name;
     public static String user_id;
     public static String user_avatar;
-    //昵称
-    public static User user;
+    //用户信息
+    public static User user = new User();
     //用户名
     public static String user_name;
+    public static String user_nick;
     //积分数目
     public static String integral;
     public static String token="";
@@ -111,6 +113,7 @@ public class TApplication extends Application{
         if ("com.mb.mmdepartment".equals(TDevide.getCurProcessName(this))){
             instance=this;
             mContext=getApplicationContext();
+            activities = new ArrayList<>();
 //            //极光推送
             JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
             JPushInterface.init(this);     		// 初始化 JPush

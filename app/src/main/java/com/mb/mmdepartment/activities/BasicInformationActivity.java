@@ -71,30 +71,14 @@ public class BasicInformationActivity extends BaseActivity implements RequestLis
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(BasicInformationActivity.class.getSimpleName());
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
-
-    @Override
     public void onFailue(Request request, IOException e) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

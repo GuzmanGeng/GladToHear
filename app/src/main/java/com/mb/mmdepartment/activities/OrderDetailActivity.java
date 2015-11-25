@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.adapter.buyplan.BuyListAdapter;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -124,6 +125,12 @@ public class OrderDetailActivity extends BaseActivity implements RequestListener
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     private void getData(){

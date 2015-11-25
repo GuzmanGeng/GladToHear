@@ -102,25 +102,9 @@ public class MyAccuntActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setType("page");
-        luPinModel.setName("my_account");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override
@@ -463,12 +447,7 @@ public class MyAccuntActivity extends BaseActivity implements View.OnClickListen
                 TApplication.user_id="";
                 TApplication.user_name="";
                 TApplication.user_avatar="";
-//                SPCache.putString(BaseConsts.SharePreference.USER_ID, "");
-//                SPCache.putString(BaseConsts.SharePreference.USER_NAME, "");
-//                SPCache.putString(BaseConsts.SharePreference.USER_SCORE, "");
-//                SPCache.putString(BaseConsts.SharePreference.USER_LITTLE_IMAGE, "");
                 SPCache.clear();
-//                startActivity(MyAccuntActivity.this,MainActivity.class);
                 finish();
                 break;
             case R.id.user_info:

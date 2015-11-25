@@ -64,7 +64,7 @@
                     android:text="  昵       称:" />
             </RelativeLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" >
@@ -106,7 +106,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/unbind" />
-            </LinearLayout>
+            </LinearLayout>-->
             <!-- 选择性别 -->
 
             <LinearLayout
@@ -123,27 +123,27 @@
                     android:text="  性       别:" />
 
                 <RadioGroup
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="5dip" >
                     <RadioButton
                         android:id="@+id/rb_man"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:button="@drawable/rb_sex_selecter"
-                        android:paddingRight="20dip"
+                        android:paddingLeft="20dp"
                         android:text="男" />
 
                     <RadioButton
                         android:id="@+id/rb_women"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:button="@drawable/rb_sex_selecter"
-                        android:paddingRight="20dip"
+                        android:paddingLeft="20dp"
                         android:text="女" />
                 </RadioGroup>
             </LinearLayout>
@@ -159,10 +159,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/color_black"
                     android:text=" 出生年月:" />
 
                 <TextView
                     android:id="@+id/tv_born"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/color_black"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -293,13 +296,6 @@
                 android:lines="4"
                 android:textColorHint="@color/transparent_gray" />
             <!-- 提示 -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="* 完善个人信息可获得150积分！" />
-
             <TextView
                 android:id="@+id/btn_set_up"
                 style="@style/tv_middle16_white_sl"

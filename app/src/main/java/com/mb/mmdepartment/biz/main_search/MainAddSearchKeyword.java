@@ -30,8 +30,6 @@ public class MainAddSearchKeyword {
             }
             @Override
             public void onResponse(Response response) throws IOException {
-                String json = response.body().string();
-                Log.e("fanhui",json);
             }
         });
     }

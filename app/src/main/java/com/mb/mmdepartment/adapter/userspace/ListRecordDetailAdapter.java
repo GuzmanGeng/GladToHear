@@ -17,6 +17,8 @@ import com.mb.mmdepartment.bean.userspace.listrecord.getlistrecorddetail.Shop;
 import com.mb.mmdepartment.bean.userspace.listrecord.getlistrecorddetail.shop.Description;
 import com.mb.mmdepartment.tools.log.Log;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +42,10 @@ public class ListRecordDetailAdapter extends BaseExpandableListAdapter {
     private List<Shop> groups;
     private LayoutInflater inflater;
     private ExpandableAdapter.CallBack callBack;
-    private double alllpay = 0d;
+    private double alllpay=0d;
+    private String total="0";
+    private BigDecimal total_princce;
+    private BigDecimal b;
     public ListRecordDetailAdapter(Context context, List<Shop> groups, ExpandableAdapter.CallBack callBack) {
         this.groups = groups;
         inflater = LayoutInflater.from(context);
@@ -60,8 +65,8 @@ public class ListRecordDetailAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupHolder holder;
-        alllpay = 0;
         Shop item = groups.get(groupPosition);
+        b = new BigDecimal("0");
         if (convertView == null) {
             holder=new GroupHolder();
             convertView = inflater.inflate(R.layout.item_market, parent, false);
@@ -92,20 +97,20 @@ public class ListRecordDetailAdapter extends BaseExpandableListAdapter {
             holder = (ChildHolder) view.getTag();
         }
         holder.goods_name.setText(item.getName());
-        holder.goods_price.setText("¥"+item.getF_price()+"(折前)\n"+"¥"+item.getO_price()+"(折后)");
+        holder.goods_price.setText("¥"+item.getO_price()+"(折前)\n"+"¥"+item.getF_price()+"(折后)");
         holder.goods_num.setText(item.getQuantity());
-        double cost = Integer.parseInt(item.getQuantity())*Double.parseDouble(item.getO_price());
-        Log.i("cost",cost+"");
+
+        double cost = Double.parseDouble(item.getF_price());
         holder.goods_coast.setText(cost+"");
-        alllpay = alllpay + cost;
-        if(isLastChild) {
-            Log.i("tag", "isLastChild");
-            holder.item_goods_detail_goods_allpay_ll.setVisibility(View.VISIBLE);
-            String pay = alllpay + "";
-            int num = pay.indexOf(".");
-            holder.allpay.setText("总计：¥" + pay.substring(0, num+2));
-        }
         if(childPosition==0){
+            total_princce=new BigDecimal("0");
+        }
+        BigDecimal a = new BigDecimal(item.getF_price());
+        total_princce=total_princce.add(a);
+        if (isLastChild) {
+            holder.item_goods_detail_goods_allpay_ll.setVisibility(View.VISIBLE);
+            holder.allpay.setText("总计：¥" + total_princce);
+        } else {
             holder.item_goods_detail_goods_allpay_ll.setVisibility(View.GONE);
         }
         return view;

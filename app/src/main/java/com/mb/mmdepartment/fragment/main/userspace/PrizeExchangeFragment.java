@@ -15,7 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.tools.CustomToast;
+import com.sina.weibo.sdk.api.share.Base;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -50,8 +53,8 @@ public class PrizeExchangeFragment extends Fragment implements RequestListener,T
       public void handleMessage(Message msg){
           super.handleMessage(msg);
           switch (msg.what){
-              case 0:showToast(info, Toast.LENGTH_LONG,
-                      R.mipmap.sel,Gravity.CENTER);
+              case 0:
+                  CustomToast.show(getActivity(), "提示", info);
                   break;
           }
       }
@@ -72,23 +75,13 @@ public class PrizeExchangeFragment extends Fragment implements RequestListener,T
         prize_exchange_commit_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LuPinModel luPinModel = new LuPinModel();
-                luPinModel.setName("PersonalCenterWinningExchange");
-                luPinModel.setState("selected");
-                luPinModel.setType("other");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
-                luPinModel.setOperationtime(sdf.format(new Date()));
-                TApplication.luPinModels.add(luPinModel);
+                ((BaseActivity)getActivity()).LuPing("btn_Exchage_price","other","exchange",new Date());
+
                 input_code = prize_exchange_code_ed.getText().toString();
                 if (TextUtils.isEmpty(input_code)) {
                     ((UserSpaceActivity) getActivity()).showToast("兑换码不能为空");
                     return;
                 }
-//                if (input_code.equals(json_code)) {
-//                    ((UserSpaceActivity) getActivity()).startActivity(getActivity(), BasicInformationActivity.class);
-//                }else {
-//                    ((UserSpaceActivity)getActivity()).showToast("兑换码错误");
-//                }
                 GetWin getWin = new GetWin();
                 getWin.getWin(input_code, BaseConsts.SharePreference.USER_ID, new RequestListener() {
                     @Override
@@ -104,7 +97,6 @@ public class PrizeExchangeFragment extends Fragment implements RequestListener,T
                                     info = root.getData().getInfo();
                                     handler.sendEmptyMessage(0);
                                 }else {
-                                    Log.e("error",root.getError());
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();

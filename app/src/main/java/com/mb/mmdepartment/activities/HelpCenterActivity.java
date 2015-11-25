@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 
 public class HelpCenterActivity extends BaseActivity {
 
@@ -19,6 +20,12 @@ public class HelpCenterActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

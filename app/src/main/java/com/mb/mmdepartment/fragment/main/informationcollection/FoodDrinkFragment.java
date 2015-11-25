@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.activities.InformationDetailActivity;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.listener.AccumulateShopItemClickListener;
@@ -33,6 +34,7 @@ import com.mb.mmdepartment.tools.recycleviewanimation.effects.SlideInEffect;
 import com.mb.mmdepartment.view.LoadingDialog;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FlipInBottomXAnimator;
@@ -47,7 +49,6 @@ public class FoodDrinkFragment extends Fragment implements RequestListener, Accu
     private List<Description> list;
     private InformationCollctionAdapter adapter;
     private LoadingDialog dialog;
-    private LuPinModel luPinModel = new LuPinModel();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -135,11 +136,7 @@ public class FoodDrinkFragment extends Fragment implements RequestListener, Accu
     public void onItemClick(View view, String content_id) {
         Intent intent=new Intent(getActivity(), InformationDetailActivity.class);
         intent.putExtra("content_id", content_id);
-        luPinModel.setName(content_id);
-        luPinModel.setType("category");
-        luPinModel.setOperationtime("");
-        luPinModel.setEndtime("");
-        TApplication.luPinModels.add(luPinModel);
+        ((BaseActivity)getActivity()).LuPingWithSource(content_id,"other","next","information_summary",new Date());
         startActivity(intent);
     }
 

@@ -80,27 +80,6 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
         tv_regist.setOnClickListener(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("register");
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
 
     /**
      * 检查手机号码输入状态
@@ -206,6 +185,7 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
         getMenuInflater().inflate(R.menu.menu_regist, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -226,7 +206,6 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
         }
         return super.onOptionsItemSelected(item);
     }
-
     /**
      * 注册的返回
      * @param response
@@ -418,5 +397,6 @@ public class RegistActivity extends BaseActivity implements RequestListener,Regi
         if (mc != null) {
             mc.cancel();
         }
+        TApplication.activities.remove(this);
     }
 }

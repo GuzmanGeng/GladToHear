@@ -261,4 +261,12 @@ public class CatlogConsts {
         public static final String params_class = "search";
         public static final String params_sign = "7e1687443d1cb867ddc7435dddfbc73e";
     }
+    /**
+     * 个人信息修改
+     */
+    public class PersonEdit{
+        public static final String params_app = "cas";
+        public static final String params_class = "personal";
+        public static final String params_sign = "d438f60a4c9a8771be1afb959678ba5a";
+    }
 }

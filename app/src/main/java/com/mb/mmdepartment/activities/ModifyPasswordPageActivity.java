@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.setting.UserPassChangeRoot;
 import com.mb.mmdepartment.biz.password.ChangePswBiz;
 import com.mb.mmdepartment.listener.RequestListener;
@@ -41,6 +42,12 @@ public class ModifyPasswordPageActivity extends BaseActivity {
     protected void setToolBar(ActionBar action, boolean isTrue) {
         action.setTitle("修改密码");
         action.setHomeButtonEnabled(isTrue);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

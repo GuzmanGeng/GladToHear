@@ -43,6 +43,12 @@ public class FeedBackActivity extends BaseActivity {
         setListener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
+
     private void setListener() {
         tv_feed_back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,12 +46,9 @@ import com.mb.mmdepartment.biz.helpcheck.marcket_sel.detail.DetailAddressBiz;
 import com.mb.mmdepartment.constans.BaseConsts;
 import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.view.CircleBadgeView;
-import com.tencent.stat.StatService;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,28 +109,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(lists.getId());
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
-
-    @Override
     public void init(Bundle savedInstanceState) {
         Bundle bundle = getIntent().getBundleExtra("bundle");
         lists = (Lists) bundle.getSerializable("lists");
@@ -150,76 +123,41 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
         left_shop_add_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
                 view.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
                 ball = new ImageView(WaresDetailPageActivity.this);// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
                 ball.setImageResource(R.mipmap.sign);// 设置buyImg的图片
-//                ball.set;
                 if (add_romove == 0) {
-                    LuPinModel add_shopping_car = new LuPinModel();
-                    add_shopping_car.setName(lists.getId());
-                    add_shopping_car.setOperationtime(sdf.format(new Date()));
-                    add_shopping_car.setType("car");
-                    add_shopping_car.setState("selected");
-                    TApplication.luPinModels.add(add_shopping_car);
+                    LuPingWithSelectId(lists.getId(), "car", "Select", "wares_Detail", lists.getSelect_shop_id(), new Date());
                     left_shop_add_remove.setImageResource(R.mipmap.minus);
                     setAnim(ball, startLocation, "plus");// 开始执行动画
-
-//                    TApplication.shop_lists.put(lists.getId(), lists);
-//                    WaresDetailPageActivity.add_goods(lists);
-                    //向购物车中追加数据
-
                     String shop_name = lists.getSelect_shop_name();
                     if (TextUtils.isEmpty(shop_name)) {
                         shop_name = lists.getShop_name();
                     }
                     add_cars_index(id_goods, shop_name, lists);
                     badgeView.setText(String.valueOf(TApplication.shop_lists.size()));
-
-
                     add_romove = 1;
                 } else {
-                    LuPinModel remove_shopping_car = new LuPinModel();
-                    remove_shopping_car.setName(lists.getId());
-                    remove_shopping_car.setOperationtime(sdf.format(new Date()));
-                    remove_shopping_car.setType("car");
-                    remove_shopping_car.setState("unselected");
-                    TApplication.luPinModels.add(remove_shopping_car);
+                    LuPingWithSelectId(lists.getId(), "car", "unSelected", "wares_Detail", lists.getSelect_shop_id(), new Date());
                     startLocation[1] = 120;
                     setAnim(ball, startLocation, "minus");// 开始执行动画
-
-
-//                    TApplication.shop_lists.remove(lists.getId());
-//                    WaresDetailPageActivity.remove_goods(lists);
                     remove_cars_index(id_goods);
                     left_shop_add_remove.setImageResource(R.mipmap.plus);
                     badgeView.setText(String.valueOf(TApplication.shop_lists.size()));
                     add_romove = 0;
                 }
                 handler.sendEmptyMessage(CalculateShowWaresInfoActivity.NOTI);
-//                .setbadge();
             }
         });}
 
 
     private void setData() {
-//        for (int i = 0; i < TApplication.shop_list_to_pick.size(); i++) {
-//            Log.i("tag","tag"+i);
-//            for(int j = 0;j <TApplication.shop_list_to_pick.get(i).getList().size();j++){
-//                if(TApplication.shop_list_to_pick.get(i).getList().get(j).getId().equals(lists.getId())){
-//                    left_shop_add_remove.setImageResource(R.mipmap.minus);
-//                    add_romove = 1;
-//                }
-//            }
-//        }
-
         if (TApplication.ids.contains(id_goods)) {
             left_shop_add_remove.setImageResource(R.mipmap.minus);
             add_romove = 1;
         } else {
             left_shop_add_remove.setImageResource(R.mipmap.plus);
-            Log.e("remove", "加号");
             add_romove = 0;
         }
         detail_tv_title.setText(lists.getName());
@@ -256,14 +194,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
 
             }
         });
-        String shop_name = lists.getShop_name();
-        /***
-         * 此处加入超市名称的判断
-         */
-//        if(TApplication.shop_lists.containsKey(lists.getId())){
-//            left_shop_add_remove.setImageResource(R.mipmap.minus);
-//        }
-
     }
     private boolean is_success_remove;
     /**
@@ -411,10 +341,6 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                 badgeView = new CircleBadgeView(WaresDetailPageActivity.this, findViewById(R.id.goods_detail_shopping_cart));
                 v = findViewById(R.id.goods_detail_shopping_cart);
                 int size = TApplication.ids.size();
-//                for(int i = 0;i<TApplication.shop_list_to_pick.size();i++){
-//                    size = size +TApplication.shop_list_to_pick.get(i).getList().size();
-//                }
-
                 badgeView.setText(size + "");
                 badgeView.setBackgroundColor(Color.RED);//设置背景颜色
                 badgeView.setGravity(Gravity.CENTER);
@@ -435,6 +361,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             @Override
             public void onClick(View view) {
                 if (floatActionButton.getVisibility() == View.VISIBLE) {
+                    LuPingWithSource("btn_Show_Address","other","close","help_Search",new Date());
                     if (isNetworkConnected(WaresDetailPageActivity.this)) {
                         floatActionButton.setVisibility(View.INVISIBLE);
                         prompt.setVisibility(View.VISIBLE);
@@ -450,6 +377,7 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
                             }
                         });
                     } else {
+                        LuPingWithSource("btn_Show_Address","other","open","help_Search",new Date());
                         floatActionButton.setVisibility(View.INVISIBLE);
                         prompt.setVisibility(View.VISIBLE);
                         help_address_recycleview.setVisibility(View.VISIBLE);
@@ -494,9 +422,9 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                LuPingWithSource("btn_car","other","next","wares_Detail",new Date());
                 Intent intent = new Intent(WaresDetailPageActivity.this, ShoppingCartPageActivity.class);
                 intent.putExtra("tag", ShoppingCartPageActivity.class.getSimpleName());
-//                intent.putExtra("lists",getList());
                 startActivityForResult(intent, 0);
                 return false;
             }
@@ -654,4 +582,12 @@ public class WaresDetailPageActivity extends BaseActivity implements RequestList
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory(lists.getCategory_id(), "page", "end", new Date());
+        TApplication.activities.remove(this);
+    }
 }
+

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Request;
@@ -137,6 +138,7 @@ public class CatlogSelFragment extends Fragment implements RequestListener,Goods
 
     @Override
     public void callBack(Lists lists) {
+        ((BaseActivity)getActivity()).LuPingWithSelectId(lists.getId(),"article","next","help_Search",lists.getSelect_shop_id(),new Date());
         Bundle bundle = new Bundle();
         bundle.putSerializable("lists", lists);
         bundle.putString("key","item");
@@ -145,6 +147,7 @@ public class CatlogSelFragment extends Fragment implements RequestListener,Goods
 
     @Override
     public void onHotItemClick(String title, String keyword) {
+        ((BaseActivity)getActivity()).LuPingWithSource(title, "category", "next","help_Search", new Date());
         Intent intent = new Intent(getActivity(), ShowWaresInfoActivity.class);
         intent.putExtra("keyword",keyword);
         intent.putExtra("catlog", true);

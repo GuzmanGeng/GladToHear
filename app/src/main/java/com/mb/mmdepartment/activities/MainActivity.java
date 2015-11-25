@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,8 +17,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,9 +31,13 @@ import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.bean.referesh.RefereshRoot;
+import com.mb.mmdepartment.biz.lupinmodel.LupinModelBiz;
 import com.mb.mmdepartment.biz.referesh.RefereshBiz;
+import com.mb.mmdepartment.broadcast.ExitBroadCast;
+import com.mb.mmdepartment.constans.BaseConsts;
 import com.mb.mmdepartment.fragment.main.MainFragment;
 import com.mb.mmdepartment.listener.RequestListener;
+import com.mb.mmdepartment.tools.sp.SPCache;
 import com.mb.mmdepartment.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -61,6 +69,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView tv_score;
     private CircleImageView iv_hearder_default;
     private String net_verson_code;
+    private ExitBroadCast exitBroadCast;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -114,6 +123,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initSlideMenu();
         initView();
         setListeners();
+        initExit();
     }
 
     private void initSlideMenu() {
@@ -214,6 +224,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 tv_userName.setText("登陆");
                 tv_score.setClickable(true);
                 tv_score.setText("注册");
+                ImageLoader.getInstance().displayImage(TApplication.user_avatar, iv_hearder_default, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        ((ImageView) view).setImageResource(R.mipmap.iv_hearder_default);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        if (TextUtils.isEmpty(TApplication.user_avatar)) {
+                            ((ImageView) view).setImageResource(R.mipmap.iv_hearder_default);
+                        } else {
+                            ((ImageView) view).setImageBitmap(bitmap);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+
+                    }
+                });
             }
         }
     }
@@ -240,8 +275,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         LuPingDestory("main", "page", "end", new Date());
+        if (TApplication.luPinModels.size() != 0) {
+            LupinModelBiz lupinModelBiz = new LupinModelBiz();
+            String json = lupinModelBiz.getlist(JPushInterface.getRegistrationID(this));
+            lupinModelBiz.sendLuPinModel(json, null, new RequestListener() {
+                @Override
+                public void onResponse(Response response) {
+                }
+                @Override
+                public void onFailue(Request request, IOException e) {
+                }
+            });
+        }
+        unregisterReceiver(exitBroadCast);
     }
-
+    /**
+     * 初始化退出广播
+     */
+    public void initExit() {
+        exitBroadCast=new ExitBroadCast(this);
+        IntentFilter filter=new IntentFilter(BaseConsts.INTENT_ACTION_EXIT_APP);
+        registerReceiver(exitBroadCast, filter);
+    }
     /**
      * 后台
      * @param name
@@ -259,7 +314,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         save.setOperationtime(start_time);
         TApplication.luPinModels.add(save);
     }
-
+    public void LuPingWithSource(String name,String type,String state,String source,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        save.setSource(source);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
     /**
      * 页面离开时候的录屏
      * @param name
@@ -316,6 +381,55 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setContentView(R.layout.exit_app);
+        window.findViewById(R.id.dismiss).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        window.findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BaseConsts.INTENT_ACTION_EXIT_APP);
+                sendBroadcast(intent);
+            }
+        });
+    }
+    public void clearCar(){
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setContentView(R.layout.exit_app);
+        ((TextView)window.findViewById(R.id.content)).setText("更换城市将会清空购物车,确认要更换城市么?");
+        window.findViewById(R.id.dismiss).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        window.findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TApplication.ids.clear();
+                TApplication.shop_list_to_pick.clear();
+                TApplication.shop_lists.clear();
+                Intent intent = new Intent(MainActivity.this,WelcomActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
     /**
      * 获取版本信息
      */
@@ -441,10 +555,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(intent_search);
                 break;
             case R.id.main_local_tv:
-                //此处要进行购物车选中数据判断
-                Intent intent = new Intent(MainActivity.this, WelcomActivity.class);
-                intent.putExtra("setLocation", true);
-                startActivityForResult(intent, 200);
+                clearCar();
+//
+//                //此处要进行购物车选中数据判断
+//                Intent intent = new Intent(MainActivity.this, WelcomActivity.class);
+//                intent.putExtra("setLocation", true);
+//                startActivityForResult(intent, 200);
                 break;
         }
     }

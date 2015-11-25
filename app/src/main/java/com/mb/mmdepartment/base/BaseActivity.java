@@ -45,6 +45,7 @@ import com.mb.mmdepartment.tools.log.Log;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
     public final String TAG=BaseActivity.class.getSimpleName();
     private ActionBar actionBar;
     public PushAgent mPushAgent;
-    private ExitBroadCast exitBroadCast;
     private static String lastToast=null;
     private static long lastToastTime=0;
     private boolean _isVisible=false;
@@ -76,11 +76,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TApplication.activities.add(this);
         inflater = LayoutInflater.from(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayout());
         initParameters();
-        initExit();
         init(savedInstanceState);
         initToolBar();
 //        if(!isAppOnForeground()){
@@ -119,14 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
      */
     public abstract void init(Bundle savedInstanceState);
 
-    /**
-     * 初始化退出广播
-     */
-    public void initExit() {
-        exitBroadCast=new ExitBroadCast(this);
-        IntentFilter filter=new IntentFilter(BaseConsts.INTENT_ACTION_EXIT_APP);
-        registerReceiver(exitBroadCast, filter);
-    }
+
     /**
      * 初始化固定参数
      */
@@ -462,7 +455,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ToastCon
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(exitBroadCast);
         super.onDestroy();
     }
 

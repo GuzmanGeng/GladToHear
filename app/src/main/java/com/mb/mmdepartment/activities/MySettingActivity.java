@@ -65,6 +65,12 @@ public class MySettingActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
+
+    @Override
     protected void setToolBar(ActionBar action, boolean isTrue) {
         action.setTitle("意见反馈");
         action.setHomeButtonEnabled(isTrue);

@@ -95,26 +95,6 @@ public class WelActivity extends BaseActivity implements OnLocalListener{
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(WelActivity.class.getSimpleName());
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel );
-        StatService.onPause(this);
-    }
-
-    @Override
     public int getLayout() {
         return R.layout.activity_wel;
     }
@@ -123,7 +103,6 @@ public class WelActivity extends BaseActivity implements OnLocalListener{
     public void init(Bundle savedInstanceState) {
         initView();
         initData();
-        boolean setLocation = getIntent().getBooleanExtra("setLocation", false);
     }
 
     @Override
@@ -360,6 +339,7 @@ public class WelActivity extends BaseActivity implements OnLocalListener{
     protected void onDestroy() {
         super.onDestroy();
         stopLocation();
+        TApplication.activities.remove(this);
     }
 
     /**

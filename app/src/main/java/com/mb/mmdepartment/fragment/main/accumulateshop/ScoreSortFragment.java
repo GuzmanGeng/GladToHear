@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.mb.mmdepartment.R;
@@ -25,6 +26,7 @@ import com.mb.mmdepartment.listener.AccumulateShopItemClickListener;
 import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.view.LoadingDialog;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import jp.wasabeef.recyclerview.animators.FlipInBottomXAnimator;
 public class ScoreSortFragment extends Fragment implements AccumulateShopItemClickListener,RequestListener{
@@ -107,6 +109,7 @@ public class ScoreSortFragment extends Fragment implements AccumulateShopItemCli
 
     @Override
     public void onItemClick(View view,String content_id) {
+        ((BaseActivity)getActivity()).LuPingWithSource(content_id,"other","next","accumulat_shop",new Date());
         ((AccumulatedShopActivity)getActivity()).startActivity(getActivity(), AccumulateShopDetailActivity.class,"content_id",content_id);
     }
 }

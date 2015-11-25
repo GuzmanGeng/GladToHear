@@ -14,9 +14,13 @@ import android.widget.TextView;
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
+import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.mb.mmdepartment.biz.main_search.MainAddSearchKeyword;
 import com.mb.mmdepartment.biz.main_search.MainSearchHotBiz;
 import com.mb.mmdepartment.tools.log.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SearchActivity extends AppCompatActivity implements TextWatcher{
     private RecyclerView hot_brand_recycle,hot_channels_recycle,history_recycle;
@@ -24,13 +28,52 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
     private TextView search_cancle;
     private RecyclerView[] recyclerViews = new RecyclerView[3];
     private MainAddSearchKeyword add_biz;
-//    private ImageView back_to_main;
+    private String resum_time;
+    private String start_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         initView();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startResumTime(new Date());
+    }
+    public void LuPing(String name,String type,String state,Date operation_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        start_time=sdf.format(operation_time);
+        save.setOperationtime(start_time);
+        TApplication.luPinModels.add(save);
+    }
+    /**
+     * 初始化开始时间 必须在Luping之前调用
+     * @param operation_time
+     */
+    public void startResumTime(Date operation_time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        resum_time=sdf.format(operation_time);
+    }
+
+    public void LuPingDestory(String name,String type,String state,Date end_time){
+        LuPinModel save = new LuPinModel();
+        save.setName(name);
+        save.setType(type);
+        save.setState(state);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        save.setEndtime(sdf.format(end_time));
+        if (!TextUtils.isEmpty(resum_time)) {
+            save.setOperationtime(resum_time);
+        }
+        TApplication.luPinModels.add(save);
     }
     private void initData() {
         add_biz=new MainAddSearchKeyword();
@@ -40,6 +83,12 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
         } else {
             biz.getHotBrand(TApplication.user_id);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     private void initView() {

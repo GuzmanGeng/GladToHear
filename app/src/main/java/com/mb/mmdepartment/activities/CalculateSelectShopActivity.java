@@ -42,14 +42,10 @@ import cn.jpush.android.api.JPushInterface;
 public class CalculateSelectShopActivity extends BaseActivity implements RequestListener,OnRecycItemClickListener{
     private final String TAG = CalculateSelectShopActivity.class.getSimpleName();
     private RecyclerView recycle_market;
-    private String[] markets;
-    private String[] otherMarkets;
     private RecyclerView.Adapter adapter;
     private boolean[] isSel;
     private ArrayList<Description> list;
     private TextView tv_next;
-    private LuPinModel luPinModel;
-    private LuPinModel luPinModelmarket = new LuPinModel();
     private MarcketSelBiz biz;
     private List<String> record;
     private GridLayoutManager manager;
@@ -109,7 +105,8 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LuPingDestory("help_Accu_Shop","page","end",new Date());
+        LuPingDestory("help_Accu_Shop", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 
     @Override
@@ -133,7 +130,7 @@ public class CalculateSelectShopActivity extends BaseActivity implements Request
                     CustomToast.show(CalculateSelectShopActivity.this,"提示","请先选择超市");
                     return;
                 }
-                LuPing("btn_Accu_Shop_Next","shop","next",new Date());
+                LuPing("btn_Accu_Shop_Next","other","next",new Date());
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < record.size(); i++) {
                     builder.append(record.get(i)+",");

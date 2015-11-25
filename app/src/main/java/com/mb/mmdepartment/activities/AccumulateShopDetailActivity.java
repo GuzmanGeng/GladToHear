@@ -40,8 +40,7 @@ public class AccumulateShopDetailActivity extends BaseActivity implements Reques
     private AccumulateDetailBiz biz;
     private LoadingDialog dialog;
     private Info info;
-    private  Spanned sp;
-    private LuPinModel luPinModel;
+    private Spanned sp;
     private WebView accumulate_detail_content_webview;
     private Handler handler = new Handler(){
         @Override
@@ -105,25 +104,9 @@ public class AccumulateShopDetailActivity extends BaseActivity implements Reques
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(AccumulateShopDetailActivity.class.getSimpleName());
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm;ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     private void initView() {

@@ -64,7 +64,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id = ids[i];
                             shop_car.remove_cars_index(id);
-                            ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","unSelected","help_Accu_Commodity_List",lists.get(i).getShop_id(),new Date());
+                            ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","unSelected","help_Accu_Commodity_List",lists.get(i).getSelect_shop_id(),new Date());
                         }
                         sel_ids.clear();
                         notifyDataSetChanged();
@@ -74,7 +74,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         for (int i=0;i<lists.size();i++) {
                             String id=ids[i];
                             if (!TApplication.ids.contains(id)) {
-                                ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","selected","help_Accu_Commodity_List",lists.get(i).getShop_id(),new Date());
+                                ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id),"car","selected","help_Accu_Commodity_List",lists.get(i).getSelect_shop_id(),new Date());
                                 shop_car.add_cars_index(id,lists.get(i).getSelect_shop_name(),lists.get(i));
                                 notifyItemChanged(i);
                             }
@@ -196,7 +196,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                     ShopCarAtoR shop = new ShopCarAtoR(activity);
                     if (TApplication.ids.contains(id)) {
                         shop.remove_cars_index(id);
-                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "unSelected", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
+                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "unSelected", "help_Accu_Commodity_List", lists.get(position).getSelect_shop_id(), new Date());
                         if (sel_ids.contains(id)) {
                             sel_ids.remove(id);
                         }
@@ -207,7 +207,7 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
                         }
                     } else {
                         shop.add_cars_index(id,lists.get(position).getSelect_shop_name(),lists.get(position));
-                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "selected", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
+                        ((BaseActivity)activity).LuPingWithSelectId(String.valueOf(id), "car", "selected", "help_Accu_Commodity_List", lists.get(position).getSelect_shop_id(), new Date());
                         sel_ids.add(id);
                         holder.check_single.setImageResource(R.mipmap.marcket_sel);
                         if (sel_ids.size() == lists.size()) {
@@ -223,9 +223,9 @@ public class ProposedProjectInnerAdapter extends RecyclerView.Adapter<ProposedPr
             @Override
             public void onClick(View view) {
                 if (title_sel != null) {
-                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getCategory_id(), "article", "helpYouCount", "help_Accu_Commodity_List", lists.get(position).getShop_id(), new Date());
+                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getId(), "article", "next", "help_Accu_Commodity_List", lists.get(position).getSelect_shop_id(), new Date());
                 } else {
-                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getCategory_id(), "article", "car", "shopping_Car", lists.get(position).getShop_id(), new Date());
+                    ((BaseActivity) activity).LuPingWithSelectId(lists.get(position).getId(), "article", "next", "shopping_Car", lists.get(position).getSelect_shop_id(), new Date());
                 }
                 Intent intent = new Intent(view.getContext(), WaresDetailPageActivity.class);
                 Bundle bundle = new Bundle();

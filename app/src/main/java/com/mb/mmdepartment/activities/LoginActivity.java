@@ -17,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mb.mmdepartment.bean.login.Data;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
+import com.mb.mmdepartment.bean.setting.PersonEditData;
 import com.mb.mmdepartment.bean.user.User;
 import com.mb.mmdepartment.tools.CustomToast;
 import com.mb.mmdepartment.wxapi.WXEntryActivity;
@@ -111,25 +113,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("login");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setType("page");
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override
@@ -144,14 +130,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         login_tv_qq.setOnClickListener(this);
         login_tv_weixin.setOnClickListener(this);
         login_tv_sina.setOnClickListener(this);
-//        login_ed_phone.setOnKeyListener(this);
-//        login_ed_pass.setOnKeyListener(this);
     }
 
     private void initView() {
-//        blogAuthInfo = new AuthInfo(this, LoginConsts.Account.SinaLogin.APP_KEY_FOR_BLOG,
-//                LoginConsts.Account.SinaLogin.REDIRECT_URL, LoginConsts.Account.SinaLogin.SCOPE);
-//        blogSsoHandler = new SsoHandler(LoginActivity.this, blogAuthInfo);
         add_to_local = (CheckBox) findViewById(R.id.add_to_local);
         login_ed_phone = (EditText) findViewById(R.id.login_ed_phone);
         login_ed_pass = (EditText) findViewById(R.id.login_ed_pass);
@@ -175,8 +156,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         String isSel = SPCache.getString("joy_one2one_user_issel", "false");
         if ("true".equals(isSel)) {
-            String user_name = SPCache.getString("joy_one2one_user_name", "wwww11110e");
-            String pass_word = SPCache.getString("joy_one2one_user_pass", "123456");
+            String user_name = SPCache.getString(BaseConsts.SharePreference.USER_NAME, "wwww11110e");
+            String pass_word = SPCache.getString(BaseConsts.SharePreference.USER_PASS, "123456");
             login_ed_phone.setText(user_name);
             login_ed_pass.setText(pass_word);
             add_to_local.setSelected(true);
@@ -215,12 +196,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 switch (foxMessage()){
                     case 0:
                         if (add_to_local.isSelected()) {
-                            SPCache.putString("joy_one2one_user_name", phone_number);
-                            SPCache.putString("joy_one2one_user_pass", password);
+                            SPCache.putString(BaseConsts.SharePreference.USER_NAME, phone_number);
+                            SPCache.putString(BaseConsts.SharePreference.USER_PASS, password);
                             SPCache.putString("joy_one2one_user_issel", "true");
                         } else {
-                            SPCache.putString("joy_one2one_user_name", "");
-                            SPCache.putString("joy_one2one_user_pass", "");
+                            SPCache.putString(BaseConsts.SharePreference.USER_NAME, "");
+                            SPCache.putString(BaseConsts.SharePreference.USER_PASS, "");
                             SPCache.putString("joy_one2one_user_issel", "false");
                         }
                         LoginBiz biz=new LoginBiz();
@@ -280,12 +261,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 luPinModelloginweixin.setType("next");
                 luPinModelloginweixin.setOperationtime(sdf.format(new Date()));
                 TApplication.luPinModels.add(luPinModelloginweixin);
-                // 微信
-                // Platform wechat= ShareSDK.getPlatform(context, Wechat.NAME);
-                // wechat.setPlatformActionListener(paListener);
-                // wechat.authorize();
-                Log.i("weixin", "weixin");
-//                regToWx();
                 if (!api.isWXAppInstalled()) {
                     Toast.makeText(LoginActivity.this, "请先检查是否已安装微信",Toast.LENGTH_SHORT).show();
                     return;
@@ -345,7 +320,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                      TApplication.user_name=root.getData().getUsername();
                      TApplication.integral = root.getData().getIntegral();
                      TApplication.user_avatar = root.getData().getAvatar();
+                     TApplication.user_nick = root.getData().getNickname();
                      TApplication.device_no=root.getData().getDevice_no();
+
+                     Data data = root.getData();
+                     TApplication.user.setUsername(data.getUsername());
+                     TApplication.user.setIntegral(data.getIntegral());
+                     TApplication.user.setNickname(data.getNickname());
+                     TApplication.user.setGender(data.getGender());
+                     TApplication.user.setYear(data.getYear());
+                     TApplication.user.setMonth(data.getMonth());
+                     TApplication.user.setDay(data.getDay());
+                     TApplication.user.setOccupation(data.getOccupation());
+                     TApplication.user.setArea(data.getArea());
+                     TApplication.user.setIncome_range(data.getIncome_range());
+                     TApplication.user.setContent(data.getContent());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

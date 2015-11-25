@@ -67,5 +67,9 @@ public class MyChatActivity extends BaseActivity {
         action.setHomeButtonEnabled(isTrue);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
 }

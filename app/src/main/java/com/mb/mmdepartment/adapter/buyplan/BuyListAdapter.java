@@ -14,6 +14,7 @@ import com.mb.mmdepartment.bean.buyplan.byprice.DataList;
 import com.mb.mmdepartment.bean.marcketseldetail.Lists;
 import com.mb.mmdepartment.tools.log.Log;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class BuyListAdapter extends BaseExpandableListAdapter {
     private List<DataList> list;
     private LayoutInflater inflater;
     private double alllpay = 0d;
+    private BigDecimal total_princce;
 
     class GroupHolder{
         TextView market_name;
@@ -86,6 +88,7 @@ public class BuyListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupHolder holder;
+        total_princce = new BigDecimal("0");
         if(convertView == null){
             holder = new GroupHolder();
             convertView = inflater.inflate(R.layout.item_market,parent,false);
@@ -120,15 +123,23 @@ public class BuyListAdapter extends BaseExpandableListAdapter {
         holder.item_buy_list_goods_price_tv.setText("¥"+item.getO_price()+"(折前)\n"+"¥" +item.getF_price()+"(折后)");
 //        double cost = Integer.parseInt(item.getPid())*Double.parseDouble(item.getF_price());
         holder.item_buy_list_goods_coast_tv.setText("¥"+item.getF_price());
+//        if(childPosition==0){
+//            alllpay = 0;
+//        }
+//        alllpay = alllpay + Double.parseDouble(item.getF_price());
+
+
         if(childPosition==0){
-            alllpay = 0;
+            total_princce=new BigDecimal("0");
         }
-        alllpay = alllpay + Double.parseDouble(item.getF_price());
+        BigDecimal a = new BigDecimal(item.getF_price());
+        total_princce=total_princce.add(a);
         if(isLastChild) {
             holder.item_buy_list_allpay_ll.setVisibility(View.VISIBLE);
-            String pay = alllpay + "";
-            int num = pay.indexOf(".");
-            holder.item_buy_list_allpay_tv.setText("总计：¥" + pay.substring(0, num+2));
+//            String pay = alllpay + "";
+//            int num = pay.indexOf(".");
+//            holder.item_buy_list_allpay_tv.setText("总计：¥" + pay.substring(0, num+2));
+            holder.item_buy_list_allpay_tv.setText("总计：¥" + total_princce);
         }else {
             holder.item_buy_list_allpay_ll.setVisibility(View.GONE);
         }

@@ -351,7 +351,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                     CustomToast.show(CalculateSelectCategoryActivity.this,"提示","请先选择要查询的商品");
                     return;
                 }
-                LuPing("btn_Accu_Category_Priority", "category", "next", new Date());
+                LuPing("btn_Accu_Category_Priority", "other", "next", new Date());
                 Intent intent = new Intent(CalculateSelectCategoryActivity.this, ProposedProjectActivity.class);
                 intent.putExtra("which", 1);//按品类优先
                 intent.putExtra("shop_id", shop_id);
@@ -373,7 +373,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                     CustomToast.show(CalculateSelectCategoryActivity.this,"提示","请先选择要查询的商品");
                     return;
                 }
-                LuPing("btn_Accu_Shop_Priority", "category", "next", new Date());
+                LuPing("btn_Accu_Shop_Priority", "other", "next", new Date());
                 Intent intent = new Intent(CalculateSelectCategoryActivity.this, ProposedProjectActivity.class);
                 intent.putExtra("shop_id", shop_id);
                 intent.putExtra("which", 2);
@@ -459,7 +459,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     public void setDataChange(String title,int category_id,String hid,int position,int index,int which,RecyclerView.Adapter adapter,CategoryList categoryList) {
         String state = categoryList.getSon().get(index).getSon().get(position).getSelect();
         if ("0".equals(state)) {
-            LuPing(String.valueOf(category_id),"category","selected",new Date());
+            LuPingWithSource(title,"category","selected","category_Select",new Date());
             categoryList.getSon().get(index).getSon().get(position).setSelect("1");
             record = new SelRecord();
             record.setTitle(title);
@@ -471,7 +471,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
             records.add(record);
             badge.setText(records.size()+"");
         } else if ("1".equals(state)) {
-            LuPing(String.valueOf(category_id),"category","unSelected",new Date());
+            LuPingWithSource(title, "category", "unSelected", "category_Select",new Date());
             categoryList.getSon().get(index).getSon().get(position).setSelect("0");
             for (int i = 0; i < records.size(); i++) {
                 SelRecord rel = records.get(i);
@@ -527,7 +527,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
                 records.remove(rel);
             }
         }
-        LuPing(String.valueOf(record.getCategory_id()),"category","unSelected",new Date());
+        LuPingWithSource(record.getTitle(),"category","unSelected","category_Select",new Date());
         badge.setText(records.size() + "");
         adapter.notifyDataSetChanged();
     }
@@ -542,6 +542,7 @@ public class CalculateSelectCategoryActivity extends BaseActivity implements Com
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LuPingDestory("help_Accu_Shop","page","end",new Date());
+        LuPingDestory("help_Accu_Shop", "page", "end", new Date());
+        TApplication.activities.remove(this);
     }
 }

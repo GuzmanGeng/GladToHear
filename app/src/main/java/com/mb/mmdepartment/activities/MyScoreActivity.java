@@ -103,6 +103,12 @@ public class MyScoreActivity extends BaseActivity implements RequestListener,Acc
         recyclerView=(RecyclerView)findViewById(R.id.my_score_recycle);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
+    }
+
     private void initData() {
         if (dialog==null) {
             dialog = new LoadingDialog(this, R.style.dialog);

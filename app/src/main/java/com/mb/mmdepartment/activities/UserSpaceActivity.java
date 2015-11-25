@@ -40,28 +40,6 @@ public class UserSpaceActivity extends BaseActivity implements View.OnClickListe
         user_space_exchange_prizes_record_tv.setOnClickListener(this);
         user_space_prizes_exchange_tv.setOnClickListener(this);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("PersonalCenterMain");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setState("end");
-        luPinModel.setType("page");
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
-    }
     private void initView() {
         user_space_list_record_tv=(TextView)findViewById(R.id.user_space_list_record_tv);
         user_space_exchange_prizes_record_tv=(TextView)findViewById(R.id.user_space_exchange_prizes_record_tv);
@@ -72,6 +50,14 @@ public class UserSpaceActivity extends BaseActivity implements View.OnClickListe
         user_space_list_record_tv.setTextColor(getResources().getColor(R.color.color_white));
         user_space_list_record_tv.setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("personal_Center_Main", "page", "end", new Date());
+        TApplication.activities.remove(this);
+    }
+
     /**
      * 设置Fragment
      * @param fragment
@@ -97,17 +83,10 @@ public class UserSpaceActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         switch (view.getId()){
             case R.id.user_space_list_record_tv:
                 if (whickSel!=0){
                     listRecord=new ListRecordFragment();
-                    LuPinModel luPinModel_list_record = new LuPinModel();
-                    luPinModel_list_record.setState("selected");
-                    luPinModel_list_record.setName("list_record");
-                    luPinModel_list_record.setOperationtime(sdf.format(new Date()));
-                    luPinModel_list_record.setType("next");
-                    TApplication.luPinModels.add(luPinModel_list_record);
                     setFragmentChose(listRecord);
                     user_space_list_record_tv.setTextColor(getResources().getColor(R.color.color_white));
                     user_space_list_record_tv.setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
@@ -122,12 +101,6 @@ public class UserSpaceActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.user_space_exchange_prizes_record_tv:
                 if (whickSel!=1){
-                    LuPinModel luPinModel_exchange_prizes_record = new LuPinModel();
-                    luPinModel_exchange_prizes_record.setState("selected");
-                    luPinModel_exchange_prizes_record.setName("exchange_prizes_record");
-                    luPinModel_exchange_prizes_record.setOperationtime(sdf.format(new Date()));
-                    luPinModel_exchange_prizes_record.setType("next");
-                    TApplication.luPinModels.add(luPinModel_exchange_prizes_record);
                     exchangePrize=new ExchangePrizeRecordFragment();
                     setFragmentChose(exchangePrize);
                     user_space_exchange_prizes_record_tv.setTextColor(getResources().getColor(R.color.color_white));
@@ -143,12 +116,6 @@ public class UserSpaceActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.user_space_prizes_exchange_tv:
                 if (whickSel!=2){
-                    LuPinModel luPinModel_exchange_prizes_record = new LuPinModel();
-                    luPinModel_exchange_prizes_record.setState("selected");
-                    luPinModel_exchange_prizes_record.setName("prizes_exchange");
-                    luPinModel_exchange_prizes_record.setOperationtime(sdf.format(new Date()));
-                    luPinModel_exchange_prizes_record.setType("next");
-                    TApplication.luPinModels.add(luPinModel_exchange_prizes_record);
                     prizeExchange=new PrizeExchangeFragment();
                     setFragmentChose(prizeExchange);
 

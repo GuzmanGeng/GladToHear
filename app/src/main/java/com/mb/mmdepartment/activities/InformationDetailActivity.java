@@ -158,27 +158,10 @@ public class InformationDetailActivity extends BaseActivity implements RequestLi
             showToast("网络无连接");
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName(InformationDetailActivity.class.getSimpleName());
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        start_time = sdf.format(new Date());
-        startsecrond = System.currentTimeMillis();
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        luPinModel.setType("page");
-        StatService.onResume(this);
-    }
-
-
     @Override
     protected void onPause() {
         super.onPause();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
         String end_time = sdf.format(new Date());
         long endsecrond = System.currentTimeMillis();
         final String read_time = (endsecrond-startsecrond)/1000+"";
@@ -305,6 +288,12 @@ public class InformationDetailActivity extends BaseActivity implements RequestLi
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

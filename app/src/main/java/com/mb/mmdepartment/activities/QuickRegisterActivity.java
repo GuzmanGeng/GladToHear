@@ -165,33 +165,11 @@ public class QuickRegisterActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("quickregister_login");
-        luPinModel.setType("end");
-        luPinModel.setState("page");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
     private void alertDialog(String msg) {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         dialog.setTitle(msg);
         dialog.show();
 
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
     }
 
     @Override
@@ -258,6 +236,7 @@ public class QuickRegisterActivity extends BaseActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
         mc.cancel();
+        TApplication.activities.remove(this);
     }
 
 }

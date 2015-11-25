@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
+
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -86,16 +88,9 @@ public class CommentListActivity extends BaseActivity implements MakeCommentList
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     private void initView() {
@@ -107,6 +102,17 @@ public class CommentListActivity extends BaseActivity implements MakeCommentList
         action.setTitle("评价详情");
         action.setHomeButtonEnabled(isTrue);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onMakeCommentResponse(Response response) {
         if (response.isSuccessful()) {

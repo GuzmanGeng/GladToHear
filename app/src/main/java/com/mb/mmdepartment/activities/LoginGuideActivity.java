@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.tencent.stat.StatService;
 
 public class LoginGuideActivity extends BaseActivity implements View.OnClickListener{
@@ -35,16 +36,9 @@ public class LoginGuideActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     private void intiview(){

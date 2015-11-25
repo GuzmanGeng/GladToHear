@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.bean.lupinmodel.LuPinModel;
 import com.squareup.okhttp.Request;
@@ -116,13 +117,13 @@ public class BrandSelFragment extends Fragment implements RequestListener,GoodsL
                 if (OkHttp.NET_STATE==state) {
                     if((root.getData().getTypes().size()==0)||(root.getData().getLists().size()==0)) {
                         handler.sendEmptyMessage(3);
-                        } else {
-                            for (Lists data : root.getData().getLists()) {
-                                lists.add(data);
-                            }
+                    } else {
+                        for (Lists data : root.getData().getLists()) {
+                            lists.add(data);
+                        }
                         for (Type type : root.getData().getTypes()) {
-                                types.add(type);
-                            }
+                            types.add(type);
+                        }
                         titles = new ArrayList<>();
                         for (int i = 0; i < types.size(); i++) {
                             titles.add(types.get(i).getSmall_category());
@@ -130,7 +131,7 @@ public class BrandSelFragment extends Fragment implements RequestListener,GoodsL
                         marcketSelDetailAdapter = new MarcketSelDetailAdapter(lists, this, 2);
                         adapter = new GoodsListAdapter(titles, this);
                         handler.sendEmptyMessage(0);
-                        }
+                    }
                 }else {
                     handler.sendEmptyMessage(1);
                 }
@@ -147,13 +148,7 @@ public class BrandSelFragment extends Fragment implements RequestListener,GoodsL
 
     @Override
     public void onClick(View view) {
-        LuPinModel luPinModel = new LuPinModel();
-        luPinModel.setName(((TextView) view).getText().toString());
-        luPinModel.setState("selected");
-        luPinModel.setType("brand");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
+        ((BaseActivity)getActivity()).LuPingWithSource(((TextView) view).getText().toString(), "brand", "next","help_Search", new Date());
         Intent intent = new Intent(getActivity(), ShowWaresInfoActivity.class);
         intent.putExtra("keyword",((TextView) view).getText().toString());
         intent.putExtra("catlog", false);
@@ -162,6 +157,7 @@ public class BrandSelFragment extends Fragment implements RequestListener,GoodsL
 
     @Override
     public void callBack(Lists lists) {
+        ((BaseActivity)getActivity()).LuPingWithSelectId(lists.getId(),"article","next","help_Search",lists.getSelect_shop_id(),new Date());
         Bundle bundle = new Bundle();
         bundle.putSerializable("lists", lists);
         ((HelpYouQuerySearchActivity) getActivity()).startActivity(getActivity(), bundle, "bundle", WaresDetailPageActivity.class);

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.mb.mmdepartment.activities.InformationDetailActivity;
 import com.mb.mmdepartment.adapter.main.MainListViewAdapter;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.bean.main_brand.News;
 import com.mb.mmdepartment.bean.main_brand.Root;
 import com.mb.mmdepartment.constans.BaseConsts;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,7 @@ public class MainSearchDetailList {
                     Toast.makeText(context, "网络数据异常", Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
+                    refreshListView.setVisibility(View.GONE);
                     Toast.makeText(context, "您搜索的内容暂时没有数据", Toast.LENGTH_SHORT).show();
                     break;
                 case 5:
@@ -82,6 +85,7 @@ public class MainSearchDetailList {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((BaseActivity)context).LuPingWithSource(datas.get(position).getContent_id(),"other","next","main_search",new Date());
                 Intent intent = new Intent(context, InformationDetailActivity.class);
                 intent.putExtra("content_id", datas.get(position).getContent_id());
                 context.startActivity(intent);
@@ -122,7 +126,6 @@ public class MainSearchDetailList {
                                 if (json.contains("[")) {
                                     root = gson.fromJson(json, Root.class);
                                 } else {
-                                    refreshListView.setVisibility(View.GONE);
                                     handler.sendEmptyMessage(2);
                                     return;
                                 }

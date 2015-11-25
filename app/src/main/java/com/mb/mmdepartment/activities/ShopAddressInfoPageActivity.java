@@ -60,28 +60,13 @@ public class ShopAddressInfoPageActivity extends BaseActivity {
         }else {
             detail_shop_bus.setText("超市班车：" + detail.getSpecial());
         }
-        shop_detail_business_time.setText("营业时间："+detail.getBusiness_hours());
+        shop_detail_business_time.setText("营业时间：" + detail.getBusiness_hours());
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        luPinModel = new LuPinModel();
-        luPinModel.setName("shopStoreInfo");
-        luPinModel.setType("page");
-        luPinModel.setState("end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setOperationtime(sdf.format(new Date()));
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        luPinModel.setEndtime(sdf.format(new Date()));
-        TApplication.luPinModels.add(luPinModel);
-        StatService.onPause(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        TApplication.activities.remove(this);
     }
 
     @Override

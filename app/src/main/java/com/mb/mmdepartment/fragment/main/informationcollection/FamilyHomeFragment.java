@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.activities.InformationDetailActivity;
+import com.mb.mmdepartment.base.BaseActivity;
 import com.mb.mmdepartment.listener.AccumulateShopItemClickListener;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -27,6 +28,7 @@ import com.mb.mmdepartment.listener.RequestListener;
 import com.mb.mmdepartment.view.LoadingDialog;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,7 +105,8 @@ public class FamilyHomeFragment extends Fragment implements RequestListener,Accu
     }
 
     @Override
-    public void onItemClick(View view, String content_id) {
+    public void onItemClick(View view, String content_id) {((BaseActivity)getActivity()).LuPingWithSource(content_id,"other","next","information_summary",new Date());
+
         Intent intent=new Intent(getActivity(), InformationDetailActivity.class);
         intent.putExtra("content_id", content_id);
         startActivity(intent);

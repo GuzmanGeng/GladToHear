@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import com.mb.mmdepartment.R;
 import com.mb.mmdepartment.base.BaseActivity;
+import com.mb.mmdepartment.base.TApplication;
 import com.mb.mmdepartment.fragment.main.accumulateshop.BeautifulPresentFragment;
 import com.mb.mmdepartment.fragment.main.accumulateshop.DataAddFragment;
 import com.mb.mmdepartment.fragment.main.accumulateshop.ScoreSortFragment;
 import com.mb.mmdepartment.network.OkHttp;
 import com.mb.mmdepartment.view.SwipeRefreshView;
 import com.tencent.stat.StatService;
+
+import java.util.Date;
 
 public class AccumulatedShopActivity extends BaseActivity implements View.OnClickListener{
     private final String TAG=AccumulatedShopActivity.class.getSimpleName();
@@ -49,20 +52,6 @@ public class AccumulatedShopActivity extends BaseActivity implements View.OnClic
         accumulated_shop_prefect_time_tv.setOnClickListener(this);
         accumulated_shop_prefect_order_tv.setOnClickListener(this);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
-
     private void initView() {
         manager = getSupportFragmentManager();
         if (isNetworkConnected(this)){
@@ -77,6 +66,14 @@ public class AccumulatedShopActivity extends BaseActivity implements View.OnClic
         accumulated_shop_prefect_tv.setTextColor(getResources().getColor(R.color.color_white));
         accumulated_shop_prefect_tv.setBackgroundColor(getResources().getColor(R.color.text_little_half_red));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LuPingDestory("accumulate_shop", "page", "end", new Date());
+        TApplication.activities.remove(this);
+    }
+
     /**
      * 设置Fragment
      * @param fragment

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="5dp"
     android:layout_gravity="center_vertical"
-    card_view:cardBackgroundColor="#fff"
+    card_view:cardBackgroundColor="@color/theme_color"
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/ten_dip"
-            android:textColor="#8f00"
+            android:textColor="#0f0"
             android:text="提示"
             android:textSize="@dimen/sixteen_sp"
             android:id="@+id/title"
@@ -24,19 +24,26 @@
             android:drawableRight="@mipmap/main_del"
             />
         <TextView
+            android:id="@+id/line"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/title"
+            android:layout_height="0.5dp" />
+
+        <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:padding="@dimen/ten_dip"
-            android:textColor="#8f00"
+            android:layout_below="@+id/line"
+            android:padding="@dimen/thirty_dip"
+            android:textColor="@color/color_white"
+            android:lineSpacingExtra="4dp"
             android:text="@string/content"
             />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
-            android:padding="10dp"
             android:id="@+id/xieyi"
             android:layout_below="@+id/content"
             android:layout_height="wrap_content">
@@ -48,7 +55,7 @@
                 android:textSize="@dimen/sixteen_sp"
                 android:padding="@dimen/ten_dip"
                 android:gravity="right"
-                android:textColor="#8f00"
+                android:textColor="@color/color_white"
                 />
             <CheckBox
                 android:layout_width="wrap_content"
@@ -64,7 +71,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_below="@+id/xieyi"
-            android:textColor="#8f00"
+            android:textColor="@color/color_white"
             android:text="@string/next_step"
             android:gravity="center"
             android:clickable="false"

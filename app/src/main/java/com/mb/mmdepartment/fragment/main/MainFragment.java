@@ -133,6 +133,7 @@ public class MainFragment extends Fragment implements View.OnClickListener,Reque
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
+                    ((MainActivity)getActivity()).LuPingWithSource(datas.get(position).getContent_id(),"infomation","next","main",new Date());
                     Intent intent = new Intent(getActivity(), InformationDetailActivity.class);
                     intent.putExtra("content_id", datas.get(position-2).getContent_id());
                     startActivity(intent);
