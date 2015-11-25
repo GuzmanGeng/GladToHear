@@ -58,6 +58,8 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
     private List<List<Description>> groups;
     private com.mb.mmdepartment.bean.getcities.getlettercities.Data data;
     private LuPinModel luPinModel;
+    private LetterCityAdapter adapter_cities;
+
     @Override
     public int getLayout() {
         return R.layout.activity_wel;
@@ -124,6 +126,9 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
     private void initData() {
         groups = new ArrayList<>();
         getcitiesBiz = new GetcitiesBiz();
+        adapter_cities=new LetterCityAdapter(WelcomActivity.this, groups);
+        lv_cities.setAdapter(adapter_cities);
+        lv_cities.requestLayout();
         getcitiesBiz.gethotcities(new RequestListener() {
             @Override
             public void onResponse(Response response) {
@@ -139,7 +144,11 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
                                 @Override
                                 public void run() {
                                     //加载热点城市
-                                    lv_cities.setAdapter(new LetterCityAdapter(WelcomActivity.this, groups));
+                                    adapter_cities.notifyDataSetChanged();
+                                    for (int i = 0; i < groups.size(); i++) {
+                                        lv_cities.requestLayout();
+                                        lv_cities.expandGroup(i);
+                                    }
                                 }
                             });
                         } else {
@@ -192,8 +201,7 @@ public class WelcomActivity extends BaseActivity implements OnLocalListener {
                                 @Override
                                 public void run() {
                                     //加载字母城市
-                                    lv_cities.requestLayout();
-                                    lv_cities.setAdapter(new LetterCityAdapter(WelcomActivity.this, groups));
+                                    adapter_cities.notifyDataSetChanged();
                                     for (int i = 0; i < groups.size(); i++) {
                                         lv_cities.requestLayout();
                                         lv_cities.expandGroup(i);

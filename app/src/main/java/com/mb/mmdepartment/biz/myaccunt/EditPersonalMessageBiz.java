@@ -2,6 +2,7 @@ package com.mb.mmdepartment.biz.myaccunt;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mb.mmdepartment.base.TApplication;
@@ -87,6 +88,15 @@ public class EditPersonalMessageBiz {
         paramas.put("area", area);
         paramas.put("income_range", income_range);
         paramas.put("gender", gender);
+        Log.e("nick_name", nickname);
+        Log.e("year", year);
+        Log.e("month", month);
+        Log.e("day", day);
+        Log.e("content", content);
+        Log.e("occupation", occupation);
+        Log.e("area", area);
+        Log.e("income_range", income_range);
+        Log.e("gender", gender);
         OkHttp.asyncPost(BaseConsts.BASE_URL, paramas, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {

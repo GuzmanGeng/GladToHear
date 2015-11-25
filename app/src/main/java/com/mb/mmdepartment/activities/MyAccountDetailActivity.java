@@ -78,6 +78,7 @@ public class MyAccountDetailActivity extends BaseActivity implements View.OnClic
         tv_nick = (EditText) findViewById(R.id.tv_nick);
         tv_nick.setText(TApplication.user.getNickname());
         nick_name = tv_nick.getText().toString();
+        tv_nick.setSelection(nick_name.length());
         tv_user_name = (TextView) findViewById(R.id.tv_title);
         tv_user_name.setText(TApplication.user_name);
 

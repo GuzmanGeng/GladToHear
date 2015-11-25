@@ -425,8 +425,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 TApplication.ids.clear();
                 TApplication.shop_list_to_pick.clear();
                 TApplication.shop_lists.clear();
+                dialog.dismiss();
                 Intent intent = new Intent(MainActivity.this,WelcomActivity.class);
                 startActivity(intent);
+
             }
         });
     }
